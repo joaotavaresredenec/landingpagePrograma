@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ────────────────────────────────────────── */
+:root {
+  /* Brand colours */
+  --color-verde:   #1cff9e;
+  --color-azul:    #0086ff;
+  --color-petroleo:#1b415e;
+  --color-escuro:  #243837;
+  --color-coral:   #ff8b80;
+  --color-cinza:   #e5e4e9;
+  --color-preto:   #000000;
+  --color-branco:  #ffffff;
+
+  /* Typography */
+  --font-sans: var(--font-figtree), system-ui, sans-serif;
+
+  /* Spacing scale */
+  --section-py-mobile: 3rem;   /* 48px */
+  --section-py-desktop: 5rem;  /* 80px */
+  --container-px: 1.25rem;     /* 20px */
+  --container-max: 1280px;
+}
+
+/* ─── Base resets ───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #000000;
+  background-color: #e5e4e9;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Focus visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--color-verde);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Typography utilities ──────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.15;
+  color: inherit;
+}
+
+/* ─── Layout utilities ──────────────────────────────────────── */
+.container-site {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-px);
+  padding-right: var(--container-px);
+}
+
+@media (min-width: 640px) {
+  .container-site {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-site {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ─── Section spacing ───────────────────────────────────────── */
+.section-spacing {
+  padding-top: var(--section-py-mobile);
+  padding-bottom: var(--section-py-mobile);
+}
+
+@media (min-width: 1024px) {
+  .section-spacing {
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+}
+
+/* ─── Scrollbar (subtle) ────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cinza);
+}
+::-webkit-scrollbar-thumb {
+  background: #b0aebb;
+  border-radius: 3px;
+}
