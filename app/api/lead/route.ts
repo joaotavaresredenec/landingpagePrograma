@@ -62,22 +62,24 @@ export async function POST(req: NextRequest) {
       consentimentoVersaoTermo: VERSAO_TERMO_LGPD,
     })
 
-    // 2. Gerar e armazenar magic link token
-    const token = generateToken()
-    await storeToken(token, {
-      email: email.trim().toLowerCase(),
-      nome: nome.trim(),
-      perfil: perfil.trim(),
-      createdAt: timestamp,
-    })
-
-    // 3. Montar URL e enviar e-mail
-    const magicLinkUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/materiais?token=${token}`
-    await enviarEmailMagicLink({
-      email: email.trim().toLowerCase(),
-      nome: nome.trim(),
-      magicLinkUrl,
-    })
+    // 2. Gerar/armazenar token e enviar e-mail (best-effort — não bloqueia o cadastro)
+    try {
+      const token = generateToken()
+      await storeToken(token, {
+        email: email.trim().toLowerCase(),
+        nome: nome.trim(),
+        perfil: perfil.trim(),
+        createdAt: timestamp,
+      })
+      const magicLinkUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/materiais?token=${token}`
+      await enviarEmailMagicLink({
+        email: email.trim().toLowerCase(),
+        nome: nome.trim(),
+        magicLinkUrl,
+      })
+    } catch (emailErr) {
+      console.error('[/api/lead] Falha ao gerar/enviar magic link (não bloqueante):', emailErr)
+    }
 
     return NextResponse.json({ ok: true })
   } catch (err) {
