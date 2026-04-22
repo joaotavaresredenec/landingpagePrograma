@@ -5,7 +5,6 @@ import { Mail, Phone, Instagram, Linkedin } from 'lucide-react'
 import { copyRodape } from '@/config/copy'
 import { Logo } from '@/components/visual/Logo'
 
-// TODO: Add ABEL logo when /public/logos/abel.png is available
 const PARCEIROS_RODAPE = [
   { src: '/logos/rede_nec_vetor-01.png', alt: 'Redenec', width: 120, height: 40, cls: 'h-8 w-auto' },
   { src: '/logos/cnj-icone.jpg', alt: 'CNJ', width: 100, height: 100, cls: 'h-8 w-8 rounded' },
@@ -13,6 +12,8 @@ const PARCEIROS_RODAPE = [
   { src: '/logos/UNESCO_logo.jpg', alt: 'UNESCO', width: 100, height: 40, cls: 'h-7 w-auto' },
   { src: '/logos/undime-colorido.png', alt: 'Undime', width: 110, height: 110, cls: 'h-8 w-8 rounded' },
   { src: '/logos/consed-horizontal.png', alt: 'Consed', width: 240, height: 50, cls: 'h-6 w-auto' },
+  { src: '/logos/orgs/viven.png', alt: 'Viven', width: 120, height: 40, cls: 'h-8 w-auto' },
+  { src: '/logos/abel.png', alt: 'ABEL', width: 160, height: 50, cls: 'h-8 w-auto' },
 ]
 
 export function Rodape() {

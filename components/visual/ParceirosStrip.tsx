@@ -1,8 +1,5 @@
 import Image from 'next/image'
 
-// TODO: Add /public/logos/abel.png — ABEL (Associação Brasileira das Escolas Legislativas)
-// when the file is available, uncomment the ABEL section below and remove the placeholder
-
 const MEC = {
   nome: 'MEC',
   src: '/logos/mec-gov.png',
@@ -65,6 +62,13 @@ const PARCEIROS: LogoEntry[] = [
     width: 240,
     height: 50,
     imageClass: 'h-7 w-auto object-contain',
+  },
+  {
+    nome: 'Viven',
+    src: '/logos/orgs/viven.png',
+    alt: 'Viven',
+    width: 120,
+    height: 40,
   },
 ]
 
@@ -147,13 +151,13 @@ export function ParceirosStrip({ invertColors = false, className = '' }: Props) 
         <p className={`text-[11px] mb-6 ${subCls}`}>
           Instituições que apoiam a implementação do Programa
         </p>
-        {/* TODO: Replace placeholder when /public/logos/abel.png is available:
-            <Image src="/logos/abel.png" alt="ABEL — Associação Brasileira das Escolas Legislativas"
-              width={120} height={40} className={`h-10 w-auto object-contain ${invertColors ? 'logo-branco' : 'logo-sem-fundo-branco'}`} />
-        */}
-        <div className={`inline-flex items-center justify-center rounded-lg border px-4 py-2 text-xs font-bold ${invertColors ? 'border-white/20 text-white/40' : 'border-gray-200 text-gray-400'}`}>
-          ABEL — logo pendente
-        </div>
+        <Image
+          src="/logos/abel.png"
+          alt="Associação Brasileira das Escolas Legislativas (ABEL)"
+          width={160}
+          height={50}
+          className={`h-10 w-auto object-contain ${invertColors ? 'logo-branco' : 'logo-sem-fundo-branco'}`}
+        />
       </div>
 
     </div>
