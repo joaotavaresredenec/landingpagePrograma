@@ -69,15 +69,15 @@ export const TEMAS_BNCC: Record<TemaBNCC, { label: string; ordem: number }> = {
     ordem: 2,
   },
   'ciencia-e-tecnologia': {
-    label: 'Ciência e Tecnologia',
+    label: 'Educação Digital e Midiática',
     ordem: 3,
   },
   'meio-ambiente': {
-    label: 'Meio Ambiente',
+    label: 'Educação Ambiental',
     ordem: 4,
   },
   'saude': {
-    label: 'Saúde',
+    label: 'Prevenção da Violência',
     ordem: 5,
   },
 }

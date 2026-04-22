@@ -256,7 +256,7 @@ export const copyFormulario = {
       label: 'Qual é o seu perfil?',
       placeholder: 'Selecione uma opção',
       erro: 'Selecione o perfil que melhor descreve sua função.',
-      opcoes: ['Técnico de secretaria', 'Gestor escolar', 'Professor', 'Estudante', 'Empreendedor social', 'Pesquisador', 'Outro'],
+      opcoes: ['Técnico de secretaria', 'Gestor escolar', 'Professor', 'Estudante', 'Terceiro setor', 'Pesquisador', 'Outro servidor público', 'Outro'],
     },
     uf: {
       label: 'Estado (UF)',
@@ -269,7 +269,7 @@ export const copyFormulario = {
       erro: 'Informe o município onde você atua.',
     },
     etapa: {
-      label: 'Etapa de ensino',
+      label: 'Etapa de ensino (opcional)',
       placeholder: 'Selecione uma opção',
       erro: 'Selecione a etapa de ensino com a qual você trabalha.',
       opcoes: ['EF anos iniciais', 'EF anos finais', 'Ensino Médio', 'EJA', 'Todas'],

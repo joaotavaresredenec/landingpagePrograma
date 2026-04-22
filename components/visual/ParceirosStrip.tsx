@@ -7,6 +7,7 @@ export type Parceiro = {
   alt: string
   width?: number
   height?: number
+  imageClass?: string
 }
 
 export type ParceirosStripProps = {
@@ -16,12 +17,16 @@ export type ParceirosStripProps = {
   invertColors?: boolean
 }
 
-const DEFAULT_PARCEIROS: Parceiro[] = [
-  {
-    nome: 'MEC',
-    // TODO: Adicionar logo MEC quando disponível em /public/logos/
-    alt: 'Ministério da Educação (MEC)',
-  },
+export const MEC_REALIZADOR: Parceiro = {
+  nome: 'MEC',
+  src: '/logos/mec.png',
+  alt: 'Ministério da Educação (MEC)',
+  width: 120,
+  height: 120,
+  imageClass: 'h-14 w-auto object-contain',
+}
+
+export const DEFAULT_PARCEIROS: Parceiro[] = [
   {
     nome: 'Redenec',
     src: '/logos/rede_nec_vetor-01.png',
@@ -31,20 +36,18 @@ const DEFAULT_PARCEIROS: Parceiro[] = [
   },
   {
     nome: 'CNJ',
-    src: '/logos/cnj.png',
+    src: '/logos/cnj-icone.jpg',
     alt: 'Conselho Nacional de Justiça (CNJ)',
-    width: 80,
-    height: 40,
+    width: 100,
+    height: 100,
+    imageClass: 'h-10 w-10 object-contain rounded-lg',
   },
   {
     nome: 'CNMP',
-    // TODO: Adicionar logo CNMP quando disponível
+    src: '/logos/cnmp.png',
     alt: 'Conselho Nacional do Ministério Público (CNMP)',
-  },
-  {
-    nome: 'CGU',
-    // TODO: Adicionar logo CGU quando disponível
-    alt: 'Controladoria-Geral da União (CGU)',
+    width: 140,
+    height: 60,
   },
   {
     nome: 'UNESCO',
@@ -55,17 +58,19 @@ const DEFAULT_PARCEIROS: Parceiro[] = [
   },
   {
     nome: 'Undime',
-    src: '/logos/logo-undime.webp',
+    src: '/logos/undime-colorido.png',
     alt: 'União Nacional dos Dirigentes Municipais de Educação (Undime)',
     width: 110,
-    height: 40,
+    height: 110,
+    imageClass: 'h-10 w-10 object-contain rounded-lg',
   },
   {
     nome: 'Consed',
-    src: '/logos/logo-consed.png',
+    src: '/logos/consed-horizontal.png',
     alt: 'Conselho Nacional de Secretários de Educação (Consed)',
-    width: 100,
-    height: 40,
+    width: 240,
+    height: 50,
+    imageClass: 'h-7 w-auto object-contain',
   },
 ]
 
@@ -116,7 +121,7 @@ export function ParceirosStrip({
               width={p.width ?? 100}
               height={p.height ?? 40}
               className={[
-                'h-10 w-auto object-contain',
+                p.imageClass ?? 'h-10 w-auto object-contain',
                 invertColors ? 'brightness-0 invert' : '',
               ].join(' ')}
             />

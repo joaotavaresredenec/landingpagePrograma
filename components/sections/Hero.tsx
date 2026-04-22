@@ -1,9 +1,10 @@
 import React from 'react'
+import Image from 'next/image'
 import { copyHero } from '@/config/copy'
 import { Button } from '@/components/primitives/Button'
 import { Logo } from '@/components/visual/Logo'
 import { GrafismoModular } from '@/components/visual/GrafismoModular'
-import { ParceirosStrip } from '@/components/visual/ParceirosStrip'
+import { ParceirosStrip, MEC_REALIZADOR } from '@/components/visual/ParceirosStrip'
 
 export function Hero() {
   return (
@@ -48,11 +49,29 @@ export function Hero() {
         </div>
 
         {/* Parceiros strip */}
-        <div className="mt-16 pt-10 border-t border-black/10">
-          <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-6 text-center">
-            Parceiros institucionais
-          </p>
-          <ParceirosStrip />
+        <div className="mt-16 pt-10 border-t border-black/10 flex flex-col gap-8">
+          {/* Realização */}
+          <div>
+            <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-5 text-center">
+              Realização
+            </p>
+            <div className="flex justify-center">
+              <Image
+                src={MEC_REALIZADOR.src!}
+                alt={MEC_REALIZADOR.alt}
+                width={80}
+                height={80}
+                className="h-16 w-auto object-contain"
+              />
+            </div>
+          </div>
+          {/* Parceiros institucionais */}
+          <div>
+            <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-5 text-center">
+              Parceiros institucionais
+            </p>
+            <ParceirosStrip />
+          </div>
         </div>
       </div>
     </section>

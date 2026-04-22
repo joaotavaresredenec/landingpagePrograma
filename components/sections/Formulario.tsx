@@ -68,7 +68,7 @@ function validate(values: FormState): FormErrors {
   if (!values.perfil) errors.perfil = copyFormulario.campos.perfil.erro
   if (!values.uf) errors.uf = copyFormulario.campos.uf.erro
   if (!values.municipio.trim()) errors.municipio = copyFormulario.campos.municipio.erro
-  if (!values.etapa) errors.etapa = copyFormulario.campos.etapa.erro
+  // etapa is optional — no validation required
   if (!values.lgpd) errors.lgpd = 'Você precisa concordar com a política de privacidade para continuar.'
   return errors
 }
@@ -226,7 +226,6 @@ export function Formulario() {
               id="etapa"
               label={copyFormulario.campos.etapa.label}
               options={etapaOptions}
-              required
               value={values.etapa}
               onChange={set('etapa')}
               error={errors.etapa}

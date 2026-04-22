@@ -20,7 +20,8 @@
     ],
     "temas": [
       "multiculturalismo",
-      "cidadania-e-civismo"
+      "cidadania-e-civismo",
+      "ciencia-e-tecnologia"
     ],
     "licenca": "CC BY-NC-SA",
     "links": [
@@ -125,7 +126,8 @@
     ],
     "temas": [
       "multiculturalismo",
-      "cidadania-e-civismo"
+      "cidadania-e-civismo",
+      "ciencia-e-tecnologia"
     ],
     "licenca": "CC BY-NC-SA",
     "links": [
@@ -158,7 +160,6 @@
       "ensino-medio"
     ],
     "temas": [
-      "ciencia-e-tecnologia",
       "multiculturalismo",
       "cidadania-e-civismo"
     ],
@@ -431,7 +432,6 @@
       "ensino-medio"
     ],
     "temas": [
-      "ciencia-e-tecnologia",
       "saude"
     ],
     "licenca": "CC BY-NC-SA",
@@ -823,7 +823,8 @@
     ],
     "temas": [
       "cidadania-e-civismo",
-      "multiculturalismo"
+      "multiculturalismo",
+      "ciencia-e-tecnologia"
     ],
     "licenca": "CC BY-NC",
     "links": [
@@ -860,7 +861,8 @@
     ],
     "temas": [
       "multiculturalismo",
-      "cidadania-e-civismo"
+      "cidadania-e-civismo",
+      "ciencia-e-tecnologia"
     ],
     "licenca": "CC BY-NC",
     "links": [
@@ -931,7 +933,7 @@
     "temas": [
       "cidadania-e-civismo",
       "multiculturalismo",
-      "ciencia-e-tecnologia"
+      "saude"
     ],
     "licenca": "CC BY-NC",
     "links": [
@@ -1034,7 +1036,8 @@
       "ensino-medio"
     ],
     "temas": [
-      "cidadania-e-civismo"
+      "cidadania-e-civismo",
+      "saude"
     ],
     "licenca": "CC BY-NC",
     "links": [
@@ -1068,7 +1071,8 @@
       "ensino-medio"
     ],
     "temas": [
-      "cidadania-e-civismo"
+      "cidadania-e-civismo",
+      "saude"
     ],
     "licenca": "CC BY-NC-SA",
     "links": [
@@ -1102,7 +1106,8 @@
       "ensino-medio"
     ],
     "temas": [
-      "cidadania-e-civismo"
+      "cidadania-e-civismo",
+      "saude"
     ],
     "licenca": "CC BY-NC",
     "links": [
@@ -1207,7 +1212,6 @@
       "ensino-medio"
     ],
     "temas": [
-      "ciencia-e-tecnologia",
       "multiculturalismo",
       "cidadania-e-civismo",
       "meio-ambiente"

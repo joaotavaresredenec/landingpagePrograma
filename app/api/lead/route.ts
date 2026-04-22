@@ -33,10 +33,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ erro: 'Município é obrigatório.' }, { status: 400 })
     }
 
-    if (!etapaEnsino || typeof etapaEnsino !== 'string' || !etapaEnsino.trim()) {
-      return NextResponse.json({ erro: 'Etapa de ensino é obrigatória.' }, { status: 400 })
-    }
-
     if (consentimentoLgpd !== true) {
       return NextResponse.json({ erro: 'Consentimento LGPD é obrigatório.' }, { status: 400 })
     }
@@ -54,7 +50,7 @@ export async function POST(req: NextRequest) {
       perfil: perfil.trim(),
       uf: uf.trim(),
       municipio: municipio.trim(),
-      etapaEnsino: etapaEnsino.trim(),
+      etapaEnsino: typeof etapaEnsino === 'string' ? etapaEnsino.trim() : '',
       consentimentoLgpd: true,
       consentimentoTimestamp: timestamp,
       consentimentoIp: ip,
