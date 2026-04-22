@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ExternalLink, ChevronRight, CheckCircle2 } from 'lucide-react'
+import { ExternalLink, CheckCircle2 } from 'lucide-react'
 import type { Metadata } from 'next'
 import materialsData from '@/config/materials.json'
 import { TIPOS_RECURSO, ETAPAS_ENSINO, TEMAS_BNCC } from '@/config/taxonomia'
@@ -50,19 +50,15 @@ export default async function MaterialPage({
 
         {/* Breadcrumb */}
         <nav aria-label="Navegação estrutural" className="mb-8">
-          <ol className="flex items-center gap-1 text-micro text-gray-500 flex-wrap">
-            <li>
-              <Link href="/" className="hover:text-redenec-petroleo transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded">
-                Início
-              </Link>
-            </li>
-            <li aria-hidden="true"><ChevronRight size={14} /></li>
+          <ol className="flex items-center gap-1 text-[13px] text-gray-500 flex-wrap">
             <li>
               <Link href="/materiais" className="hover:text-redenec-petroleo transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded">
-                Biblioteca
+                Biblioteca Nacional de Educação Cidadã
               </Link>
             </li>
-            <li aria-hidden="true"><ChevronRight size={14} /></li>
+            <li aria-hidden="true" className="text-gray-300 select-none px-0.5">›</li>
+            <li className="text-gray-500">{tipoLabel}</li>
+            <li aria-hidden="true" className="text-gray-300 select-none px-0.5">›</li>
             <li aria-current="page" className="text-redenec-petroleo font-bold truncate max-w-[200px] sm:max-w-xs">
               {material.tituloEditorial}
             </li>

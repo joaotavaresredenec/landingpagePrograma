@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState, useMemo, useId } from 'react'
-import Image from 'next/image'
 import { Search, X, FileDown, Printer } from 'lucide-react'
 import { CardMaterial } from '@/components/ui/CardMaterial'
 import { CuradoriaDisclaimer } from '@/components/ui/CuradoriaDisclaimer'
+import { HeroBiblioteca } from '@/components/visual/HeroBiblioteca'
 import materialsData from '@/config/materials.json'
 import {
   TIPOS_RECURSO,
@@ -164,32 +164,8 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
       <CuradoriaDisclaimer />
       <div className="container-site section-spacing">
 
-        {/* Cabeçalho */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-5">
-            <Image
-              src="/logos/rede_nec_vetor-01.png"
-              alt="Rede Nacional de Educação Cidadã"
-              width={64}
-              height={64}
-              className="object-contain"
-            />
-            <span className="text-sm font-semibold text-redenec-petroleo leading-tight">
-              Rede Nacional de<br />Educação Cidadã
-            </span>
-          </div>
-          <h1 className="text-h2-mobile lg:text-h2-desktop font-bold text-black mb-2">
-            {primeiroNome ? `Bem-vindo(a), ${primeiroNome}.` : 'Bem-vindo(a) à Biblioteca de Materiais'}
-          </h1>
-          <p className="text-body text-gray-600 max-w-2xl">{copyPaginaBiblioteca.subtitulo}</p>
-        </div>
-
-        {/* Intro */}
-        <div className="mb-8 space-y-3 max-w-3xl">
-          {copyPaginaBiblioteca.intro.map((p, i) => (
-            <p key={i} className="text-body text-gray-700">{p}</p>
-          ))}
-        </div>
+        {/* Hero institucional */}
+        <HeroBiblioteca primeiroNome={primeiroNome} />
 
         {/* Busca */}
         <div className="mb-6">
