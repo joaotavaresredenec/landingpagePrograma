@@ -2,6 +2,7 @@ import { Hero } from '@/components/sections/Hero'
 import { Desafios } from '@/components/sections/Desafios'
 import { BibliotecaPreview } from '@/components/sections/BibliotecaPreview'
 import { Orientacoes } from '@/components/sections/Orientacoes'
+import { FAQ } from '@/components/sections/FAQ'
 import { SobrePrograma } from '@/components/sections/SobrePrograma'
 import { Formulario } from '@/components/sections/Formulario'
 import { Rodape } from '@/components/sections/Rodape'
@@ -13,6 +14,7 @@ export default function HomePage() {
       <Desafios />
       <BibliotecaPreview />
       <Orientacoes />
+      <FAQ />
       <SobrePrograma />
       <Formulario />
       <Rodape />

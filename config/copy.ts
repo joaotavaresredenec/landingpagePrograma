@@ -256,7 +256,7 @@ export const copyFormulario = {
       label: 'Qual é o seu perfil?',
       placeholder: 'Selecione uma opção',
       erro: 'Selecione o perfil que melhor descreve sua função.',
-      opcoes: ['Técnico de secretaria', 'Gestor escolar', 'Professor', 'Estudante'],
+      opcoes: ['Técnico de secretaria', 'Gestor escolar', 'Professor', 'Estudante', 'Empreendedor social', 'Pesquisador', 'Outro'],
     },
     uf: {
       label: 'Estado (UF)',

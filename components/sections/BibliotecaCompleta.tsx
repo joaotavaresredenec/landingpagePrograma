@@ -1,8 +1,10 @@
 'use client'
 
 import React, { useState, useMemo, useId } from 'react'
-import { Search, X } from 'lucide-react'
+import Image from 'next/image'
+import { Search, X, FileDown, Printer } from 'lucide-react'
 import { CardMaterial } from '@/components/ui/CardMaterial'
+import { CuradoriaDisclaimer } from '@/components/ui/CuradoriaDisclaimer'
 import materialsData from '@/config/materials.json'
 import {
   TIPOS_RECURSO,
@@ -159,12 +161,25 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
 
   return (
     <div className="min-h-screen bg-redenec-cinza">
+      <CuradoriaDisclaimer />
       <div className="container-site section-spacing">
 
         {/* Cabeçalho */}
         <div className="mb-8">
+          <div className="flex items-center gap-4 mb-5">
+            <Image
+              src="/logos/rede_nec_vetor-01.png"
+              alt="Rede Nacional de Educação Cidadã"
+              width={64}
+              height={64}
+              className="object-contain"
+            />
+            <span className="text-sm font-semibold text-redenec-petroleo leading-tight">
+              Rede Nacional de<br />Educação Cidadã
+            </span>
+          </div>
           <h1 className="text-h2-mobile lg:text-h2-desktop font-bold text-black mb-2">
-            {primeiroNome ? `Olá, ${primeiroNome}. ` : ''}{copyPaginaBiblioteca.titulo}
+            {primeiroNome ? `Bem-vindo(a), ${primeiroNome}.` : 'Bem-vindo(a) à Biblioteca de Materiais'}
           </h1>
           <p className="text-body text-gray-600 max-w-2xl">{copyPaginaBiblioteca.subtitulo}</p>
         </div>
@@ -335,7 +350,40 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
           </>
         )}
 
-        <p className="mt-12 text-micro text-gray-400 text-center">
+        {/* Recursos para download */}
+        <div className="mt-12 border-t border-gray-200 pt-8 grid sm:grid-cols-2 gap-4">
+          <a
+            href="/plano-de-acao"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow group"
+          >
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-redenec-petroleo/10 group-hover:bg-redenec-petroleo/20 transition-colors">
+              <Printer size={20} className="text-redenec-petroleo" aria-hidden="true" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-gray-900">Modelo de Plano de Ação</p>
+              <p className="text-xs text-gray-500">Template editável · Imprimir ou salvar como PDF</p>
+            </div>
+          </a>
+          <a
+            href="/portaria-642-2025-pecs.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            download
+            className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow group"
+          >
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-redenec-petroleo/10 group-hover:bg-redenec-petroleo/20 transition-colors">
+              <FileDown size={20} className="text-redenec-petroleo" aria-hidden="true" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-gray-900">Portaria MEC nº 642/2025</p>
+              <p className="text-xs text-gray-500">Documento oficial do Programa · PDF</p>
+            </div>
+          </a>
+        </div>
+
+        <p className="mt-6 text-micro text-gray-400 text-center">
           Dúvidas ou sugestões: contato@redenec.org
         </p>
       </div>

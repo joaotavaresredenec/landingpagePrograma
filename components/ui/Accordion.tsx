@@ -3,6 +3,63 @@
 import React, { useState, useId } from 'react'
 import { ChevronDown } from 'lucide-react'
 
+function renderInline(text: string): React.ReactNode[] {
+  const parts = text.split(/\*\*([^*]+)\*\*/g)
+  return parts.map((part, i) =>
+    i % 2 === 1 ? <strong key={i} className="font-bold text-gray-900">{part}</strong> : part
+  )
+}
+
+function RichText({ text }: { text: string }) {
+  const blocks = text.split('\n\n')
+  return (
+    <div className="space-y-3">
+      {blocks.map((block, i) => {
+        const lines = block.split('\n')
+        // Numbered list block
+        if (lines.every((l) => /^\d+\.\s/.test(l.trim()) || l.trim() === '')) {
+          return (
+            <ol key={i} className="list-decimal list-inside space-y-1 pl-1">
+              {lines.filter(Boolean).map((l, j) => (
+                <li key={j}>{renderInline(l.replace(/^\d+\.\s/, ''))}</li>
+              ))}
+            </ol>
+          )
+        }
+        // Bullet list block
+        if (lines.every((l) => /^[-•]\s/.test(l.trim()) || l.trim() === '')) {
+          return (
+            <ul key={i} className="list-disc list-inside space-y-1 pl-1">
+              {lines.filter(Boolean).map((l, j) => (
+                <li key={j}>{renderInline(l.replace(/^[-•]\s/, ''))}</li>
+              ))}
+            </ul>
+          )
+        }
+        // Mixed block with some list items
+        const hasListItems = lines.some((l) => /^(\d+\.|[-•])\s/.test(l.trim()))
+        if (hasListItems) {
+          return (
+            <div key={i} className="space-y-1">
+              {lines.filter(Boolean).map((l, j) => {
+                if (/^\d+\.\s/.test(l.trim())) {
+                  return <div key={j} className="flex gap-2"><span className="shrink-0 font-bold">{l.match(/^(\d+)\./)?.[1]}.</span><span>{renderInline(l.replace(/^\d+\.\s/, ''))}</span></div>
+                }
+                if (/^[-•]\s/.test(l.trim())) {
+                  return <div key={j} className="flex gap-2 pl-1"><span className="shrink-0">—</span><span>{renderInline(l.replace(/^[-•]\s/, ''))}</span></div>
+                }
+                return <p key={j}>{renderInline(l)}</p>
+              })}
+            </div>
+          )
+        }
+        // Normal paragraph
+        return <p key={i}>{renderInline(block)}</p>
+      })}
+    </div>
+  )
+}
+
 export type AccordionItem = {
   pergunta: string
   resposta: string
@@ -73,8 +130,8 @@ function AccordionItemComponent({
           isOpen ? 'pb-5' : '',
         ].join(' ')}
       >
-        <div className="prose prose-sm max-w-none text-base leading-relaxed text-gray-700 whitespace-pre-wrap">
-          {item.resposta}
+        <div className="prose prose-sm max-w-none text-base leading-relaxed text-gray-700">
+          <RichText text={item.resposta} />
         </div>
       </div>
     </div>

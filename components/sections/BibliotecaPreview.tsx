@@ -50,10 +50,6 @@ export function BibliotecaPreview() {
                       {card.descricao}
                     </p>
                   </div>
-
-                  <Button variant="secondary" size="sm" asLink="#formulario" className="self-start">
-                    Acessar
-                  </Button>
                 </article>
               </li>
             )
