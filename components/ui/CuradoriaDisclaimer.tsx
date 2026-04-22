@@ -71,11 +71,11 @@ export function CuradoriaDisclaimer() {
           </p>
 
           <p className="text-sm text-gray-600 leading-relaxed">
-            A Redenec é uma organização da sociedade civil que atua como parceira institucional do MEC no âmbito do Programa Educação para a Cidadania e Sustentabilidade. A seleção, análise e disponibilização dos recursos aqui reunidos é de responsabilidade exclusiva da Redenec.
+            Eles são fruto de <strong className="font-semibold text-gray-800">quatro anos de articulação da Redenec</strong> com organizações do ecossistema de educação cidadã — e já foram testados por milhares de professores em todo o Brasil. Todos prezam pelo <strong className="font-semibold text-gray-800">suprapartidarismo</strong> e pelo alinhamento às competências e habilidades da BNCC.
           </p>
 
           <p className="text-sm text-gray-600 leading-relaxed">
-            Os materiais <strong className="font-semibold text-gray-800">não representam posições oficiais do MEC</strong> e podem abordar temas sensíveis do ponto de vista político, social ou cultural. A curadoria foi realizada com critérios pedagógicos e de alinhamento à BNCC, mas cada escola e rede deve avaliar a adequação ao seu contexto.
+            O MEC avaliará a convergência pedagógica de cada um deles e os incluirá nas plataformas oficiais do Ministério em breve.
           </p>
 
           {/* Destaque */}

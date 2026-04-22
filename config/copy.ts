@@ -272,7 +272,7 @@ export const copyFormulario = {
       label: 'Etapa de ensino (opcional)',
       placeholder: 'Selecione uma opção',
       erro: 'Selecione a etapa de ensino com a qual você trabalha.',
-      opcoes: ['EF anos iniciais', 'EF anos finais', 'Ensino Médio', 'EJA', 'Todas'],
+      opcoes: ['EF anos iniciais', 'EF anos finais', 'Ensino Médio', 'EJA', 'Todas', 'Não se aplica'],
     },
   },
   checkboxLgpd:

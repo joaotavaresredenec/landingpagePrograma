@@ -1,0 +1,15 @@
+export const ORG_LOGOS: Record<string, { src: string; width: number; height: number }> = {
+  'Fundação Fernando Henrique Cardoso': { src: '/logos/orgs/fhc.png', width: 120, height: 40 },
+  'Fundação Fernando Henrique Cardoso e Porvir': { src: '/logos/orgs/fhc.png', width: 120, height: 40 },
+  'Porvir': { src: '/logos/orgs/porvir.png', width: 100, height: 40 },
+  'Serenas': { src: '/logos/orgs/serenas.webp', width: 120, height: 40 },
+  'Movimento Futuro': { src: '/logos/orgs/movimento-futuro.png', width: 120, height: 40 },
+  'Instituto Gilberto Dimenstein': { src: '/logos/orgs/igd.png', width: 120, height: 40 },
+  'Instituto Auschwitz para a Prevenção do Genocídio e Atrocidades Massivas': { src: '/logos/orgs/auschwitz.png', width: 120, height: 40 },
+  'Instituto Brasil Solidário': { src: '/logos/orgs/brasil-solidario.png', width: 120, height: 40 },
+  'Instituto Palavra Aberta': { src: '/logos/orgs/palavra-aberta.png', width: 120, height: 40 },
+  'Educação para Gentileza e Generosidade/Umbigo do Mundo': { src: '/logos/orgs/generosidade.png', width: 120, height: 40 },
+  'Escola Legislativa de Pouso Alegre': { src: '/logos/orgs/escola-legislativa.png', width: 120, height: 40 },
+  'Viven': { src: '/logos/orgs/viven.png', width: 120, height: 40 },
+  'Mobis': { src: '/logos/orgs/mobis.avif', width: 100, height: 40 },
+}

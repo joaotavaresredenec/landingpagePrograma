@@ -52,8 +52,11 @@ export function Hero() {
         <div className="mt-16 pt-10 border-t border-black/10 flex flex-col gap-8">
           {/* Realização */}
           <div>
-            <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-5 text-center">
-              Realização
+            <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-1 text-center">
+              Realização do Programa
+            </p>
+            <p className="text-xs text-gray-400 text-center mb-5">
+              Programa Educação para a Cidadania e Sustentabilidade — Portaria MEC nº 642/2025
             </p>
             <div className="flex justify-center">
               <Image
@@ -67,8 +70,11 @@ export function Hero() {
           </div>
           {/* Parceiros institucionais */}
           <div>
-            <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-5 text-center">
-              Parceiros institucionais
+            <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-1 text-center">
+              Parceiros institucionais do Programa
+            </p>
+            <p className="text-xs text-gray-400 text-center mb-5">
+              Organizações parceiras na implementação do PECS junto às redes de ensino
             </p>
             <ParceirosStrip />
           </div>

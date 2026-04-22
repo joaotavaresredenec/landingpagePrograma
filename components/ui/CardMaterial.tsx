@@ -1,9 +1,11 @@
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 import { MaterialThumbnail } from '@/components/ui/MaterialThumbnail'
 import type { Material } from '@/types/material'
 import { TIPOS_RECURSO } from '@/config/taxonomia'
+import { ORG_LOGOS } from '@/config/orgLogos'
 
 export function CardMaterial({ material }: { material: Material }) {
   const tipoLabel = TIPOS_RECURSO[material.tipo]?.label ?? material.tipo
@@ -29,7 +31,19 @@ export function CardMaterial({ material }: { material: Material }) {
               {material.tituloEditorial}
             </Link>
           </h3>
-          <p className="text-[12px] text-gray-400 font-medium">{material.organizacao}</p>
+          {ORG_LOGOS[material.organizacao] ? (
+            <div className="flex items-center h-6">
+              <Image
+                src={ORG_LOGOS[material.organizacao].src}
+                alt={material.organizacao}
+                width={ORG_LOGOS[material.organizacao].width}
+                height={ORG_LOGOS[material.organizacao].height}
+                className="h-5 w-auto object-contain max-w-[120px]"
+              />
+            </div>
+          ) : (
+            <p className="text-[12px] text-gray-400 font-medium">{material.organizacao}</p>
+          )}
           <p className="text-[13px] text-gray-600 leading-relaxed flex-1 mt-1">{material.descricaoCard}</p>
         </div>
 
