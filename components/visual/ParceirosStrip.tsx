@@ -70,6 +70,13 @@ const PARCEIROS: LogoEntry[] = [
     width: 120,
     height: 40,
   },
+  {
+    nome: 'ABEL',
+    src: '/logos/abel.png',
+    alt: 'Associação Brasileira das Escolas Legislativas (ABEL)',
+    width: 160,
+    height: 50,
+  },
 ]
 
 function LogoImg({ p, invertColors }: { p: LogoEntry; invertColors?: boolean }) {
@@ -139,25 +146,6 @@ export function ParceirosStrip({ invertColors = false, className = '' }: Props) 
             </div>
           ))}
         </div>
-      </div>
-
-      <div className={`border-t ${dividerCls}`} />
-
-      {/* Seção 3 — Apoio institucional */}
-      <div className="text-center">
-        <p className={`text-[11px] font-bold uppercase tracking-widest mb-1 ${labelCls}`}>
-          Apoio institucional
-        </p>
-        <p className={`text-[11px] mb-6 ${subCls}`}>
-          Instituições que apoiam a implementação do Programa
-        </p>
-        <Image
-          src="/logos/abel.png"
-          alt="Associação Brasileira das Escolas Legislativas (ABEL)"
-          width={160}
-          height={50}
-          className={`h-10 w-auto object-contain ${invertColors ? 'logo-branco' : 'logo-sem-fundo-branco'}`}
-        />
       </div>
 
     </div>
