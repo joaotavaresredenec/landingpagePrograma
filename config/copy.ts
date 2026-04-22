@@ -108,15 +108,10 @@ export const copyOrientacoes = {
       resposta: `Depois que o secretário assina o termo de adesão, a rede assume três compromissos formais com o MEC: indicar um ponto focal, elaborar um plano de ação e executá-lo nas escolas. A sequência prática é a seguinte:
 
 1. **Comunique internamente.** Informe as equipes pedagógica e administrativa sobre a adesão e o que ela implica. Quanto antes as lideranças intermediárias souberem, mais fácil é mobilizar apoio.
-
 2. **Indique o ponto focal.** Escolha a pessoa que vai coordenar o Programa dentro da secretaria. Ela será o canal de comunicação com o MEC e com a Redenec. Consulte o Guia do Ponto Focal disponível neste portal para orientações sobre perfil e atribuições.
-
 3. **Elabore o plano de ação.** Use o Modelo de Plano de Ação disponível aqui como ponto de partida. O plano deve conter objetivos, metas, cronograma e indicadores. Redes de menor porte podem começar com um plano mais simples e aprofundá-lo ao longo do ano.
-
 4. **Entregue o plano ao MEC.** O prazo e o canal de entrega são indicados na comunicação oficial recebida pela secretaria após a adesão. Em caso de dúvida, o contato do MEC é cogeb@mec.gov.br ou (61) 2022-7940.
-
 5. **Inicie a execução nas escolas.** Com o plano aprovado, articule com diretores e coordenadores pedagógicos a integração das atividades do Programa ao calendário escolar.
-
 6. **Acesse os materiais de apoio.** Este portal reúne recursos para cada etapa — do planejamento à sala de aula. Faça o cadastro para acesso completo.`,
     },
     {

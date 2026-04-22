@@ -1,8 +1,19 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Mail, Phone, Instagram, Linkedin } from 'lucide-react'
 import { copyRodape } from '@/config/copy'
 import { Logo } from '@/components/visual/Logo'
+
+// TODO: Add ABEL logo when /public/logos/abel.png is available
+const PARCEIROS_RODAPE = [
+  { src: '/logos/rede_nec_vetor-01.png', alt: 'Redenec', width: 120, height: 40, cls: 'h-8 w-auto' },
+  { src: '/logos/cnj-icone.jpg', alt: 'CNJ', width: 100, height: 100, cls: 'h-8 w-8 rounded' },
+  { src: '/logos/cnmp.png', alt: 'CNMP', width: 140, height: 60, cls: 'h-8 w-auto' },
+  { src: '/logos/UNESCO_logo.jpg', alt: 'UNESCO', width: 100, height: 40, cls: 'h-7 w-auto' },
+  { src: '/logos/undime-colorido.png', alt: 'Undime', width: 110, height: 110, cls: 'h-8 w-8 rounded' },
+  { src: '/logos/consed-horizontal.png', alt: 'Consed', width: 240, height: 50, cls: 'h-6 w-auto' },
+]
 
 export function Rodape() {
   return (
@@ -92,6 +103,25 @@ export function Rodape() {
                 <Linkedin size={16} aria-hidden="true" />
               </a>
             </div>
+          </div>
+        </div>
+
+        {/* Logos dos parceiros — versão branca */}
+        <div className="border-t border-white/10 pt-8 mb-8">
+          <p className="text-[11px] font-bold uppercase tracking-widest text-white/40 text-center mb-5">
+            Parceiros institucionais
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
+            {PARCEIROS_RODAPE.map(({ src, alt, width, height, cls }) => (
+              <Image
+                key={alt}
+                src={src}
+                alt={alt}
+                width={width}
+                height={height}
+                className={`${cls} object-contain logo-branco`}
+              />
+            ))}
           </div>
         </div>
 

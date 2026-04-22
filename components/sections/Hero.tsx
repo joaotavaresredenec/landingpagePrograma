@@ -53,14 +53,8 @@ export function Hero() {
           </Button>
         </div>
 
-        {/* Parceiros — todos na mesma linha */}
+        {/* Parceiros institucionais */}
         <div className="mt-16 pt-10 border-t border-black/10">
-          <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-1 text-center">
-            Realização do Programa Educação para a Cidadania e Sustentabilidade
-          </p>
-          <p className="text-xs text-gray-400 text-center mb-6">
-            Portaria MEC nº 642/2025 — este portal é uma iniciativa da Redenec, parceira institucional do MEC
-          </p>
           <ParceirosStrip />
         </div>
       </div>

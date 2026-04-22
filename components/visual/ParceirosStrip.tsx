@@ -1,32 +1,26 @@
-import React from 'react'
 import Image from 'next/image'
 
-export type Parceiro = {
+// TODO: Add /public/logos/abel.png — ABEL (Associação Brasileira das Escolas Legislativas)
+// when the file is available, uncomment the ABEL section below and remove the placeholder
+
+const MEC = {
+  nome: 'MEC',
+  src: '/logos/mec-gov.png',
+  alt: 'Ministério da Educação — Governo Federal',
+  width: 260,
+  height: 60,
+}
+
+type LogoEntry = {
   nome: string
-  src?: string
+  src: string
   alt: string
-  width?: number
-  height?: number
+  width: number
+  height: number
   imageClass?: string
 }
 
-export type ParceirosStripProps = {
-  parceiros?: Parceiro[]
-  apoio?: Parceiro[]
-  className?: string
-  /** Quando true, usa filtro branco (para fundos escuros) */
-  invertColors?: boolean
-}
-
-export const DEFAULT_PARCEIROS: Parceiro[] = [
-  {
-    nome: 'MEC',
-    src: '/logos/mec-gov.png',
-    alt: 'Ministério da Educação — Governo Federal',
-    width: 260,
-    height: 60,
-    imageClass: 'h-10 w-auto object-contain',
-  },
+const PARCEIROS: LogoEntry[] = [
   {
     nome: 'Redenec',
     src: '/logos/rede_nec_vetor-01.png',
@@ -74,101 +68,94 @@ export const DEFAULT_PARCEIROS: Parceiro[] = [
   },
 ]
 
-export const DEFAULT_APOIO: Parceiro[] = [
-  {
-    nome: 'Instituto Unibanco',
-    src: '/logos/instituto-unibanco.png',
-    alt: 'Instituto Unibanco',
-    width: 100,
-    height: 100,
-    imageClass: 'h-10 w-auto object-contain',
-  },
-]
+function LogoImg({ p, invertColors }: { p: LogoEntry; invertColors?: boolean }) {
+  const base = p.imageClass ?? 'h-10 w-auto object-contain'
+  const blend = invertColors ? 'logo-branco' : 'logo-sem-fundo-branco'
+  return (
+    <Image
+      src={p.src}
+      alt={p.alt}
+      width={p.width}
+      height={p.height}
+      className={[base, blend].join(' ')}
+    />
+  )
+}
 
-function ParceiroPlaceholder({
-  nome,
-  invertColors,
-}: {
-  nome: string
+type Props = {
   invertColors?: boolean
-}) {
-  return (
-    <div
-      aria-label={nome}
-      title={nome}
-      className={[
-        'flex h-10 min-w-[80px] items-center justify-center rounded-lg border px-3',
-        'text-micro font-bold tracking-wide select-none',
-        invertColors
-          ? 'border-white/30 text-white/70'
-          : 'border-gray-300 text-gray-500',
-      ].join(' ')}
-    >
-      {nome}
-    </div>
-  )
+  className?: string
 }
 
-function LogoItem({ p, invertColors }: { p: Parceiro; invertColors?: boolean }) {
-  return (
-    <div role="listitem">
-      {p.src ? (
-        <Image
-          src={p.src}
-          alt={p.alt}
-          width={p.width ?? 100}
-          height={p.height ?? 40}
-          className={[
-            p.imageClass ?? 'h-10 w-auto object-contain',
-            invertColors ? 'brightness-0 invert' : '',
-          ].join(' ')}
-        />
-      ) : (
-        <ParceiroPlaceholder nome={p.nome} invertColors={invertColors} />
-      )}
-    </div>
-  )
-}
+export function ParceirosStrip({ invertColors = false, className = '' }: Props) {
+  const labelCls = invertColors ? 'text-white/50' : 'text-gray-400'
+  const subCls = invertColors ? 'text-white/35' : 'text-gray-400'
+  const dividerCls = invertColors ? 'border-white/10' : 'border-black/[0.08]'
 
-export function ParceirosStrip({
-  parceiros = DEFAULT_PARCEIROS,
-  apoio = DEFAULT_APOIO,
-  className = '',
-  invertColors = false,
-}: ParceirosStripProps) {
   return (
-    <div className={className}>
-      {/* Linha principal */}
-      <div
-        className="flex flex-wrap items-center justify-center gap-6 md:gap-8"
-        role="list"
-        aria-label="Parceiros institucionais do Programa"
-      >
-        {parceiros.map((p) => (
-          <LogoItem key={p.nome} p={p} invertColors={invertColors} />
-        ))}
+    <div className={['space-y-10', className].join(' ')}>
+
+      {/* Seção 1 — Realização do Programa */}
+      <div className="text-center">
+        <p className={`text-[11px] font-bold uppercase tracking-widest mb-1 ${labelCls}`}>
+          Realização do Programa
+        </p>
+        <p className={`text-[11px] mb-6 ${subCls}`}>
+          Programa Educação para a Cidadania e Sustentabilidade — Portaria MEC nº 642/2025
+        </p>
+        <div className="flex justify-center">
+          <Image
+            src={MEC.src}
+            alt={MEC.alt}
+            width={MEC.width}
+            height={MEC.height}
+            className={`h-16 w-auto object-contain ${invertColors ? 'logo-branco' : 'logo-sem-fundo-branco'}`}
+          />
+        </div>
       </div>
 
-      {/* Apoio */}
-      {apoio.length > 0 && (
-        <div className="mt-6 flex flex-col items-center gap-3">
-          <p className={[
-            'text-[11px] font-bold uppercase tracking-widest',
-            invertColors ? 'text-white/40' : 'text-gray-400',
-          ].join(' ')}>
-            Apoio
-          </p>
-          <div
-            className="flex flex-wrap items-center justify-center gap-6"
-            role="list"
-            aria-label="Apoio institucional"
-          >
-            {apoio.map((p) => (
-              <LogoItem key={p.nome} p={p} invertColors={invertColors} />
-            ))}
-          </div>
+      <div className={`border-t ${dividerCls}`} />
+
+      {/* Seção 2 — Parceiros institucionais */}
+      <div className="text-center">
+        <p className={`text-[11px] font-bold uppercase tracking-widest mb-1 ${labelCls}`}>
+          Parceiros institucionais
+        </p>
+        <p className={`text-[11px] mb-6 ${subCls}`}>
+          Organizações parceiras na implementação do PECS junto às redes de ensino
+        </p>
+        <div
+          className="flex flex-wrap items-center justify-center gap-6 md:gap-8"
+          role="list"
+          aria-label="Parceiros institucionais do Programa"
+        >
+          {PARCEIROS.map((p) => (
+            <div key={p.nome} role="listitem">
+              <LogoImg p={p} invertColors={invertColors} />
+            </div>
+          ))}
         </div>
-      )}
+      </div>
+
+      <div className={`border-t ${dividerCls}`} />
+
+      {/* Seção 3 — Apoio institucional */}
+      <div className="text-center">
+        <p className={`text-[11px] font-bold uppercase tracking-widest mb-1 ${labelCls}`}>
+          Apoio institucional
+        </p>
+        <p className={`text-[11px] mb-6 ${subCls}`}>
+          Instituições que apoiam a implementação do Programa
+        </p>
+        {/* TODO: Replace placeholder when /public/logos/abel.png is available:
+            <Image src="/logos/abel.png" alt="ABEL — Associação Brasileira das Escolas Legislativas"
+              width={120} height={40} className={`h-10 w-auto object-contain ${invertColors ? 'logo-branco' : 'logo-sem-fundo-branco'}`} />
+        */}
+        <div className={`inline-flex items-center justify-center rounded-lg border px-4 py-2 text-xs font-bold ${invertColors ? 'border-white/20 text-white/40' : 'border-gray-200 text-gray-400'}`}>
+          ABEL — logo pendente
+        </div>
+      </div>
+
     </div>
   )
 }

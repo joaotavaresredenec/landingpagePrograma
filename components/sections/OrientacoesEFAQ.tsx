@@ -2,6 +2,7 @@ import { Accordion } from '@/components/ui/Accordion'
 import { FileDown } from 'lucide-react'
 import { copyOrientacoes } from '@/config/copy'
 import { GrafismoRedenec } from '@/components/visual/GrafismoRedenec'
+import { GrafismoFundoSecao } from '@/components/visual/GrafismoFundoSecao'
 
 const FAQ_ITENS = [
   {
@@ -111,6 +112,7 @@ const ORIENTACOES_ITENS = copyOrientacoes.itens.slice(0, -1)
 export function OrientacoesEFAQ() {
   return (
     <section className="relative overflow-hidden bg-redenec-cinza" aria-labelledby="orientacoes-faq-heading">
+      <GrafismoFundoSecao variante="leve" />
       <div className="absolute -left-12 bottom-0 opacity-30 pointer-events-none">
         <GrafismoRedenec rotate={180} opacity={1} blendMode="multiply" size={260} />
       </div>
@@ -143,7 +145,7 @@ export function OrientacoesEFAQ() {
                 Passos práticos e orientações para secretarias que já aderiram ao Programa.
               </p>
             </div>
-            <div className="px-6 py-4">
+            <div className="px-8 py-6">
               <Accordion itens={ORIENTACOES_ITENS} allowMultiple={false} />
             </div>
           </div>

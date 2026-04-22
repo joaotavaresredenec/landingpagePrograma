@@ -94,7 +94,7 @@ function AccordionItemComponent({
   }
 
   return (
-    <div className="border-b border-gray-200 last:border-b-0">
+    <div className="rounded-xl bg-white border border-gray-100 shadow-sm overflow-hidden">
       <button
         id={triggerId}
         type="button"
@@ -103,10 +103,10 @@ function AccordionItemComponent({
         aria-expanded={isOpen}
         aria-controls={panelId}
         className={[
-          'flex w-full items-center justify-between gap-4 py-5 text-left',
+          'flex w-full items-center justify-between gap-4 px-6 py-5 text-left',
           'text-base font-bold text-black transition-colors duration-150',
           'hover:text-redenec-petroleo',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde focus-visible:ring-offset-2 rounded-sm',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde focus-visible:ring-inset',
         ].join(' ')}
       >
         <span>{item.pergunta}</span>
@@ -125,10 +125,7 @@ function AccordionItemComponent({
         role="region"
         aria-labelledby={triggerId}
         hidden={!isOpen}
-        className={[
-          'overflow-hidden transition-all duration-300',
-          isOpen ? 'pb-5' : '',
-        ].join(' ')}
+        className={isOpen ? 'px-6 pb-6' : ''}
       >
         <div className="prose prose-sm max-w-none text-base leading-relaxed text-gray-700">
           <RichText text={item.resposta} />
@@ -156,7 +153,7 @@ export function Accordion({ itens, allowMultiple = false, className = '' }: Acco
   }
 
   return (
-    <div className={['divide-y divide-gray-200 rounded-2xl bg-white shadow-sm border border-gray-100', className].join(' ')}>
+    <div className={['space-y-3', className].join(' ')}>
       {itens.map((item, i) => (
         <AccordionItemComponent
           key={i}

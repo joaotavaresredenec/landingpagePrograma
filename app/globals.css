@@ -108,3 +108,14 @@ h1, h2, h3, h4, h5, h6 {
   background: #b0aebb;
   border-radius: 3px;
 }
+
+/* ─── Logo utilities ────────────────────────────────────────── */
+/* White logo on dark backgrounds */
+.logo-branco {
+  filter: brightness(0) invert(1);
+}
+
+/* Remove white PNG background on light backgrounds via blend */
+.logo-sem-fundo-branco {
+  mix-blend-mode: multiply;
+}
