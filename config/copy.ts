@@ -401,6 +401,22 @@ Nos comprometemos a responder todas as solicitações em até 15 dias úteis.`,
 }
 
 // ─────────────────────────────────────────────
+// SP2 — Página /materiais (biblioteca completa)
+// ─────────────────────────────────────────────
+
+export const copyPaginaBiblioteca = {
+  titulo: 'Biblioteca de materiais',
+  subtitulo: 'Recursos pedagógicos curados pela Redenec para apoiar a implementação do Programa nas redes de ensino.',
+  intro: [
+    'Esta biblioteca reúne 36 recursos pedagógicos avaliados e organizados pela Redenec em parceria com o Ministério da Educação. Cada material passou por curadoria especializada que considerou qualidade pedagógica, alinhamento à BNCC, potencial de aplicação em diferentes contextos escolares e adequação aos temas do Programa.',
+    'Os recursos cobrem todas as etapas da Educação Básica — da Educação Infantil ao Ensino Médio — e estão organizados por tipo, etapa de ensino e tema, permitindo que professores, coordenadores e gestores encontrem rapidamente o que é mais adequado ao seu contexto. Todos os materiais são de acesso gratuito.',
+    'Para cada material, o curador da Redenec elaborou uma análise que destaca os pontos fortes, as condições de uso recomendadas e eventuais limitações a considerar antes da adoção. Essas observações estão disponíveis na página de cada recurso.',
+  ],
+  buscaAriaLabel: 'Buscar materiais na biblioteca',
+  buscaPlaceholder: 'Buscar por título ou organização...',
+}
+
+// ─────────────────────────────────────────────
 // SP1-06 — E-mail transacional (magic link)
 // ─────────────────────────────────────────────
 

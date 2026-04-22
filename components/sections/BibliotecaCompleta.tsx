@@ -1,29 +1,31 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
-import { Users, ClipboardList, Route, Layers, Gamepad2, Star, type LucideIcon } from 'lucide-react'
+import React, { useState, useMemo, useId } from 'react'
+import { Search, X } from 'lucide-react'
 import { CardMaterial } from '@/components/ui/CardMaterial'
+import materialsData from '@/config/materials.json'
 import {
-  materials,
-  TIPO_LABELS,
-  ETAPA_LABELS,
-  type TipoMaterial,
-  type EtapaEnsino,
-} from '@/config/materials'
+  TIPOS_RECURSO,
+  ETAPAS_ENSINO,
+  TEMAS_BNCC,
+  COPY_BIBLIOTECA,
+} from '@/config/taxonomia'
+import { copyPaginaBiblioteca } from '@/config/copy'
+import type { Material, TipoRecurso, EtapaEnsino, TemaBNCC } from '@/types/material'
 
-const ICON_MAP: Record<string, LucideIcon> = {
-  Users,
-  ClipboardList,
-  Route,
-  Layers,
-  Gamepad2,
-  Star,
-}
+const materials = materialsData as Material[]
 
-type Ordenacao = 'recente' | 'antigo'
+const TIPO_ORDEM = Object.keys(TIPOS_RECURSO).sort(
+  (a, b) => TIPOS_RECURSO[a as TipoRecurso].ordem - TIPOS_RECURSO[b as TipoRecurso].ordem
+) as TipoRecurso[]
 
-const TODOS_TIPOS = Object.keys(TIPO_LABELS) as TipoMaterial[]
-const TODAS_ETAPAS = Object.keys(ETAPA_LABELS) as EtapaEnsino[]
+const ETAPA_ORDEM = Object.keys(ETAPAS_ENSINO).sort(
+  (a, b) => ETAPAS_ENSINO[a as EtapaEnsino].ordem - ETAPAS_ENSINO[b as EtapaEnsino].ordem
+) as EtapaEnsino[]
+
+const TEMA_ORDEM = Object.keys(TEMAS_BNCC).sort(
+  (a, b) => TEMAS_BNCC[a as TemaBNCC].ordem - TEMAS_BNCC[b as TemaBNCC].ordem
+) as TemaBNCC[]
 
 type FilterPillProps = {
   label: string
@@ -49,41 +51,109 @@ function FilterPill({ label, active, onClick }: FilterPillProps) {
   )
 }
 
-export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
-  const [tiposSelecionados, setTiposSelecionados] = useState<TipoMaterial[]>([])
-  const [etapaSelecionada, setEtapaSelecionada] = useState<EtapaEnsino | null>(null)
-  const [ordenacao, setOrdenacao] = useState<Ordenacao>('recente')
+function contarResultados(count: number): string {
+  if (count === 0) return COPY_BIBLIOTECA.semResultados.split('.')[0]
+  if (count === 1) return `1 ${COPY_BIBLIOTECA.resultadosSingular}`
+  return `${count} ${COPY_BIBLIOTECA.resultadosPlural}`
+}
 
-  function toggleTipo(tipo: TipoMaterial) {
-    setTiposSelecionados((prev) =>
-      prev.includes(tipo) ? prev.filter((t) => t !== tipo) : [...prev, tipo]
+export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
+  const searchId = useId()
+  const [tipoAtivo, setTipoAtivo] = useState<TipoRecurso | null>(null)
+  const [etapasSelecionadas, setEtapasSelecionadas] = useState<EtapaEnsino[]>([])
+  const [temasSelecionados, setTemasSelecionados] = useState<TemaBNCC[]>([])
+  const [busca, setBusca] = useState('')
+
+  const temFiltrosAtivos = etapasSelecionadas.length > 0 || temasSelecionados.length > 0
+
+  function toggleEtapa(etapa: EtapaEnsino) {
+    setEtapasSelecionadas((prev) =>
+      prev.includes(etapa) ? prev.filter((e) => e !== etapa) : [...prev, etapa]
     )
   }
 
-  function toggleEtapa(etapa: EtapaEnsino) {
-    setEtapaSelecionada((prev) => (prev === etapa ? null : etapa))
+  function toggleTema(tema: TemaBNCC) {
+    setTemasSelecionados((prev) =>
+      prev.includes(tema) ? prev.filter((t) => t !== tema) : [...prev, tema]
+    )
+  }
+
+  function limparFiltros() {
+    setEtapasSelecionadas([])
+    setTemasSelecionados([])
   }
 
   const materiaisFiltrados = useMemo(() => {
-    let lista = [...materials]
+    let lista = materials
 
-    if (tiposSelecionados.length > 0) {
-      lista = lista.filter((m) => tiposSelecionados.includes(m.tipo))
+    if (tipoAtivo) {
+      lista = lista.filter((m) => m.tipo === tipoAtivo)
     }
 
-    if (etapaSelecionada) {
-      lista = lista.filter(
-        (m) => m.etapas.includes(etapaSelecionada) || m.etapas.includes('todas')
+    if (etapasSelecionadas.length > 0) {
+      lista = lista.filter((m) =>
+        etapasSelecionadas.some((e) => m.etapas.includes(e))
       )
     }
 
-    lista.sort((a, b) => {
-      const diff = new Date(a.dataPublicacao).getTime() - new Date(b.dataPublicacao).getTime()
-      return ordenacao === 'recente' ? -diff : diff
-    })
+    if (temasSelecionados.length > 0) {
+      lista = lista.filter((m) =>
+        temasSelecionados.some((t) => m.temas.includes(t))
+      )
+    }
+
+    if (busca.trim()) {
+      const q = busca.trim().toLowerCase()
+      lista = lista.filter(
+        (m) =>
+          m.tituloEditorial.toLowerCase().includes(q) ||
+          m.descricaoCard.toLowerCase().includes(q) ||
+          m.organizacao.toLowerCase().includes(q)
+      )
+    }
 
     return lista
-  }, [tiposSelecionados, etapaSelecionada, ordenacao])
+  }, [tipoAtivo, etapasSelecionadas, temasSelecionados, busca])
+
+  // Contagem por tipo (respeitando filtros de etapa/tema/busca, sem filtro de tipo)
+  const contagemPorTipo = useMemo(() => {
+    return TIPO_ORDEM.reduce((acc, tipo) => {
+      let lista = materials.filter((m) => m.tipo === tipo)
+      if (etapasSelecionadas.length > 0)
+        lista = lista.filter((m) => etapasSelecionadas.some((e) => m.etapas.includes(e)))
+      if (temasSelecionados.length > 0)
+        lista = lista.filter((m) => temasSelecionados.some((t) => m.temas.includes(t)))
+      if (busca.trim()) {
+        const q = busca.trim().toLowerCase()
+        lista = lista.filter(
+          (m) =>
+            m.tituloEditorial.toLowerCase().includes(q) ||
+            m.descricaoCard.toLowerCase().includes(q) ||
+            m.organizacao.toLowerCase().includes(q)
+        )
+      }
+      acc[tipo] = lista.length
+      return acc
+    }, {} as Record<TipoRecurso, number>)
+  }, [etapasSelecionadas, temasSelecionados, busca])
+
+  const totalSemTipo = useMemo(() => {
+    let lista = materials
+    if (etapasSelecionadas.length > 0)
+      lista = lista.filter((m) => etapasSelecionadas.some((e) => m.etapas.includes(e)))
+    if (temasSelecionados.length > 0)
+      lista = lista.filter((m) => temasSelecionados.some((t) => m.temas.includes(t)))
+    if (busca.trim()) {
+      const q = busca.trim().toLowerCase()
+      lista = lista.filter(
+        (m) =>
+          m.tituloEditorial.toLowerCase().includes(q) ||
+          m.descricaoCard.toLowerCase().includes(q) ||
+          m.organizacao.toLowerCase().includes(q)
+      )
+    }
+    return lista.length
+  }, [etapasSelecionadas, temasSelecionados, busca])
 
   const primeiroNome = nomeUsuario?.split(' ')[0]
 
@@ -92,122 +162,181 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
       <div className="container-site section-spacing">
 
         {/* Cabeçalho */}
-        <div className="mb-10">
+        <div className="mb-8">
           <h1 className="text-h2-mobile lg:text-h2-desktop font-bold text-black mb-2">
-            {primeiroNome ? `Olá, ${primeiroNome}. ` : ''}Materiais e orientações
+            {primeiroNome ? `Olá, ${primeiroNome}. ` : ''}{copyPaginaBiblioteca.titulo}
           </h1>
-          <p className="text-body text-gray-600">
-            Conteúdos organizados pela Redenec para apoiar a implementação do Programa na sua rede.
-          </p>
+          <p className="text-body text-gray-600 max-w-2xl">{copyPaginaBiblioteca.subtitulo}</p>
         </div>
 
-        {/* Filtros e ordenação */}
-        <div className="mb-8 flex flex-col gap-5 rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
+        {/* Intro */}
+        <div className="mb-8 space-y-3 max-w-3xl">
+          {copyPaginaBiblioteca.intro.map((p, i) => (
+            <p key={i} className="text-body text-gray-700">{p}</p>
+          ))}
+        </div>
 
-          {/* Tipo de material */}
+        {/* Busca */}
+        <div className="mb-6">
+          <label htmlFor={searchId} className="sr-only">
+            {copyPaginaBiblioteca.buscaAriaLabel}
+          </label>
+          <div className="relative max-w-lg">
+            <Search
+              size={18}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+              aria-hidden="true"
+            />
+            <input
+              id={searchId}
+              type="search"
+              value={busca}
+              onChange={(e) => setBusca(e.target.value)}
+              placeholder={copyPaginaBiblioteca.buscaPlaceholder}
+              className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-redenec-verde"
+            />
+            {busca && (
+              <button
+                type="button"
+                onClick={() => setBusca('')}
+                aria-label="Limpar busca"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 focus-visible:outline-none"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Abas por tipo */}
+        <div
+          role="tablist"
+          aria-label="Filtrar por tipo de recurso"
+          className="mb-6 flex gap-0 overflow-x-auto border-b border-gray-200 -mx-5 px-5 sm:mx-0 sm:px-0"
+        >
+          <button
+            role="tab"
+            aria-selected={tipoAtivo === null}
+            onClick={() => setTipoAtivo(null)}
+            className={[
+              'shrink-0 px-4 pb-3 pt-1 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded-t',
+              tipoAtivo === null
+                ? 'border-b-2 border-redenec-petroleo text-redenec-petroleo'
+                : 'text-gray-500 hover:text-redenec-petroleo',
+            ].join(' ')}
+          >
+            Todos ({totalSemTipo})
+          </button>
+          {TIPO_ORDEM.map((tipo) => (
+            <button
+              key={tipo}
+              role="tab"
+              aria-selected={tipoAtivo === tipo}
+              onClick={() => setTipoAtivo(tipo)}
+              className={[
+                'shrink-0 px-4 pb-3 pt-1 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded-t',
+                tipoAtivo === tipo
+                  ? 'border-b-2 border-redenec-petroleo text-redenec-petroleo'
+                  : 'text-gray-500 hover:text-redenec-petroleo',
+              ].join(' ')}
+            >
+              {TIPOS_RECURSO[tipo].label} ({contagemPorTipo[tipo]})
+            </button>
+          ))}
+        </div>
+
+        {/* Filtros facetados */}
+        <div className="mb-6 flex flex-col gap-4 rounded-2xl bg-white border border-gray-100 shadow-sm p-5">
           <div>
             <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-3">
-              Tipo de material
+              Etapa de ensino
             </p>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por tipo de material">
-              {TODOS_TIPOS.map((tipo) => (
+            <div
+              className="flex flex-wrap gap-2"
+              role="group"
+              aria-label="Filtrar por etapa de ensino"
+            >
+              {ETAPA_ORDEM.map((etapa) => (
                 <FilterPill
-                  key={tipo}
-                  label={TIPO_LABELS[tipo]}
-                  active={tiposSelecionados.includes(tipo)}
-                  onClick={() => toggleTipo(tipo)}
+                  key={etapa}
+                  label={ETAPAS_ENSINO[etapa].label}
+                  active={etapasSelecionadas.includes(etapa)}
+                  onClick={() => toggleEtapa(etapa)}
                 />
               ))}
-              {tiposSelecionados.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setTiposSelecionados([])}
-                  className="rounded-pill px-4 py-2 text-sm text-gray-400 hover:text-gray-700 transition-colors underline underline-offset-2"
-                >
-                  Limpar
-                </button>
-              )}
             </div>
           </div>
 
           <div className="border-t border-gray-100" />
 
-          {/* Etapa de ensino + Ordenação */}
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
               <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-3">
-                Etapa de ensino
+                Tema BNCC
               </p>
-              <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por etapa de ensino">
-                {TODAS_ETAPAS.map((etapa) => (
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-label="Filtrar por tema BNCC"
+              >
+                {TEMA_ORDEM.map((tema) => (
                   <FilterPill
-                    key={etapa}
-                    label={ETAPA_LABELS[etapa]}
-                    active={etapaSelecionada === etapa}
-                    onClick={() => toggleEtapa(etapa)}
+                    key={tema}
+                    label={TEMAS_BNCC[tema].label}
+                    active={temasSelecionados.includes(tema)}
+                    onClick={() => toggleTema(tema)}
                   />
                 ))}
               </div>
             </div>
 
-            <div className="shrink-0">
-              <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-3">
-                Ordenar por
-              </p>
-              <select
-                value={ordenacao}
-                onChange={(e) => setOrdenacao(e.target.value as Ordenacao)}
-                className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-redenec-verde cursor-pointer"
-                aria-label="Ordenação dos materiais"
+            {temFiltrosAtivos && (
+              <button
+                type="button"
+                onClick={limparFiltros}
+                className="shrink-0 self-end sm:self-start rounded-pill px-4 py-2 text-sm font-bold text-gray-500 border border-gray-200 hover:text-redenec-petroleo hover:border-redenec-petroleo transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde"
               >
-                <option value="recente">Mais recente primeiro</option>
-                <option value="antigo">Mais antigo primeiro</option>
-              </select>
-            </div>
+                {COPY_BIBLIOTECA.limparFiltros}
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Resultado */}
+        {/* Contagem e resultados */}
         {materiaisFiltrados.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <p className="text-body font-bold text-gray-500 mb-2">
-              Nenhum material encontrado com esses filtros.
+          <div className="flex flex-col items-center justify-center py-20 text-center gap-3">
+            <p className="text-body font-bold text-gray-700">
+              {COPY_BIBLIOTECA.semResultados}
+            </p>
+            <p className="text-body text-gray-500">
+              {COPY_BIBLIOTECA.semResultadosSugestao}
             </p>
             <button
               type="button"
-              onClick={() => { setTiposSelecionados([]); setEtapaSelecionada(null) }}
-              className="text-redenec-azul text-sm font-bold underline underline-offset-2"
+              onClick={limparFiltros}
+              className="mt-1 rounded-pill bg-redenec-petroleo px-5 py-2 text-sm font-bold text-white hover:bg-opacity-90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde"
             >
-              Limpar filtros
+              {COPY_BIBLIOTECA.limparFiltros}
             </button>
           </div>
         ) : (
           <>
-            <p className="text-micro text-gray-500 mb-4">
-              {materiaisFiltrados.length === materials.length
-                ? `${materials.length} materiais disponíveis`
-                : `${materiaisFiltrados.length} de ${materials.length} materiais`}
+            <p className="text-micro text-gray-500 mb-4" aria-live="polite">
+              {contarResultados(materiaisFiltrados.length)}
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {materiaisFiltrados.map((material) => {
-                const Icone = ICON_MAP[material.icone] ?? Users
-                return (
-                  <CardMaterial
-                    key={material.id}
-                    titulo={material.titulo}
-                    descricao={material.resumo}
-                    icone={Icone}
-                    tipo={material.tipo}
-                    driveUrl={material.driveUrl}
-                  />
-                )
-              })}
+            <div
+              role="tabpanel"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {materiaisFiltrados.map((material) => (
+                <CardMaterial key={material.id} material={material} />
+              ))}
             </div>
           </>
         )}
 
         <p className="mt-12 text-micro text-gray-400 text-center">
-          Mais materiais em breve. Dúvidas: contato@redenec.org
+          Dúvidas ou sugestões: contato@redenec.org
         </p>
       </div>
     </div>
