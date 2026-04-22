@@ -1,6 +1,7 @@
 import { Accordion } from '@/components/ui/Accordion'
 import { FileDown } from 'lucide-react'
 import { copyOrientacoes } from '@/config/copy'
+import { GrafismoRedenec } from '@/components/visual/GrafismoRedenec'
 
 const FAQ_ITENS = [
   {
@@ -109,8 +110,11 @@ const ORIENTACOES_ITENS = copyOrientacoes.itens.slice(0, -1)
 
 export function OrientacoesEFAQ() {
   return (
-    <section className="bg-redenec-cinza" aria-labelledby="orientacoes-faq-heading">
-      <div className="container-site section-spacing">
+    <section className="relative overflow-hidden bg-redenec-cinza" aria-labelledby="orientacoes-faq-heading">
+      <div className="absolute -left-12 bottom-0 opacity-30 pointer-events-none">
+        <GrafismoRedenec rotate={180} opacity={1} blendMode="multiply" size={260} />
+      </div>
+      <div className="container-site section-spacing relative z-10">
 
         <div className="max-w-2xl mb-10">
           <h2

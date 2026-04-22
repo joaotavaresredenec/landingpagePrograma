@@ -1,10 +1,10 @@
 import React from 'react'
-import Image from 'next/image'
 import { copyHero } from '@/config/copy'
 import { Button } from '@/components/primitives/Button'
 import { Logo } from '@/components/visual/Logo'
 import { GrafismoModular } from '@/components/visual/GrafismoModular'
-import { ParceirosStrip, MEC_REALIZADOR } from '@/components/visual/ParceirosStrip'
+import { GrafismoRedenec } from '@/components/visual/GrafismoRedenec'
+import { ParceirosStrip } from '@/components/visual/ParceirosStrip'
 
 export function Hero() {
   return (
@@ -12,7 +12,7 @@ export function Hero() {
       className="relative overflow-hidden bg-redenec-cinza"
       aria-labelledby="hero-heading"
     >
-      {/* Grafismo — canto superior direito */}
+      {/* Grafismo modular — canto superior direito */}
       <div
         className="absolute -right-8 -top-8 w-[300px] md:w-[420px] lg:w-[520px] opacity-80 pointer-events-none"
         aria-hidden="true"
@@ -22,6 +22,11 @@ export function Hero() {
           corCirculos="misto"
           corLinhas="preto"
         />
+      </div>
+
+      {/* Grafismo Redenec — canto inferior esquerdo, girado */}
+      <div className="absolute -left-16 -bottom-10 pointer-events-none opacity-60">
+        <GrafismoRedenec rotate={210} opacity={0.55} blendMode="multiply" size={320} />
       </div>
 
       <div className="container-site section-spacing relative z-10">
@@ -48,36 +53,15 @@ export function Hero() {
           </Button>
         </div>
 
-        {/* Parceiros strip */}
-        <div className="mt-16 pt-10 border-t border-black/10 flex flex-col gap-8">
-          {/* Realização */}
-          <div>
-            <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-1 text-center">
-              Realização do Programa
-            </p>
-            <p className="text-xs text-gray-400 text-center mb-5">
-              Programa Educação para a Cidadania e Sustentabilidade — Portaria MEC nº 642/2025
-            </p>
-            <div className="flex justify-center">
-              <Image
-                src={MEC_REALIZADOR.src!}
-                alt={MEC_REALIZADOR.alt}
-                width={80}
-                height={80}
-                className="h-16 w-auto object-contain"
-              />
-            </div>
-          </div>
-          {/* Parceiros institucionais */}
-          <div>
-            <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-1 text-center">
-              Parceiros institucionais do Programa
-            </p>
-            <p className="text-xs text-gray-400 text-center mb-5">
-              Organizações parceiras na implementação do PECS junto às redes de ensino
-            </p>
-            <ParceirosStrip />
-          </div>
+        {/* Parceiros — todos na mesma linha */}
+        <div className="mt-16 pt-10 border-t border-black/10">
+          <p className="text-micro font-bold text-gray-500 uppercase tracking-widest mb-1 text-center">
+            Realização do Programa Educação para a Cidadania e Sustentabilidade
+          </p>
+          <p className="text-xs text-gray-400 text-center mb-6">
+            Portaria MEC nº 642/2025 — este portal é uma iniciativa da Redenec, parceira institucional do MEC
+          </p>
+          <ParceirosStrip />
         </div>
       </div>
     </section>

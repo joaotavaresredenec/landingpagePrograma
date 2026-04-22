@@ -3,16 +3,20 @@ import { UserCheck, FileText, BookOpen, BarChart2 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { copyDesafios } from '@/config/copy'
 import { CardDesafio } from '@/components/ui/CardDesafio'
+import { GrafismoRedenec } from '@/components/visual/GrafismoRedenec'
 
 const ICONS: LucideIcon[] = [UserCheck, FileText, BookOpen, BarChart2]
 
 export function Desafios() {
   return (
     <section
-      className="bg-white"
+      className="relative overflow-hidden bg-white"
       aria-labelledby="desafios-heading"
     >
-      <div className="container-site section-spacing">
+      <div className="absolute right-0 top-0 opacity-30 pointer-events-none">
+        <GrafismoRedenec rotate={90} opacity={1} blendMode="multiply" size={280} />
+      </div>
+      <div className="container-site section-spacing relative z-10">
         <h2
           id="desafios-heading"
           className="text-h2-mobile lg:text-h2-desktop font-bold text-black mb-4 max-w-3xl"
