@@ -91,9 +91,9 @@ export function HeroBiblioteca({ primeiroNome }: Props) {
             <Image
               src="/logos/instituto-unibanco.png"
               alt="Instituto Unibanco"
-              width={150}
-              height={50}
-              className="h-12 w-auto object-contain logo-branco"
+              width={260}
+              height={100}
+              className="h-16 md:h-24 w-auto object-contain logo-branco"
             />
           </div>
 

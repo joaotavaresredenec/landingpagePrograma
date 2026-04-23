@@ -1,11 +1,13 @@
 import Image from 'next/image'
 
+const MEC_URL = 'https://www.gov.br/mec/pt-br/programa-educacao-cidadania-sustentabilidade'
+
 const MEC = {
   nome: 'MEC',
-  src: '/logos/mec-gov.png',
-  alt: 'Ministério da Educação — Governo Federal',
-  width: 260,
-  height: 60,
+  src: '/logos/MEC2025.png',
+  alt: 'Ministério da Educação (MEC) — Governo Federal',
+  width: 320,
+  height: 80,
 }
 
 type LogoEntry = {
@@ -27,33 +29,31 @@ const PARCEIROS: LogoEntry[] = [
   },
   {
     nome: 'CNJ',
-    src: '/logos/cnj-icone.jpg',
+    src: '/logos/cnjlogo.png',
     alt: 'Conselho Nacional de Justiça (CNJ)',
-    width: 100,
-    height: 100,
-    imageClass: 'h-10 w-10 object-contain rounded-lg',
+    width: 140,
+    height: 60,
   },
   {
     nome: 'CNMP',
-    src: '/logos/cnmp.png',
+    src: '/logos/logocnmp.png',
     alt: 'Conselho Nacional do Ministério Público (CNMP)',
     width: 140,
     height: 60,
   },
   {
     nome: 'UNESCO',
-    src: '/logos/UNESCO_logo.jpg',
+    src: '/logos/unescologo.png',
     alt: 'Organização das Nações Unidas para a Educação, a Ciência e a Cultura (UNESCO)',
-    width: 100,
-    height: 40,
+    width: 140,
+    height: 50,
   },
   {
     nome: 'Undime',
-    src: '/logos/undime-colorido.png',
+    src: '/logos/undimelogo.png',
     alt: 'União Nacional dos Dirigentes Municipais de Educação (Undime)',
-    width: 110,
-    height: 110,
-    imageClass: 'h-10 w-10 object-contain rounded-lg',
+    width: 140,
+    height: 50,
   },
   {
     nome: 'Consed',
@@ -115,13 +115,22 @@ export function ParceirosStrip({ invertColors = false, className = '' }: Props) 
           Programa Educação para a Cidadania e Sustentabilidade — Portaria MEC nº 642/2025
         </p>
         <div className="flex justify-center">
-          <Image
-            src={MEC.src}
-            alt={MEC.alt}
-            width={MEC.width}
-            height={MEC.height}
-            className={`h-16 w-auto object-contain ${invertColors ? 'logo-branco' : 'logo-sem-fundo-branco'}`}
-          />
+          <a
+            href={MEC_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Site oficial do Programa no MEC (abre em nova aba)"
+            title="Acessar o site oficial do Programa no MEC"
+            className="inline-block hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded"
+          >
+            <Image
+              src={MEC.src}
+              alt={MEC.alt}
+              width={MEC.width}
+              height={MEC.height}
+              className={`h-20 w-auto object-contain ${invertColors ? 'logo-branco' : 'logo-sem-fundo-branco'}`}
+            />
+          </a>
         </div>
       </div>
 

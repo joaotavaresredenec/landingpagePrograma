@@ -82,6 +82,17 @@ export default function BibliotecaPublicaPage() {
           </div>
         </div>
 
+        {/* Nota — Acordo de Cooperação */}
+        <div className="container-site pt-8">
+          <p className="max-w-3xl text-sm text-gray-600 leading-relaxed italic">
+            Em razão do Acordo de Cooperação nº 14/2025 celebrado entre a Redenec
+            e o Ministério da Educação, os materiais aqui disponibilizados estarão
+            em breve também acessíveis nas plataformas AVAMEC e MECRED do Ministério
+            da Educação, após curadoria final.
+          </p>
+          {/* TODO: confirmar URLs oficiais do AVAMEC e MECRED e transformar em <a href> quando validado */}
+        </div>
+
         {/* Grid de materiais */}
         <div className="container-site py-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

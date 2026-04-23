@@ -6,14 +6,14 @@ import { copyRodape } from '@/config/copy'
 import { Logo } from '@/components/visual/Logo'
 
 const PARCEIROS_RODAPE = [
-  { src: '/logos/rede_nec_vetor-01.png', alt: 'Redenec', width: 120, height: 40, cls: 'h-8 w-auto' },
-  { src: '/logos/cnj-icone.jpg', alt: 'CNJ', width: 100, height: 100, cls: 'h-8 w-8 rounded' },
-  { src: '/logos/cnmp.png', alt: 'CNMP', width: 140, height: 60, cls: 'h-8 w-auto' },
-  { src: '/logos/UNESCO_logo.jpg', alt: 'UNESCO', width: 100, height: 40, cls: 'h-7 w-auto' },
-  { src: '/logos/undime-colorido.png', alt: 'Undime', width: 110, height: 110, cls: 'h-8 w-8 rounded' },
-  { src: '/logos/consed-horizontal.png', alt: 'Consed', width: 240, height: 50, cls: 'h-6 w-auto' },
+  { src: '/logos/rede_nec_vetor-01.png', alt: 'Rede Nacional de Educação Cidadã (Redenec)', width: 120, height: 40, cls: 'h-8 w-auto' },
+  { src: '/logos/cnjlogo.png', alt: 'Conselho Nacional de Justiça (CNJ)', width: 140, height: 60, cls: 'h-8 w-auto' },
+  { src: '/logos/logocnmp.png', alt: 'Conselho Nacional do Ministério Público (CNMP)', width: 140, height: 60, cls: 'h-8 w-auto' },
+  { src: '/logos/unescologo.png', alt: 'Organização das Nações Unidas para a Educação, a Ciência e a Cultura (UNESCO)', width: 140, height: 50, cls: 'h-7 w-auto' },
+  { src: '/logos/undimelogo.png', alt: 'União Nacional dos Dirigentes Municipais de Educação (Undime)', width: 140, height: 50, cls: 'h-8 w-auto' },
+  { src: '/logos/consed-horizontal.png', alt: 'Conselho Nacional de Secretários de Educação (Consed)', width: 240, height: 50, cls: 'h-6 w-auto' },
   { src: '/logos/orgs/viven.png', alt: 'Viven', width: 120, height: 40, cls: 'h-8 w-auto' },
-  { src: '/logos/abel.png', alt: 'ABEL', width: 160, height: 50, cls: 'h-8 w-auto' },
+  { src: '/logos/abel.png', alt: 'Associação Brasileira das Escolas Legislativas (ABEL)', width: 160, height: 50, cls: 'h-8 w-auto' },
 ]
 
 export function Rodape() {
@@ -86,10 +86,10 @@ export function Rodape() {
             {/* Redes sociais */}
             <div className="flex gap-3 mt-2">
               <a
-                href="https://instagram.com/redenec"
+                href="https://www.instagram.com/redenec.br/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram da Redenec (abre em nova aba)"
+                aria-label="Instagram da Redenec @redenec.br (abre em nova aba)"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/70 hover:border-redenec-verde hover:text-redenec-verde transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde"
               >
                 <Instagram size={16} aria-hidden="true" />

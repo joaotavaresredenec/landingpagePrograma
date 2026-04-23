@@ -1,5 +1,5 @@
+import Image from 'next/image'
 import { Accordion } from '@/components/ui/Accordion'
-import { FileDown } from 'lucide-react'
 import { copyOrientacoes } from '@/config/copy'
 import { GrafismoRedenec } from '@/components/visual/GrafismoRedenec'
 import { GrafismoFundoSecao } from '@/components/visual/GrafismoFundoSecao'
@@ -170,8 +170,14 @@ export function OrientacoesEFAQ() {
 
           {/* Download da portaria */}
           <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-redenec-petroleo/10">
-              <FileDown size={22} className="text-redenec-petroleo" aria-hidden="true" />
+            <div className="flex h-12 w-16 shrink-0 items-center justify-center">
+              <Image
+                src="/logos/diariooficialdauniao.png"
+                alt="Diário Oficial da União"
+                width={64}
+                height={48}
+                className="h-10 md:h-12 w-auto object-contain logo-sem-fundo-branco"
+              />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-bold text-gray-900">Portaria MEC nº 642/2025</p>

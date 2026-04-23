@@ -29,14 +29,14 @@ export function Hero() {
         <GrafismoRedenec rotate={210} opacity={0.55} blendMode="multiply" size={320} />
       </div>
 
-      <div className="container-site section-spacing relative z-10">
+      <div className="container-site pt-4 md:pt-6 pb-12 md:pb-20 relative z-10">
         {/* Logo */}
-        <div className="mb-10">
+        <div className="mb-4">
           <Logo variant="principal" width={160} height={52} />
         </div>
 
         {/* Hero content */}
-        <div className="max-w-2xl">
+        <div className="max-w-2xl pt-32 md:pt-40">
           <h1
             id="hero-heading"
             className="text-h1-mobile lg:text-h1-desktop font-bold text-black leading-tight mb-6"

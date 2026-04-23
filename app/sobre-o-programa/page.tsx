@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, ExternalLink, FileDown } from 'lucide-react'
+import { ArrowRight, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import { GrafismoRedenec } from '@/components/visual/GrafismoRedenec'
 
@@ -179,8 +179,14 @@ export default function SobreProgramaPage() {
         <section className="bg-white border-t border-gray-200">
           <div className="container-site py-10 max-w-3xl">
             <div className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-gray-50 p-5">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-redenec-petroleo/10">
-                <FileDown size={22} className="text-redenec-petroleo" />
+              <div className="flex h-12 w-16 shrink-0 items-center justify-center">
+                <Image
+                  src="/logos/diariooficialdauniao.png"
+                  alt="Diário Oficial da União"
+                  width={64}
+                  height={48}
+                  className="h-10 md:h-12 w-auto object-contain logo-sem-fundo-branco"
+                />
               </div>
               <div className="flex-1">
                 <p className="text-sm font-bold text-gray-900">Portaria MEC nº 642/2025</p>
