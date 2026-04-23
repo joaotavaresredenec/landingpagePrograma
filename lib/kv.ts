@@ -20,4 +20,16 @@ export const kv = {
     if (!raw) return null
     return JSON.parse(raw) as T
   },
+
+  async incr(key: string): Promise<number> {
+    return redis.incr(key)
+  },
+
+  async expire(key: string, seconds: number): Promise<void> {
+    await redis.expire(key, seconds)
+  },
+
+  async del(key: string): Promise<void> {
+    await redis.del(key)
+  },
 }
