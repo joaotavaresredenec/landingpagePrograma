@@ -1,20 +1,32 @@
 export function Legenda() {
   return (
-    <div className="absolute bottom-4 left-4 bg-white rounded-lg shadow-md p-3 border border-gray-200 z-[500]">
-      <p className="text-[11px] font-bold text-gray-700 uppercase tracking-widest mb-2">Legenda</p>
-      <div className="space-y-1.5 text-xs">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-redenec-verde shrink-0" />
-          <span className="text-gray-700">Aderiu</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-redenec-azul shrink-0" />
-          <span className="text-gray-700">Iniciou, não concluiu</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-gray-400 shrink-0 opacity-50" />
-          <span className="text-gray-700">Não iniciado</span>
-        </div>
+    <div className="flex flex-wrap items-center gap-4 md:gap-6 px-4 py-3 bg-white rounded-t-xl border border-gray-200 border-b-0">
+      <span className="text-[11px] font-bold text-gray-700 uppercase tracking-widest">
+        Legenda:
+      </span>
+      <div className="flex items-center gap-2">
+        <span
+          className="w-3 h-3 rounded-full shrink-0"
+          style={{ backgroundColor: '#1cff9e', border: '1px solid #0F6E56' }}
+          aria-hidden="true"
+        />
+        <span className="text-sm text-gray-700">Aderiu</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <span
+          className="w-3 h-3 rounded-full shrink-0"
+          style={{ backgroundColor: '#0086ff', border: '1px solid #0C447C' }}
+          aria-hidden="true"
+        />
+        <span className="text-sm text-gray-700">Iniciou, não concluiu</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <span
+          className="w-3 h-3 rounded-full shrink-0"
+          style={{ backgroundColor: '#888780', border: '1px solid #444441' }}
+          aria-hidden="true"
+        />
+        <span className="text-sm text-gray-700">Não iniciado</span>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { X } from 'lucide-react'
 import type { Adesao, EstatisticasEstado, MunicipioCoord, StatusGrupo, StatusAdesao } from '@/lib/mapa/tipos'
 import type { EntidadeSelecionada } from './MapaInterativo'
@@ -17,6 +17,12 @@ const STATUS_ORIGINAIS: Record<StatusAdesao, string> = {
   em_analise: 'Documentação enviada, aguardando homologação do MEC.',
   finalizado: 'Processo finalizado e publicado no Diário Oficial da União.',
 }
+
+const ABAS: { key: StatusGrupo; label: string; cor: string; corTexto: string }[] = [
+  { key: 'aderiu', label: 'Aderiu', cor: '#1cff9e', corTexto: '#0F6E56' },
+  { key: 'iniciou_nao_concluiu', label: 'Iniciou, não concluiu', cor: '#0086ff', corTexto: '#0C447C' },
+  { key: 'nao_iniciado', label: 'Não iniciou', cor: '#888780', corTexto: '#444441' },
+]
 
 type Props = {
   entidade: EntidadeSelecionada
@@ -51,7 +57,7 @@ export function DrawerDetalhes({ entidade, adesoes, onFechar }: Props) {
           type="button"
           onClick={onFechar}
           aria-label="Fechar detalhes"
-          className="absolute top-4 right-4 text-gray-500 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded"
+          className="absolute top-4 right-4 text-gray-500 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded z-10"
         >
           <X size={20} />
         </button>
@@ -68,11 +74,32 @@ export function DrawerDetalhes({ entidade, adesoes, onFechar }: Props) {
 }
 
 function DetalhesEstado({ estado, adesoes }: { estado: EstatisticasEstado; adesoes: Adesao[] }) {
-  const municipiosDoEstado = adesoes.filter((a) => a.tipo === 'municipio' && a.uf === estado.uf)
-  const municipiosAderidos = municipiosDoEstado.filter((m) => m.statusGrupo === 'aderiu')
-  const municipiosIniciando = municipiosDoEstado.filter((m) => m.statusGrupo === 'iniciou_nao_concluiu')
+  const [abaAtiva, setAbaAtiva] = useState<StatusGrupo>('aderiu')
+  const [buscaMunicipio, setBuscaMunicipio] = useState('')
+
+  const municipiosDoEstado = useMemo(
+    () => adesoes.filter((a) => a.tipo === 'municipio' && a.uf === estado.uf),
+    [adesoes, estado.uf],
+  )
+
+  const grupos = useMemo(
+    () => ({
+      aderiu: municipiosDoEstado.filter((m) => m.statusGrupo === 'aderiu'),
+      iniciou_nao_concluiu: municipiosDoEstado.filter((m) => m.statusGrupo === 'iniciou_nao_concluiu'),
+      nao_iniciado: municipiosDoEstado.filter((m) => m.statusGrupo === 'nao_iniciado'),
+    }),
+    [municipiosDoEstado],
+  )
+
+  const municipiosFiltrados = useMemo(() => {
+    const termo = buscaMunicipio.trim().toLowerCase()
+    const lista = grupos[abaAtiva]
+    if (!termo) return lista
+    return lista.filter((m) => m.nomeEnte.toLowerCase().includes(termo))
+  }, [grupos, abaAtiva, buscaMunicipio])
 
   const statusLabel = STATUS_LABELS[estado.statusProprio]
+  const abaAtual = ABAS.find((a) => a.key === abaAtiva) ?? ABAS[0]
 
   return (
     <div>
@@ -91,37 +118,87 @@ function DetalhesEstado({ estado, adesoes }: { estado: EstatisticasEstado; adeso
         <Stat label="Total municípios" valor={estado.totalMunicipios} />
       </div>
 
-      {municipiosAderidos.length > 0 && (
-        <div className="mb-5">
-          <h3 className="font-bold text-sm text-black mb-2">
-            Municípios aderidos ({municipiosAderidos.length})
-          </h3>
-          <div className="max-h-64 overflow-y-auto space-y-1">
-            {municipiosAderidos.map((m) => (
-              <div key={m.codigoIbge} className="flex items-center gap-2 text-sm py-1">
-                <div className="w-2 h-2 rounded-full bg-redenec-verde shrink-0" />
-                <span className="text-gray-700">{m.nomeEnte}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <div>
+        <h3 className="font-bold text-sm text-black mb-3">Municípios deste estado</h3>
 
-      {municipiosIniciando.length > 0 && (
-        <div>
-          <h3 className="font-bold text-sm text-black mb-2">
-            Em processo ({municipiosIniciando.length})
-          </h3>
-          <div className="max-h-40 overflow-y-auto space-y-1">
-            {municipiosIniciando.map((m) => (
-              <div key={m.codigoIbge} className="flex items-center gap-2 text-sm py-1">
-                <div className="w-2 h-2 rounded-full bg-redenec-azul shrink-0" />
-                <span className="text-gray-700">{m.nomeEnte}</span>
-              </div>
-            ))}
-          </div>
+        {/* Abas */}
+        <div className="flex border-b border-gray-200 mb-3" role="tablist">
+          {ABAS.map((aba) => {
+            const ativa = abaAtiva === aba.key
+            return (
+              <button
+                key={aba.key}
+                type="button"
+                role="tab"
+                aria-selected={ativa}
+                onClick={() => {
+                  setAbaAtiva(aba.key)
+                  setBuscaMunicipio('')
+                }}
+                className={[
+                  'flex-1 px-2 py-2 text-[11px] font-bold transition-colors border-b-2',
+                  ativa ? '' : 'border-transparent text-gray-500 hover:text-gray-700',
+                ].join(' ')}
+                style={ativa ? { color: aba.corTexto, borderColor: aba.cor } : undefined}
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0"
+                    style={{ backgroundColor: aba.cor }}
+                    aria-hidden="true"
+                  />
+                  {aba.label}
+                  <span className="text-gray-400 font-normal">({grupos[aba.key].length})</span>
+                </span>
+              </button>
+            )
+          })}
         </div>
-      )}
+
+        {/* Busca dentro do drawer */}
+        {grupos[abaAtiva].length > 10 && (
+          <input
+            type="search"
+            placeholder="Filtrar municípios…"
+            value={buscaMunicipio}
+            onChange={(e) => setBuscaMunicipio(e.target.value)}
+            aria-label="Filtrar municípios na lista"
+            className="w-full px-3 py-1.5 text-sm border border-gray-200 rounded-md mb-2 focus:outline-none focus:border-redenec-verde focus:ring-2 focus:ring-redenec-verde/20"
+          />
+        )}
+
+        {/* Lista */}
+        <div className="max-h-96 overflow-y-auto">
+          {municipiosFiltrados.length === 0 ? (
+            <p className="text-sm text-gray-500 italic py-4 text-center">
+              {grupos[abaAtiva].length === 0
+                ? 'Nenhum município nesta categoria.'
+                : 'Nenhum município corresponde à busca.'}
+            </p>
+          ) : (
+            <div className="space-y-0.5">
+              {municipiosFiltrados.map((m) => (
+                <div
+                  key={m.codigoIbge}
+                  className="flex items-center justify-between py-1.5 px-2 text-sm hover:bg-gray-50 rounded"
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ backgroundColor: abaAtual.cor }}
+                      aria-hidden="true"
+                    />
+                    <span className="text-gray-700 truncate">{m.nomeEnte}</span>
+                  </div>
+                  <span className="text-[11px] text-gray-400 font-mono shrink-0 ml-2">
+                    {m.codigoIbge}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

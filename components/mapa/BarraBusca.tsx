@@ -19,9 +19,10 @@ type Props = {
   onChange: (filtros: FiltrosAtivos) => void
   adesoes: Adesao[]
   onSelecionarEntidade: (entidade: EntidadeSelecionada, bounds?: [[number, number], [number, number]]) => void
+  onSelecionarDaBusca: (adesao: Adesao) => void
 }
 
-export function BarraBusca({ filtros, onChange, adesoes }: Props) {
+export function BarraBusca({ filtros, onChange, adesoes, onSelecionarDaBusca }: Props) {
   const [mostrandoSugestoes, setMostrandoSugestoes] = useState(false)
   const [mostrandoFiltros, setMostrandoFiltros] = useState(false)
 
@@ -93,15 +94,16 @@ export function BarraBusca({ filtros, onChange, adesoes }: Props) {
         </div>
 
         {mostrandoSugestoes && sugestoes.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-20 max-h-80 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-[1000] max-h-80 overflow-y-auto">
             {sugestoes.map((a) => (
               <button
                 type="button"
                 key={`${a.tipo}-${a.codigoIbge}`}
                 onMouseDown={(e) => {
                   e.preventDefault()
-                  onChange({ ...filtros, busca: a.nomeEnte })
+                  onChange({ ...filtros, busca: '' })
                   setMostrandoSugestoes(false)
+                  onSelecionarDaBusca(a)
                 }}
                 className="w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
               >

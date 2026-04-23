@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { MapContainer, TileLayer, GeoJSON, CircleMarker, Tooltip, useMap } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-cluster'
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import type { Feature, FeatureCollection } from 'geojson'
 import type { Layer, PathOptions } from 'leaflet'
@@ -10,10 +11,10 @@ import type { Adesao, MunicipioCoord, StatusGrupo } from '@/lib/mapa/tipos'
 import type { EntidadeSelecionada } from './MapaInterativo'
 import { calcularEstatisticasEstado } from '@/lib/mapa/estatisticas'
 
-const CORES_POR_STATUS: Record<StatusGrupo, string> = {
-  aderiu: '#1cff9e',
-  iniciou_nao_concluiu: '#0086ff',
-  nao_iniciado: '#888780',
+const CORES_POR_STATUS: Record<StatusGrupo, { fill: string; stroke: string; textoCluster: string }> = {
+  aderiu: { fill: '#1cff9e', stroke: '#0F6E56', textoCluster: '#0F6E56' },
+  iniciou_nao_concluiu: { fill: '#0086ff', stroke: '#0C447C', textoCluster: '#ffffff' },
+  nao_iniciado: { fill: '#888780', stroke: '#444441', textoCluster: '#ffffff' },
 }
 
 function corPorPercentual(percentual: number): string {
@@ -22,6 +23,46 @@ function corPorPercentual(percentual: number): string {
   if (percentual >= 20) return '#b7f1d6'
   if (percentual > 0) return '#dff7ec'
   return '#eceae6'
+}
+
+function criarIconeCluster(cluster: any) {
+  const markers = cluster.getAllChildMarkers()
+  const statusCount: Record<StatusGrupo, number> = {
+    aderiu: 0,
+    iniciou_nao_concluiu: 0,
+    nao_iniciado: 0,
+  }
+
+  markers.forEach((m: any) => {
+    const status = (m.options?.statusGrupo ?? m.statusGrupo) as StatusGrupo | undefined
+    if (status && status in statusCount) statusCount[status]++
+  })
+
+  const total = markers.length
+  const entries = Object.entries(statusCount) as [StatusGrupo, number][]
+  const dominante = entries.reduce((a, b) => (b[1] > a[1] ? b : a))[0]
+  const cores = CORES_POR_STATUS[dominante]
+
+  const tamanho = total > 100 ? 50 : total > 20 ? 42 : 36
+
+  return L.divIcon({
+    html: `<div style="
+      background-color: ${cores.fill};
+      color: ${cores.textoCluster};
+      width: ${tamanho}px;
+      height: ${tamanho}px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      border: 2px solid white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    ">${total}</div>`,
+    className: 'redenec-cluster-icon',
+    iconSize: [tamanho, tamanho],
+  })
 }
 
 type Props = {
@@ -100,8 +141,14 @@ export default function MapaLeaflet({
     })
   }
 
+  // Key muda quando os filtros mudam, forçando re-render do cluster group
+  const clusterKey = useMemo(
+    () => `${municipiosParaMarcar.length}-${adesoes.length}`,
+    [municipiosParaMarcar.length, adesoes.length],
+  )
+
   return (
-    <div className="h-[560px] md:h-[640px] w-full rounded-xl overflow-hidden border border-gray-200">
+    <div className="h-[560px] md:h-[640px] w-full rounded-b-xl overflow-hidden border border-gray-200 border-t-0">
       <MapContainer
         center={[-14.235, -51.9253]}
         zoom={4}
@@ -117,35 +164,51 @@ export default function MapaLeaflet({
 
         {geoJsonData && (
           <GeoJSON
-            key={JSON.stringify({ total: todasAdesoes.length })}
+            key={`geojson-${todasAdesoes.length}`}
             data={geoJsonData}
             style={estiloEstado}
             onEachFeature={onEachEstado}
           />
         )}
 
-        <MarkerClusterGroup chunkedLoading maxClusterRadius={50} showCoverageOnHover={false}>
-          {municipiosParaMarcar.map(({ adesao, coord }) => (
-            <CircleMarker
-              key={adesao.codigoIbge}
-              center={[coord.latitude, coord.longitude]}
-              radius={coord.capital ? 7 : 5}
-              pathOptions={{
-                fillColor: CORES_POR_STATUS[adesao.statusGrupo],
-                color: '#ffffff',
-                weight: 1,
-                fillOpacity: adesao.statusGrupo === 'nao_iniciado' ? 0.35 : 0.9,
-              }}
-              eventHandlers={{
-                click: () => onSelecionar({ tipo: 'municipio', adesao, coord }),
-              }}
-            >
-              <Tooltip direction="top" offset={[0, -6]} opacity={0.95}>
-                <strong>{coord.nome}</strong>
-                {coord.capital && <span className="text-[10px]"> (capital)</span>}
-              </Tooltip>
-            </CircleMarker>
-          ))}
+        <MarkerClusterGroup
+          key={clusterKey}
+          chunkedLoading
+          maxClusterRadius={50}
+          showCoverageOnHover={false}
+          iconCreateFunction={criarIconeCluster}
+        >
+          {municipiosParaMarcar.map(({ adesao, coord }) => {
+            const cores = CORES_POR_STATUS[adesao.statusGrupo]
+            return (
+              <CircleMarker
+                key={adesao.codigoIbge}
+                center={[coord.latitude, coord.longitude]}
+                radius={coord.capital ? 7 : 5}
+                pathOptions={{
+                  fillColor: cores.fill,
+                  color: cores.stroke,
+                  weight: 1,
+                  fillOpacity: adesao.statusGrupo === 'nao_iniciado' ? 0.35 : 0.9,
+                }}
+                eventHandlers={{
+                  add: (e: any) => {
+                    // Injeta o statusGrupo nas options do layer para que o
+                    // iconCreateFunction do cluster saiba compor a cor dominante.
+                    if (e.target?.options) {
+                      ;(e.target.options as any).statusGrupo = adesao.statusGrupo
+                    }
+                  },
+                  click: () => onSelecionar({ tipo: 'municipio', adesao, coord }),
+                }}
+              >
+                <Tooltip direction="top" offset={[0, -6]} opacity={0.95}>
+                  <strong>{coord.nome}</strong>
+                  {coord.capital && <span className="text-[10px]"> (capital)</span>}
+                </Tooltip>
+              </CircleMarker>
+            )
+          })}
         </MarkerClusterGroup>
 
         <BoundsFly boundsAlvo={boundsAlvo} />
