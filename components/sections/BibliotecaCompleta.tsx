@@ -2,7 +2,8 @@
 
 import React, { useState, useMemo, useId } from 'react'
 import Image from 'next/image'
-import { Search, X, Printer } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Search, X, Printer, LogOut } from 'lucide-react'
 import { CardMaterial } from '@/components/ui/CardMaterial'
 import { CuradoriaDisclaimer } from '@/components/ui/CuradoriaDisclaimer'
 import { ModalAviso } from '@/components/ui/ModalAviso'
@@ -68,6 +69,16 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
   const [temasSelecionados, setTemasSelecionados] = useState<TemaBNCC[]>([])
   const [busca, setBusca] = useState('')
   const [modalPlanoAberto, setModalPlanoAberto] = useState(false)
+  const router = useRouter()
+
+  async function handleLogout() {
+    try {
+      await fetch('/api/logout', { method: 'POST' })
+    } finally {
+      router.push('/')
+      router.refresh()
+    }
+  }
 
   const temFiltrosAtivos = etapasSelecionadas.length > 0 || temasSelecionados.length > 0
 
@@ -367,9 +378,19 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
           </a>
         </div>
 
-        <p className="mt-6 text-micro text-gray-400 text-center">
-          Dúvidas ou sugestões: contato@redenec.org
-        </p>
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+          <p className="text-micro text-gray-400 text-center">
+            Dúvidas ou sugestões: contato@redenec.org
+          </p>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="inline-flex items-center gap-1.5 text-micro text-gray-400 hover:text-redenec-petroleo transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded"
+          >
+            <LogOut size={12} aria-hidden="true" />
+            Sair
+          </button>
+        </div>
       </div>
 
       <ModalAviso

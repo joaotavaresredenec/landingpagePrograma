@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, FormEvent } from 'react'
+import { useRouter } from 'next/navigation'
 import { copyFormulario } from '@/config/copy'
 import { Input } from '@/components/primitives/Input'
 import { Select } from '@/components/primitives/Select'
@@ -73,11 +74,25 @@ function validate(values: FormState): FormErrors {
   return errors
 }
 
-export function Formulario() {
+type FormularioProps = {
+  /** 'full' = renderiza com section/container próprios (uso na home). 'embed' = só o form para uso dentro de outro card. */
+  variant?: 'full' | 'embed'
+  /** Origem do cadastro — enviada ao backend para tracking (opcional). */
+  origem?: 'home' | 'biblioteca' | 'materiais'
+  /** Se true, após sucesso usa router.refresh() em vez de redirecionar para /obrigado. Útil quando o formulário está inline numa rota protegida. */
+  redirectAposLogin?: boolean
+}
+
+export function Formulario({
+  variant = 'full',
+  origem = 'home',
+  redirectAposLogin = false,
+}: FormularioProps = {}) {
   const [values, setValues] = useState<FormState>(INITIAL_STATE)
   const [errors, setErrors] = useState<FormErrors>({})
   const [loading, setLoading] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
+  const router = useRouter()
 
   const set = (field: keyof FormState) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -86,7 +101,6 @@ export function Formulario() {
       ? (e.target as HTMLInputElement).checked
       : e.target.value
     setValues((prev) => ({ ...prev, [field]: val }))
-    // Clear individual error on change
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }))
   }
 
@@ -97,7 +111,6 @@ export function Formulario() {
     const validation = validate(values)
     if (Object.keys(validation).length > 0) {
       setErrors(validation)
-      // Focus first error field
       const firstKey = Object.keys(validation)[0]
       document.getElementById(firstKey)?.focus()
       return
@@ -116,6 +129,7 @@ export function Formulario() {
           municipio: values.municipio,
           etapaEnsino: values.etapa,
           consentimentoLgpd: values.lgpd,
+          origem,
         }),
       })
 
@@ -124,7 +138,12 @@ export function Formulario() {
         throw new Error(data.erro || 'Erro no servidor')
       }
 
-      window.location.href = '/obrigado'
+      if (redirectAposLogin) {
+        // Cookie de sessão foi criado pelo backend — recarrega para renderizar biblioteca
+        router.refresh()
+      } else {
+        window.location.href = '/obrigado'
+      }
     } catch (err) {
       const message =
         err instanceof Error && err.message && err.message !== 'Erro no servidor'
@@ -146,6 +165,103 @@ export function Formulario() {
     ...copyFormulario.campos.etapa.opcoes.map((o) => ({ value: o.toLowerCase().replace(/ /g, '-'), label: o })),
   ]
 
+  const formBody = (
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+      <Input
+        id="nome"
+        label={copyFormulario.campos.nome.label}
+        placeholder={copyFormulario.campos.nome.placeholder}
+        type="text"
+        autoComplete="name"
+        required
+        value={values.nome}
+        onChange={set('nome')}
+        error={errors.nome}
+      />
+
+      <Input
+        id="email"
+        label={copyFormulario.campos.email.label}
+        placeholder={copyFormulario.campos.email.placeholder}
+        type="email"
+        autoComplete="email"
+        required
+        value={values.email}
+        onChange={set('email')}
+        error={errors.email}
+      />
+
+      <Select
+        id="perfil"
+        label={copyFormulario.campos.perfil.label}
+        options={perfilOptions}
+        required
+        value={values.perfil}
+        onChange={set('perfil')}
+        error={errors.perfil}
+      />
+
+      <Select
+        id="uf"
+        label={copyFormulario.campos.uf.label}
+        options={UF_OPTIONS}
+        required
+        value={values.uf}
+        onChange={set('uf')}
+        error={errors.uf}
+      />
+
+      <Input
+        id="municipio"
+        label={copyFormulario.campos.municipio.label}
+        placeholder={copyFormulario.campos.municipio.placeholder}
+        type="text"
+        required
+        value={values.municipio}
+        onChange={set('municipio')}
+        error={errors.municipio}
+      />
+
+      <Select
+        id="etapa"
+        label={copyFormulario.campos.etapa.label}
+        options={etapaOptions}
+        value={values.etapa}
+        onChange={set('etapa')}
+        error={errors.etapa}
+      />
+
+      <Checkbox
+        id="lgpd"
+        label={copyFormulario.checkboxLgpd}
+        required
+        checked={values.lgpd}
+        onChange={set('lgpd')}
+        error={errors.lgpd}
+      />
+
+      {serverError && (
+        <div role="alert" className="rounded-lg bg-red-50 border border-red-200 p-4 text-sm text-red-700">
+          {serverError}
+        </div>
+      )}
+
+      <Button
+        type="submit"
+        variant="primary"
+        size="lg"
+        disabled={loading}
+        className="mt-2 w-full"
+      >
+        {loading ? 'Enviando...' : copyFormulario.botaoSubmit}
+      </Button>
+    </form>
+  )
+
+  if (variant === 'embed') {
+    return formBody
+  }
+
   return (
     <section
       id="formulario"
@@ -154,7 +270,6 @@ export function Formulario() {
     >
       <div className="container-site section-spacing">
         <div className="max-w-2xl mx-auto">
-          {/* Header */}
           <div className="mb-8">
             <h2
               id="formulario-heading"
@@ -164,99 +279,7 @@ export function Formulario() {
             </h2>
             <p className="text-body text-gray-600">{copyFormulario.subtitulo}</p>
           </div>
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-            <Input
-              id="nome"
-              label={copyFormulario.campos.nome.label}
-              placeholder={copyFormulario.campos.nome.placeholder}
-              type="text"
-              autoComplete="name"
-              required
-              value={values.nome}
-              onChange={set('nome')}
-              error={errors.nome}
-            />
-
-            <Input
-              id="email"
-              label={copyFormulario.campos.email.label}
-              placeholder={copyFormulario.campos.email.placeholder}
-              type="email"
-              autoComplete="email"
-              required
-              value={values.email}
-              onChange={set('email')}
-              error={errors.email}
-            />
-
-            <Select
-              id="perfil"
-              label={copyFormulario.campos.perfil.label}
-              options={perfilOptions}
-              required
-              value={values.perfil}
-              onChange={set('perfil')}
-              error={errors.perfil}
-            />
-
-            <Select
-              id="uf"
-              label={copyFormulario.campos.uf.label}
-              options={UF_OPTIONS}
-              required
-              value={values.uf}
-              onChange={set('uf')}
-              error={errors.uf}
-            />
-
-            <Input
-              id="municipio"
-              label={copyFormulario.campos.municipio.label}
-              placeholder={copyFormulario.campos.municipio.placeholder}
-              type="text"
-              required
-              value={values.municipio}
-              onChange={set('municipio')}
-              error={errors.municipio}
-            />
-
-            <Select
-              id="etapa"
-              label={copyFormulario.campos.etapa.label}
-              options={etapaOptions}
-              value={values.etapa}
-              onChange={set('etapa')}
-              error={errors.etapa}
-            />
-
-            <Checkbox
-              id="lgpd"
-              label={copyFormulario.checkboxLgpd}
-              required
-              checked={values.lgpd}
-              onChange={set('lgpd')}
-              error={errors.lgpd}
-            />
-
-            {/* Server error */}
-            {serverError && (
-              <div role="alert" className="rounded-lg bg-red-50 border border-red-200 p-4 text-sm text-red-700">
-                {serverError}
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              disabled={loading}
-              className="mt-2 w-full"
-            >
-              {loading ? 'Enviando...' : copyFormulario.botaoSubmit}
-            </Button>
-          </form>
+          {formBody}
         </div>
       </div>
     </section>

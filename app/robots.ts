@@ -6,8 +6,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/', '/biblioteca', '/sobre-o-programa', '/plano-de-acao', '/politica-de-privacidade', '/materiais/'],
-        disallow: ['/materiais$', '/api/'],
+        allow: ['/', '/biblioteca', '/sobre-o-programa', '/plano-de-acao', '/politica-de-privacidade'],
+        // /biblioteca/[slug] exige sessão e não deve ser indexado
+        // /materiais redireciona para /biblioteca — fora do índice
+        disallow: ['/biblioteca/', '/materiais', '/materiais/', '/api/', '/obrigado'],
       },
     ],
     sitemap: `${base}/sitemap.xml`,

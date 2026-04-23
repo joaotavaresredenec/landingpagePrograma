@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { criarOuAtualizarContato, enviarEmailMagicLink } from '@/lib/brevo'
 import { generateToken, storeToken } from '@/lib/magic-link'
+import { criarSessao } from '@/lib/sessao'
 
 const VERSAO_TERMO_LGPD = '1.0'
 
@@ -58,7 +59,15 @@ export async function POST(req: NextRequest) {
       consentimentoVersaoTermo: VERSAO_TERMO_LGPD,
     })
 
-    // 2. Gerar/armazenar token e enviar e-mail (best-effort — não bloqueia o cadastro)
+    // 2. Criar cookie de sessão imediatamente — usuário entra direto na biblioteca
+    await criarSessao({
+      email: email.trim().toLowerCase(),
+      nome: nome.trim(),
+      perfil: perfil.trim(),
+      criadoEm: timestamp,
+    })
+
+    // 3. Gerar/armazenar token e enviar e-mail (best-effort — backup para outros dispositivos)
     try {
       const token = generateToken()
       await storeToken(token, {
@@ -67,7 +76,7 @@ export async function POST(req: NextRequest) {
         perfil: perfil.trim(),
         createdAt: timestamp,
       })
-      const magicLinkUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/materiais?token=${token}`
+      const magicLinkUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/biblioteca?token=${token}`
       await enviarEmailMagicLink({
         email: email.trim().toLowerCase(),
         nome: nome.trim(),

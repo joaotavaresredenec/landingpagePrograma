@@ -25,7 +25,7 @@ export function CardMaterial({ material }: { material: Material }) {
         <div className="flex flex-col gap-1 flex-1">
           <h3 className="text-[15px] font-bold text-black leading-snug">
             <Link
-              href={`/materiais/${material.id}`}
+              href={`/biblioteca/${material.id}`}
               className="hover:text-redenec-petroleo transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded"
             >
               {material.tituloEditorial}

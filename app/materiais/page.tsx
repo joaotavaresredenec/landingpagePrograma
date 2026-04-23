@@ -1,13 +1,10 @@
 import { redirect } from 'next/navigation'
-import { validateToken } from '@/lib/magic-link'
-import { BibliotecaCompleta } from '@/components/sections/BibliotecaCompleta'
 
 export const metadata = {
-  title: 'Materiais e orientações — Programa Educação para a Cidadania e Sustentabilidade',
   robots: { index: false, follow: false },
 }
 
-export default async function MateriaisPage({
+export default async function MateriaisRedirect({
   searchParams,
 }: {
   searchParams: Promise<{ token?: string }> | { token?: string }
@@ -17,23 +14,8 @@ export default async function MateriaisPage({
       ? await (searchParams as Promise<{ token?: string }>)
       : (searchParams as { token?: string })
 
-  const isDev = process.env.NODE_ENV === 'development'
-
-  if (isDev) {
-    return <BibliotecaCompleta nomeUsuario="Visualização local" />
+  if (params.token) {
+    redirect(`/biblioteca?token=${encodeURIComponent(params.token)}`)
   }
-
-  const token = params.token
-
-  if (!token) {
-    redirect('/#formulario')
-  }
-
-  const session = await validateToken(token)
-
-  if (!session) {
-    redirect('/?erro=token_invalido#formulario')
-  }
-
-  return <BibliotecaCompleta nomeUsuario={session.nome} />
+  redirect('/biblioteca')
 }
