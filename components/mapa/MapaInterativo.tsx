@@ -69,6 +69,15 @@ export function MapaInterativo({
 
   const [entidadeSelecionada, setEntidadeSelecionada] = useState<EntidadeSelecionada>(null)
   const [boundsAlvo, setBoundsAlvo] = useState<[[number, number], [number, number]] | null>(null)
+  const [ufAtiva, setUfAtiva] = useState<string | null>(null)
+
+  function handleMudarUf(uf: string | null) {
+    setUfAtiva(uf)
+    if (uf === null) {
+      setEntidadeSelecionada(null)
+      setBoundsAlvo(null)
+    }
+  }
 
   const adesoesFiltered = useMemo(() => {
     const b = filtros.busca.trim().toLowerCase()
@@ -85,6 +94,7 @@ export function MapaInterativo({
     const estado = rankingEstados.find((e) => e.uf === uf)
     if (!estado) return
     setEntidadeSelecionada({ tipo: 'estado', dados: estado })
+    setUfAtiva(uf)
     const bounds = obterBoundsEstado(uf)
     if (bounds) setBoundsAlvo(bounds)
   }
@@ -93,12 +103,14 @@ export function MapaInterativo({
     if (adesao.tipo === 'estado') {
       const stats = calcularEstatisticasEstado(adesoes, adesao.uf)
       setEntidadeSelecionada({ tipo: 'estado', dados: stats })
+      setUfAtiva(adesao.uf)
       const bounds = obterBoundsEstado(adesao.uf)
       if (bounds) setBoundsAlvo(bounds)
     } else {
       const coord = municipiosCoord[adesao.codigoIbge]
       if (coord) {
         setEntidadeSelecionada({ tipo: 'municipio', adesao, coord })
+        setUfAtiva(adesao.uf)
         setBoundsAlvo(obterBoundsMunicipio(coord.latitude, coord.longitude))
       }
     }
@@ -137,8 +149,14 @@ export function MapaInterativo({
                 adesoes={adesoesFiltered}
                 todasAdesoes={adesoes}
                 municipiosCoord={municipiosCoord}
-                onSelecionar={setEntidadeSelecionada}
+                onSelecionar={(entidade) => {
+                  setEntidadeSelecionada(entidade)
+                  if (entidade?.tipo === 'estado') setUfAtiva(entidade.dados.uf)
+                  else if (entidade?.tipo === 'municipio') setUfAtiva(entidade.adesao.uf)
+                }}
                 boundsAlvo={boundsAlvo}
+                ufAtiva={ufAtiva}
+                onMudarUf={handleMudarUf}
               />
             </div>
 
