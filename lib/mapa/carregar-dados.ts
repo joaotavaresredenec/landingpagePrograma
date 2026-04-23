@@ -3,14 +3,18 @@ import { readFile } from 'fs/promises'
 import path from 'path'
 import type { Adesao, MunicipioCoord, StatusGrupo, StatusAdesao, Regiao } from './tipos'
 
-// Mapping baseado no CSV real:
-//   finalizado  -> aderiu
-//   em_processo (em_analise/em_cadastramento) -> iniciou_nao_concluiu
-//   nao_iniciado -> nao_iniciado
-function normalizarStatusGrupo(statusGrupoRaw: string): StatusGrupo {
-  const s = (statusGrupoRaw || '').trim().toLowerCase()
-  if (s === 'finalizado' || s === 'aderiu') return 'aderiu'
-  if (s === 'em_processo' || s === 'iniciou_nao_concluiu') return 'iniciou_nao_concluiu'
+// Regra de negócio: "Em análise do MEC" é etapa burocrática — a decisão
+// institucional de aderir já foi tomada. Portanto ela conta como adesão efetiva.
+//   finalizado        -> aderiu
+//   em_analise        -> aderiu  (etapa formal pós-decisão)
+//   em_cadastramento  -> iniciou_nao_concluiu
+//   nao_iniciado      -> nao_iniciado
+//
+// A coluna `status_grupo` do CSV é ignorada — usamos `status` para derivar
+// o grupo, já que o CSV agrupava em_analise junto de em_cadastramento.
+function deriveStatusGrupo(status: StatusAdesao): StatusGrupo {
+  if (status === 'finalizado' || status === 'em_analise') return 'aderiu'
+  if (status === 'em_cadastramento') return 'iniciou_nao_concluiu'
   return 'nao_iniciado'
 }
 
@@ -41,15 +45,18 @@ export async function carregarAdesoes(): Promise<Adesao[]> {
   })
   return data
     .filter((r) => r.codigo_ibge && r.tipo)
-    .map((row) => ({
-      codigoIbge: String(row.codigo_ibge).trim(),
-      tipo: row.tipo === 'estado' ? 'estado' : 'municipio',
-      nomeEnte: row.nome_ente,
-      uf: row.uf,
-      regiao: row.regiao as Regiao,
-      status: normalizarStatus(row.status),
-      statusGrupo: normalizarStatusGrupo(row.status_grupo),
-    }))
+    .map((row) => {
+      const status = normalizarStatus(row.status)
+      return {
+        codigoIbge: String(row.codigo_ibge).trim(),
+        tipo: row.tipo === 'estado' ? ('estado' as const) : ('municipio' as const),
+        nomeEnte: row.nome_ente,
+        uf: row.uf,
+        regiao: row.regiao as Regiao,
+        status,
+        statusGrupo: deriveStatusGrupo(status),
+      }
+    })
 }
 
 type MunicipioRow = {
