@@ -74,6 +74,10 @@ export async function carregarMunicipiosCoord(): Promise<Map<string, MunicipioCo
     header: true,
     skipEmptyLines: true,
   })
+
+  // Carrega populações em paralelo (best-effort)
+  const populacoes = await carregarPopulacao()
+
   const mapa = new Map<string, MunicipioCoord>()
   data.forEach((row) => {
     if (!row.codigo_ibge) return
@@ -87,7 +91,36 @@ export async function carregarMunicipiosCoord(): Promise<Map<string, MunicipioCo
       latitude: lat,
       longitude: lng,
       capital: row.capital === '1' || row.capital === 'true',
+      populacao: populacoes.get(codigo),
     })
   })
   return mapa
+}
+
+type PopulacaoRow = {
+  codigo_ibge: string
+  populacao: string
+}
+
+export async function carregarPopulacao(): Promise<Map<string, number>> {
+  const filePath = path.join(process.cwd(), 'public', 'geodata', 'populacao-municipios.csv')
+  try {
+    const csv = await readFile(filePath, 'utf-8')
+    const { data } = Papa.parse<PopulacaoRow>(csv, {
+      header: true,
+      skipEmptyLines: true,
+    })
+    const mapa = new Map<string, number>()
+    data.forEach((row) => {
+      if (!row.codigo_ibge) return
+      const pop = parseInt(row.populacao, 10)
+      if (!Number.isNaN(pop)) {
+        mapa.set(String(row.codigo_ibge).trim(), pop)
+      }
+    })
+    return mapa
+  } catch {
+    console.warn('[mapa] populacao-municipios.csv não encontrado — Visualização 3 ficará limitada')
+    return new Map()
+  }
 }

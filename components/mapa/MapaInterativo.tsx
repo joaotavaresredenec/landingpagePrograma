@@ -23,6 +23,7 @@ import { RankingEstados } from './RankingEstados'
 import { DrawerDetalhes } from './DrawerDetalhes'
 import { Legenda } from './Legenda'
 import { PopupBoasVindas } from './PopupBoasVindas'
+import { SecaoEstrategica } from './SecaoEstrategica'
 
 const MapaLeaflet = dynamic(() => import('./MapaLeaflet'), {
   ssr: false,
@@ -171,6 +172,9 @@ export function MapaInterativo({
               estatisticasCapitais={estatisticasCapitais}
             />
           </div>
+
+          {/* Seção estratégica de prioridades de articulação */}
+          <SecaoEstrategica adesoes={adesoes} municipiosCoord={municipiosCoord} />
 
           {/* Rodapé com timestamp e fonte */}
           <div className="mt-6 text-center">

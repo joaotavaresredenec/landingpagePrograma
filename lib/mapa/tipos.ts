@@ -32,6 +32,7 @@ export type MunicipioCoord = {
   latitude: number
   longitude: number
   capital: boolean
+  populacao?: number
 }
 
 export type EstatisticasEstado = {
