@@ -181,8 +181,11 @@ export function MapaInterativo({
             <p className="text-[11px] text-gray-500">
               Dados fornecidos pelo Ministério da Educação · Última atualização: 23 de abril de 2026
             </p>
-            <p className="text-[11px] text-gray-400 mt-1">
+            <p className="text-[11px] text-gray-500 mt-1">
               Fonte: planilha oficial de gestão do Programa PECS (SIMEC)
+            </p>
+            <p className="text-[11px] text-gray-400 mt-3">
+              Desenvolvido por João Tavares / Redenec
             </p>
           </div>
         </div>

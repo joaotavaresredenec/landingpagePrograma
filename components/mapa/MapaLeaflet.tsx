@@ -224,8 +224,10 @@ export default function MapaLeaflet({
       <MapContainer
         center={[-14.235, -51.9253]}
         zoom={4}
-        minZoom={3}
+        minZoom={4}
         maxZoom={14}
+        maxBounds={[[-35, -76], [7, -30]]}
+        maxBoundsViscosity={1.0}
         style={{ height: '100%', width: '100%' }}
         scrollWheelZoom
       >
