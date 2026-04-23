@@ -1,12 +1,22 @@
 import type { Adesao, EstatisticasEstado, Regiao } from '@/lib/mapa/tipos'
+import type { EstatisticasCapitais } from '@/lib/mapa/estatisticas'
 import { TrendingUp, MapPin, Medal, AlertCircle } from 'lucide-react'
+import { CardCapitais } from './CardCapitais'
 
 type Props = {
   adesoes: Adesao[]
   rankingEstados: EstatisticasEstado[]
+  estatisticasCapitais: EstatisticasCapitais
 }
 
 const REGIOES: Regiao[] = ['Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul']
+
+const ALUNOS_REDES_NAO_INICIADAS: Record<string, { alunos: string; numerico: number }> = {
+  ES: { alunos: '190 mil alunos', numerico: 190_000 },
+  MG: { alunos: '1,6 milhão de alunos', numerico: 1_600_000 },
+  MT: { alunos: '442 mil alunos', numerico: 442_000 },
+  RR: { alunos: '165 mil alunos', numerico: 165_000 },
+}
 
 function calcularPorRegiao(adesoes: Adesao[]) {
   return REGIOES.map((regiao) => {
@@ -18,7 +28,12 @@ function calcularPorRegiao(adesoes: Adesao[]) {
   })
 }
 
-export function DashboardExpandido({ adesoes, rankingEstados }: Props) {
+function formatarTotalAlunos(total: number): string {
+  if (total >= 1_000_000) return `${(total / 1_000_000).toFixed(1).replace('.', ',')} milhões de alunos`
+  return `${(total / 1000).toFixed(0)} mil alunos`
+}
+
+export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapitais }: Props) {
   const porRegiao = calcularPorRegiao(adesoes)
   const top5Absoluto = [...rankingEstados].sort((a, b) => b.aderidos - a.aderidos).slice(0, 5)
   const top5Percentual = [...rankingEstados]
@@ -29,6 +44,11 @@ export function DashboardExpandido({ adesoes, rankingEstados }: Props) {
   const ufAderiram = estadosComoUF.filter((e) => e.statusGrupo === 'aderiu').length
   const ufIniciaram = estadosComoUF.filter((e) => e.statusGrupo === 'iniciou_nao_concluiu').length
   const ufNaoIniciaram = estadosComoUF.filter((e) => e.statusGrupo === 'nao_iniciado')
+
+  const totalAlunosNaoIniciados = ufNaoIniciaram.reduce((acc, e) => {
+    const dados = ALUNOS_REDES_NAO_INICIADAS[e.uf]
+    return acc + (dados?.numerico ?? 0)
+  }, 0)
 
   return (
     <div className="mb-6 space-y-4">
@@ -139,22 +159,45 @@ export function DashboardExpandido({ adesoes, rankingEstados }: Props) {
           {ufNaoIniciaram.length === 0 ? (
             <p className="text-sm text-amber-800">Todos os estados já iniciaram.</p>
           ) : (
-            <div className="flex flex-wrap gap-2 mb-2">
-              {ufNaoIniciaram.map((e) => (
-                <span
-                  key={e.uf}
-                  className="px-3 py-1.5 bg-white border border-amber-200 rounded-md text-sm font-medium text-amber-900"
-                >
-                  {e.nomeEnte} ({e.uf})
-                </span>
-              ))}
+            <div className="space-y-2 mb-3">
+              {ufNaoIniciaram.map((e) => {
+                const dados = ALUNOS_REDES_NAO_INICIADAS[e.uf]
+                return (
+                  <div
+                    key={e.uf}
+                    className="flex items-center justify-between px-3 py-2 bg-white border border-amber-200 rounded-md"
+                  >
+                    <div>
+                      <p className="text-sm font-medium text-amber-900">
+                        {e.nomeEnte}{' '}
+                        <span className="text-amber-700">({e.uf})</span>
+                      </p>
+                      {dados && (
+                        <p className="text-[11px] text-amber-800 mt-0.5">
+                          Rede estadual: {dados.alunos}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           )}
-          <p className="text-[11px] text-amber-700 mt-2">
-            Prioridade de incidência institucional e de articulação com as secretarias estaduais.
-          </p>
+          {totalAlunosNaoIniciados > 0 && (
+            <div className="pt-2 mt-2 border-t border-amber-200">
+              <p className="text-xs text-amber-900 font-bold">
+                Total de alunos nestas redes: {formatarTotalAlunos(totalAlunosNaoIniciados)}
+              </p>
+              <p className="text-[11px] text-amber-700 mt-1">
+                Prioridade de incidência institucional e de articulação com as secretarias estaduais.
+              </p>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Linha 4 — Capitais */}
+      <CardCapitais capitais={estatisticasCapitais} />
 
     </div>
   )

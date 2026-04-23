@@ -3,7 +3,11 @@ import { temSessaoMapa } from '@/lib/sessao-mapa'
 import { TelaSenhaMapa } from '@/components/mapa/TelaSenhaMapa'
 import { MapaInterativo } from '@/components/mapa/MapaInterativo'
 import { carregarAdesoes, carregarMunicipiosCoord } from '@/lib/mapa/carregar-dados'
-import { calcularEstatisticasNacionais, calcularRankingEstados } from '@/lib/mapa/estatisticas'
+import {
+  calcularEstatisticasNacionais,
+  calcularRankingEstados,
+  calcularEstatisticasCapitais,
+} from '@/lib/mapa/estatisticas'
 import type { MunicipioCoord } from '@/lib/mapa/tipos'
 
 export const metadata: Metadata = {
@@ -26,6 +30,7 @@ export default async function MapaPage() {
 
   const estatisticasNacionais = calcularEstatisticasNacionais(adesoes)
   const rankingEstados = calcularRankingEstados(adesoes)
+  const estatisticasCapitais = calcularEstatisticasCapitais(adesoes)
 
   const municipiosCoordObj: Record<string, MunicipioCoord> = {}
   municipiosCoord.forEach((value, key) => {
@@ -38,6 +43,7 @@ export default async function MapaPage() {
       municipiosCoord={municipiosCoordObj}
       estatisticasNacionais={estatisticasNacionais}
       rankingEstados={rankingEstados}
+      estatisticasCapitais={estatisticasCapitais}
     />
   )
 }

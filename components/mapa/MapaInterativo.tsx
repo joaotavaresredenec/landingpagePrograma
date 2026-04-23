@@ -10,16 +10,19 @@ import type {
   Regiao,
   StatusGrupo,
 } from '@/lib/mapa/tipos'
-import { calcularEstatisticasEstado } from '@/lib/mapa/estatisticas'
+import {
+  calcularEstatisticasEstado,
+  type EstatisticasCapitais,
+} from '@/lib/mapa/estatisticas'
 import { obterBoundsEstado, obterBoundsMunicipio } from '@/lib/mapa/geo-utils'
 import { HeroMapa } from './HeroMapa'
 import { CardsEstatisticas } from './CardsEstatisticas'
 import { DashboardExpandido } from './DashboardExpandido'
-import { NotaAcordo } from './NotaAcordo'
 import { BarraBusca } from './BarraBusca'
 import { RankingEstados } from './RankingEstados'
 import { DrawerDetalhes } from './DrawerDetalhes'
 import { Legenda } from './Legenda'
+import { PopupBoasVindas } from './PopupBoasVindas'
 
 const MapaLeaflet = dynamic(() => import('./MapaLeaflet'), {
   ssr: false,
@@ -47,6 +50,7 @@ type Props = {
   municipiosCoord: Record<string, MunicipioCoord>
   estatisticasNacionais: EstatisticasNacionais
   rankingEstados: EstatisticasEstado[]
+  estatisticasCapitais: EstatisticasCapitais
 }
 
 export function MapaInterativo({
@@ -54,6 +58,7 @@ export function MapaInterativo({
   municipiosCoord,
   estatisticasNacionais,
   rankingEstados,
+  estatisticasCapitais,
 }: Props) {
   const [filtros, setFiltros] = useState<FiltrosAtivos>({
     busca: '',
@@ -100,58 +105,72 @@ export function MapaInterativo({
   }
 
   return (
-    <main className="min-h-screen bg-redenec-cinza">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <HeroMapa />
+    <>
+      <PopupBoasVindas />
 
-        <CardsEstatisticas estatisticas={estatisticasNacionais} />
+      <main className="min-h-screen bg-redenec-cinza">
+        <div className="max-w-7xl mx-auto px-4 py-8">
 
-        <DashboardExpandido adesoes={adesoes} rankingEstados={rankingEstados} />
+          {/* Hero (com 3 logos) */}
+          <HeroMapa />
 
-        <NotaAcordo />
+          {/* Cards breves — visão de relance */}
+          <CardsEstatisticas estatisticas={estatisticasNacionais} />
 
-        <BarraBusca
-          filtros={filtros}
-          onChange={setFiltros}
-          adesoes={adesoes}
-          onSelecionarEntidade={(entidade, bounds) => {
-            setEntidadeSelecionada(entidade)
-            if (bounds) setBoundsAlvo(bounds)
-          }}
-          onSelecionarDaBusca={handleSelecionarDaBusca}
-        />
+          {/* Busca + filtros logo acima do mapa */}
+          <BarraBusca
+            filtros={filtros}
+            onChange={setFiltros}
+            adesoes={adesoes}
+            onSelecionarEntidade={(entidade, bounds) => {
+              setEntidadeSelecionada(entidade)
+              if (bounds) setBoundsAlvo(bounds)
+            }}
+            onSelecionarDaBusca={handleSelecionarDaBusca}
+          />
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 mt-6">
-          <div>
-            <Legenda />
-            <MapaLeaflet
-              adesoes={adesoesFiltered}
-              todasAdesoes={adesoes}
-              municipiosCoord={municipiosCoord}
-              onSelecionar={setEntidadeSelecionada}
-              boundsAlvo={boundsAlvo}
+          {/* Mapa + ranking — primeiro elemento visual após a busca */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 mt-6">
+            <div>
+              <Legenda />
+              <MapaLeaflet
+                adesoes={adesoesFiltered}
+                todasAdesoes={adesoes}
+                municipiosCoord={municipiosCoord}
+                onSelecionar={setEntidadeSelecionada}
+                boundsAlvo={boundsAlvo}
+              />
+            </div>
+
+            <RankingEstados ranking={rankingEstados} onSelecionar={selecionarEstadoPorUf} />
+          </div>
+
+          {/* Dashboard analítico abaixo do mapa */}
+          <div className="mt-8">
+            <DashboardExpandido
+              adesoes={adesoes}
+              rankingEstados={rankingEstados}
+              estatisticasCapitais={estatisticasCapitais}
             />
           </div>
 
-          <RankingEstados ranking={rankingEstados} onSelecionar={selecionarEstadoPorUf} />
+          {/* Rodapé com timestamp e fonte */}
+          <div className="mt-6 text-center">
+            <p className="text-[11px] text-gray-500">
+              Dados fornecidos pelo Ministério da Educação · Última atualização: 23 de abril de 2026
+            </p>
+            <p className="text-[11px] text-gray-400 mt-1">
+              Fonte: planilha oficial de gestão do Programa PECS (SIMEC)
+            </p>
+          </div>
         </div>
 
-        {/* Rodapé com timestamp e fonte */}
-        <div className="mt-8 text-center">
-          <p className="text-[11px] text-gray-500">
-            Dados fornecidos pelo Ministério da Educação · Última atualização: 23 de abril de 2026
-          </p>
-          <p className="text-[11px] text-gray-400 mt-1">
-            Fonte: planilha oficial de gestão do Programa PECS (SIMEC)
-          </p>
-        </div>
-      </div>
-
-      <DrawerDetalhes
-        entidade={entidadeSelecionada}
-        adesoes={adesoes}
-        onFechar={() => setEntidadeSelecionada(null)}
-      />
-    </main>
+        <DrawerDetalhes
+          entidade={entidadeSelecionada}
+          adesoes={adesoes}
+          onFechar={() => setEntidadeSelecionada(null)}
+        />
+      </main>
+    </>
   )
 }

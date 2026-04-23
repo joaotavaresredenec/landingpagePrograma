@@ -1,5 +1,31 @@
 import type { Adesao, EstatisticasEstado, EstatisticasNacionais } from './tipos'
 
+const CODIGOS_CAPITAIS = new Set([
+  '1200401','2704302','1600303','1302603','2927408','2304400','5300108',
+  '3205309','5208707','2111300','5103403','5002704','3106200','1501402',
+  '2507507','4106902','2611606','2211001','3304557','2408102','4314902',
+  '1100205','1400100','4205407','3550308','2800308','1721000',
+])
+
+export type EstatisticasCapitais = {
+  total: number
+  aderidas: Adesao[]
+  iniciouNaoConcluiu: Adesao[]
+  naoIniciadas: Adesao[]
+}
+
+export function calcularEstatisticasCapitais(adesoes: Adesao[]): EstatisticasCapitais {
+  const capitais = adesoes.filter(
+    (a) => a.tipo === 'municipio' && CODIGOS_CAPITAIS.has(a.codigoIbge),
+  )
+  return {
+    total: capitais.length,
+    aderidas: capitais.filter((c) => c.statusGrupo === 'aderiu'),
+    iniciouNaoConcluiu: capitais.filter((c) => c.statusGrupo === 'iniciou_nao_concluiu'),
+    naoIniciadas: capitais.filter((c) => c.statusGrupo === 'nao_iniciado'),
+  }
+}
+
 const UF_NOMES: Record<string, string> = {
   AC: 'Acre', AL: 'Alagoas', AP: 'Amapá', AM: 'Amazonas',
   BA: 'Bahia', CE: 'Ceará', DF: 'Distrito Federal',
