@@ -13,6 +13,8 @@ import {
   type LinkArticulacao,
 } from '@/lib/mapa/articulacao'
 import { BandeiraEstado } from './BandeiraEstado'
+import { ModeloArticulacao } from './ModeloArticulacao'
+import type { DadosEnte } from '@/lib/mapa/modelos-articulacao'
 
 const STATUS_LABELS: Record<StatusGrupo, { texto: string; cor: string }> = {
   aderiu: { texto: 'Aderiu', cor: 'bg-redenec-verde text-black' },
@@ -206,6 +208,12 @@ function DetalhesEstadoComum({
   const statusLabel = STATUS_LABELS[estado.statusProprio]
   const abaAtual = ABAS.find((a) => a.key === abaAtiva) ?? ABAS[0]
   const linksArticulacao = gerarLinksEstado(estado.uf)
+  const dadosEnte: DadosEnte = {
+    nome: estado.nome,
+    uf: estado.uf,
+    tipo: 'estado',
+    rede: 'estadual',
+  }
 
   const legendaPorStatus: Record<StatusGrupo, string> = {
     aderiu: 'Aderiu',
@@ -344,6 +352,8 @@ function DetalhesEstadoComum({
           links={linksArticulacao}
         />
       </div>
+
+      <ModeloArticulacao ente={dadosEnte} />
     </div>
   )
 }
@@ -352,6 +362,12 @@ function DetalhesMunicipio({ adesao, coord }: { adesao: Adesao; coord: Municipio
   const statusLabel = STATUS_LABELS[adesao.statusGrupo]
   const alunosEstimados = estimarAlunosRedeMunicipal(coord.populacao)
   const linksArticulacao = gerarLinksMunicipio(adesao.nomeEnte, adesao.uf)
+  const dadosEnte: DadosEnte = {
+    nome: adesao.nomeEnte,
+    uf: adesao.uf,
+    tipo: 'municipio',
+    rede: 'municipal',
+  }
 
   return (
     <div>
@@ -418,6 +434,8 @@ function DetalhesMunicipio({ adesao, coord }: { adesao: Adesao; coord: Municipio
         subtitulo="Links de busca para facilitar o contato com gestores locais"
         links={linksArticulacao}
       />
+
+      <ModeloArticulacao ente={dadosEnte} />
 
       {alunosEstimados !== null && (
         <p className="text-[11px] text-gray-400 italic mt-4 leading-relaxed">
@@ -515,6 +533,12 @@ function Stat({ label, valor }: { label: string; valor: string | number }) {
 function DetalhesDistritoFederal({ estado }: { estado: EstatisticasEstado }) {
   const statusLabel = STATUS_LABELS[estado.statusProprio]
   const linksArticulacao = gerarLinksEstado('DF')
+  const dadosEnte: DadosEnte = {
+    nome: 'Distrito Federal',
+    uf: 'DF',
+    tipo: 'estado',
+    rede: 'estadual',
+  }
 
   return (
     <div>
@@ -571,6 +595,8 @@ function DetalhesDistritoFederal({ estado }: { estado: EstatisticasEstado }) {
           links={linksArticulacao}
         />
       </div>
+
+      <ModeloArticulacao ente={dadosEnte} />
     </div>
   )
 }
