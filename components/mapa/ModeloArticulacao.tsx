@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import {
   Megaphone,
+  MessageCircle,
   FileText,
   Mail,
   Copy,
@@ -76,6 +77,27 @@ export function ModeloArticulacao({ ente }: Props) {
             <strong>{ente.nome}</strong>. Os textos já vêm pré-preenchidos — é
             só ajustar os campos entre colchetes e enviar.
           </p>
+
+          <div className="flex gap-3 p-3 mb-4 bg-redenec-azul/10 border-l-4 border-redenec-azul rounded-r-md">
+            <MessageCircle
+              size={18}
+              className="text-redenec-azul shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
+            <div>
+              <p className="text-xs font-bold text-[#0C447C] mb-1 uppercase tracking-wide">
+                Recomendação institucional
+              </p>
+              <p className="text-xs text-[#0C447C] leading-relaxed">
+                Recomendamos que qualquer contato com Secretarias de Educação
+                seja conduzido de forma amigável e respeitosa. Posicione a
+                adesão ao PECS como uma oportunidade de fortalecer o trabalho
+                que a rede já realiza — não como cobrança ou exigência. Redes
+                ainda não aderentes podem enfrentar limitações estruturais ou
+                institucionais que merecem consideração no diálogo.
+              </p>
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 gap-2 mb-4">
             {MODELOS_DISPONIVEIS.map((tipo) => {
@@ -169,10 +191,11 @@ export function ModeloArticulacao({ ente }: Props) {
 
               <div className="px-3 py-2 bg-amber-50 border-t border-amber-200">
                 <p className="text-xs text-amber-800">
-                  <strong>Dica:</strong> substitua os campos entre colchetes
-                  [CAMPO] pelos dados específicos antes de enviar. Adapte
-                  livremente o tom e conteúdo conforme o contexto da
-                  articulação.
+                  <strong>⚠ Antes de enviar:</strong> substitua os campos entre
+                  [COLCHETES] pelos dados específicos e adapte o tom conforme o
+                  contexto. Recomendamos que o contato seja sempre cordial,
+                  sugerindo que a adesão pode beneficiar os trabalhos que a
+                  instituição já desenvolve.
                 </p>
               </div>
             </div>
