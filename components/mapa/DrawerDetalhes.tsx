@@ -17,7 +17,7 @@ import { BandeiraEstado } from './BandeiraEstado'
 const STATUS_LABELS: Record<StatusGrupo, { texto: string; cor: string }> = {
   aderiu: { texto: 'Aderiu', cor: 'bg-redenec-verde text-black' },
   iniciou_nao_concluiu: { texto: 'Iniciou, não concluiu', cor: 'bg-redenec-azul text-white' },
-  nao_iniciado: { texto: 'Não iniciado', cor: 'bg-gray-200 text-gray-700' },
+  nao_iniciado: { texto: 'Não iniciado', cor: 'bg-redenec-coral text-[#4A1B0C]' },
 }
 
 const STATUS_ORIGINAIS: Record<StatusAdesao, string> = {
@@ -30,7 +30,7 @@ const STATUS_ORIGINAIS: Record<StatusAdesao, string> = {
 const ABAS: { key: StatusGrupo; label: string; cor: string; corTexto: string }[] = [
   { key: 'aderiu', label: 'Aderiu', cor: '#1cff9e', corTexto: '#0F6E56' },
   { key: 'iniciou_nao_concluiu', label: 'Iniciou, não concluiu', cor: '#0086ff', corTexto: '#0C447C' },
-  { key: 'nao_iniciado', label: 'Não iniciou', cor: '#888780', corTexto: '#444441' },
+  { key: 'nao_iniciado', label: 'Não iniciou', cor: '#ff8b80', corTexto: '#993C1D' },
 ]
 
 type Props = {

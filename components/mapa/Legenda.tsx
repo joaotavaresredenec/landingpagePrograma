@@ -23,7 +23,7 @@ export function Legenda() {
       <div className="flex items-center gap-2">
         <span
           className="w-3 h-3 rounded-full shrink-0"
-          style={{ backgroundColor: '#888780', border: '1px solid #444441' }}
+          style={{ backgroundColor: '#ff8b80', border: '1px solid #993C1D' }}
           aria-hidden="true"
         />
         <span className="text-sm text-gray-700">Não iniciado</span>

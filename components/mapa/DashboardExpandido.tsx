@@ -144,8 +144,8 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
               <p className="text-2xl font-bold text-[#0C447C]">{ufIniciaram}</p>
               <p className="text-[11px] text-gray-700 mt-1">Iniciaram</p>
             </div>
-            <div className="text-center p-3 bg-gray-100 rounded-lg border border-gray-200">
-              <p className="text-2xl font-bold text-gray-600">{ufNaoIniciaram.length}</p>
+            <div className="text-center p-3 bg-[#FAECE7] rounded-lg border border-[#F0997B]/40">
+              <p className="text-2xl font-bold text-[#993C1D]">{ufNaoIniciaram.length}</p>
               <p className="text-[11px] text-gray-700 mt-1">Não iniciaram</p>
             </div>
           </div>

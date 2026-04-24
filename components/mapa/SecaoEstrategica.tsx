@@ -96,7 +96,7 @@ export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado 
                 <div className="flex-1 flex items-center gap-3 min-w-0">
                   <div className="flex-1 h-5 bg-gray-100 rounded relative overflow-hidden">
                     <div
-                      className="h-full bg-redenec-azul/70 rounded transition-all duration-500"
+                      className="h-full bg-redenec-coral/90 rounded transition-all duration-500"
                       style={{ width: `${larguraBarra}%` }}
                     />
                   </div>
@@ -120,7 +120,7 @@ export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado 
         <div className="mt-4 pt-3 border-t border-gray-100">
           <p className="text-sm text-redenec-petroleo bg-redenec-cinza/60 rounded-md px-3 py-2.5">
             <span className="font-bold">Leitura estratégica:</span> os 5 primeiros estados
-            concentram <span className="font-bold">{top5Soma.toLocaleString('pt-BR')} municípios</span>{' '}
+            concentram <span className="font-bold text-[#993C1D]">{top5Soma.toLocaleString('pt-BR')} municípios</span>{' '}
             ainda sem movimento. Uma ação coordenada nestes estados, mesmo com pequena taxa
             de conversão, teria impacto nacional significativo.
           </p>

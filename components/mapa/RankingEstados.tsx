@@ -13,7 +13,7 @@ function corDoFundo(percentual: number): string {
   if (percentual >= 40) return 'bg-redenec-verde/20'
   if (percentual >= 20) return 'bg-redenec-verde/10'
   if (percentual > 0) return 'bg-redenec-verde/5'
-  return 'bg-gray-50'
+  return 'bg-redenec-coral/10'
 }
 
 export function RankingEstados({ ranking, onSelecionar }: Props) {

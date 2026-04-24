@@ -68,8 +68,8 @@ export function CardCapitais({ capitais }: Props) {
           {capitais.naoIniciadas.length > 0 && (
             <ListaCapitais
               titulo={`Ainda não iniciaram (${capitais.naoIniciadas.length})`}
-              corPonto="#888780"
-              corTitulo="text-gray-600"
+              corPonto="#ff8b80"
+              corTitulo="text-[#993C1D]"
               capitais={capitais.naoIniciadas}
             />
           )}
