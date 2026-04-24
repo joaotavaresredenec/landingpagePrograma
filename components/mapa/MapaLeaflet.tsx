@@ -14,7 +14,7 @@ import { calcularEstatisticasEstado } from '@/lib/mapa/estatisticas'
 const CORES_POR_STATUS: Record<StatusGrupo, { fill: string; stroke: string }> = {
   aderiu: { fill: '#1cff9e', stroke: '#0F6E56' },
   iniciou_nao_concluiu: { fill: '#0086ff', stroke: '#0C447C' },
-  nao_iniciado: { fill: '#ff8b80', stroke: '#993C1D' },
+  nao_iniciado: { fill: '#E5E5E5', stroke: '#888780' },
 }
 
 function corPorPercentual(percentual: number): string {
@@ -177,7 +177,7 @@ export default function MapaLeaflet({
         fillColor: cores.fill,
         weight: 0.7,
         color: cores.stroke,
-        fillOpacity: 0.7,
+        fillOpacity: adesao.statusGrupo === 'nao_iniciado' ? 0.5 : 0.7,
       }
     },
     [adesoes],

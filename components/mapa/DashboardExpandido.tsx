@@ -36,10 +36,10 @@ function formatarTotalAlunos(total: number): string {
 
 export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapitais }: Props) {
   const porRegiao = calcularPorRegiao(adesoes)
-  const top5Absoluto = [...rankingEstados].sort((a, b) => b.aderidos - a.aderidos).slice(0, 5)
-  const top5Percentual = [...rankingEstados]
+  const top10Absoluto = [...rankingEstados].sort((a, b) => b.aderidos - a.aderidos).slice(0, 10)
+  const top10Percentual = [...rankingEstados]
     .filter((e) => e.totalMunicipios > 50)
-    .slice(0, 5)
+    .slice(0, 10)
 
   const estadosComoUF = adesoes.filter((a) => a.tipo === 'estado')
   const ufAderiram = estadosComoUF.filter((e) => e.statusGrupo === 'aderiu').length
@@ -79,10 +79,10 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
         <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
           <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
             <Medal size={16} className="text-redenec-verde" aria-hidden="true" />
-            Top 5 — municípios aderidos (absoluto)
+            Top 10 — municípios aderidos (absoluto)
           </h3>
-          <div className="space-y-1">
-            {top5Absoluto.map((e, i) => (
+          <div className="space-y-1 max-h-[320px] overflow-y-auto">
+            {top10Absoluto.map((e, i) => (
               <div
                 key={e.uf}
                 className="flex items-center justify-between py-1.5 border-b border-gray-100 last:border-0"
@@ -103,10 +103,10 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
         <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
           <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
             <TrendingUp size={16} className="text-redenec-verde" aria-hidden="true" />
-            Top 5 — por percentual de adesão
+            Top 10 — por percentual de adesão
           </h3>
-          <div className="space-y-1">
-            {top5Percentual.map((e, i) => (
+          <div className="space-y-1 max-h-[320px] overflow-y-auto">
+            {top10Percentual.map((e, i) => (
               <div
                 key={e.uf}
                 className="flex items-center justify-between py-1.5 border-b border-gray-100 last:border-0"

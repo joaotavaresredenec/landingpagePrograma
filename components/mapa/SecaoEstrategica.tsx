@@ -101,11 +101,11 @@ export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado 
                 <div className="flex-1 min-w-0">
                   <div className="relative h-7 bg-gray-100 rounded overflow-hidden">
                     <div
-                      className="absolute inset-y-0 left-0 bg-redenec-coral rounded transition-all duration-500 flex items-center justify-end pr-2"
+                      className="absolute inset-y-0 left-0 bg-redenec-azul rounded transition-all duration-500 flex items-center justify-end pr-2"
                       style={{ width: `${percentualNaoIniciado}%` }}
                     >
                       {dentroBarra && (
-                        <span className="text-[11px] font-bold text-[#4A1B0C]">
+                        <span className="text-[11px] font-bold text-white">
                           {percentualFormatado}%
                         </span>
                       )}
@@ -113,7 +113,7 @@ export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado 
 
                     {!dentroBarra && (
                       <span
-                        className="absolute inset-y-0 flex items-center text-[11px] font-bold text-[#993C1D] pl-2"
+                        className="absolute inset-y-0 flex items-center text-[11px] font-bold text-[#0C447C] pl-2"
                         style={{ left: `${percentualNaoIniciado}%` }}
                       >
                         {percentualFormatado}%
