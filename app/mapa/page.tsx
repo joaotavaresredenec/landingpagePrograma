@@ -1,6 +1,4 @@
 import type { Metadata } from 'next'
-import { temSessaoMapa } from '@/lib/sessao-mapa'
-import { TelaSenhaMapa } from '@/components/mapa/TelaSenhaMapa'
 import { MapaInterativo } from '@/components/mapa/MapaInterativo'
 import { carregarAdesoes, carregarMunicipiosCoord } from '@/lib/mapa/carregar-dados'
 import {
@@ -11,18 +9,27 @@ import {
 import type { MunicipioCoord } from '@/lib/mapa/tipos'
 
 export const metadata: Metadata = {
-  title: 'Mapa de Adesão | Programa Educação para a Cidadania e Sustentabilidade',
-  description: 'Visualize os estados e municípios que aderiram ao Programa PECS — Portaria MEC nº 642/2025.',
-  robots: { index: false, follow: false },
+  title: 'Mapa de Adesão ao PECS | Programa Educação para a Cidadania e Sustentabilidade',
+  description:
+    'Acompanhe a adesão dos estados e municípios brasileiros ao Programa Educação para a Cidadania e Sustentabilidade (PECS) do Ministério da Educação. Dados compartilhados via Acordo de Cooperação nº 14/2025 entre MEC e Redenec.',
+  keywords: [
+    'PECS',
+    'Educação Cidadã',
+    'Programa MEC',
+    'Sustentabilidade',
+    'Redenec',
+    'Adesão',
+    'Portaria 642',
+  ],
+  openGraph: {
+    title: 'Mapa Nacional de Adesão ao PECS',
+    description:
+      'Acompanhe em tempo real o avanço do Programa Educação para a Cidadania e Sustentabilidade em todos os estados e municípios brasileiros.',
+    type: 'website',
+  },
 }
 
 export default async function MapaPage() {
-  const autenticado = await temSessaoMapa()
-
-  if (!autenticado) {
-    return <TelaSenhaMapa />
-  }
-
   const [adesoes, municipiosCoord] = await Promise.all([
     carregarAdesoes(),
     carregarMunicipiosCoord(),

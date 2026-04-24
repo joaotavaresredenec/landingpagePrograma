@@ -1,7 +1,6 @@
 import { readFile } from 'fs/promises'
 import path from 'path'
 import { NextResponse } from 'next/server'
-import { temSessaoMapa } from '@/lib/sessao-mapa'
 
 // Mapeamento UF (sigla) -> código IBGE do estado, usado para localizar
 // o arquivo `geojs-{codigoIbge}-mun.json` em public/geodata/municipios-uf/.
@@ -21,12 +20,6 @@ export async function GET(
   _request: Request,
   { params }: { params: Promise<{ uf: string }> | { uf: string } },
 ) {
-  // Só usuários autenticados no mapa podem consumir
-  const autenticado = await temSessaoMapa()
-  if (!autenticado) {
-    return NextResponse.json({ erro: 'Não autenticado' }, { status: 401 })
-  }
-
   const { uf } = 'then' in params ? await params : params
   const sigla = uf.toUpperCase()
   const codigoIbge = UF_PARA_CODIGO_IBGE[sigla]
