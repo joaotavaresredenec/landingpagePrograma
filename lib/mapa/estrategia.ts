@@ -1,4 +1,5 @@
 import type { Adesao, MunicipioCoord, StatusGrupo } from './tipos'
+import { brasiliaVirtualFromAdesoes } from './estatisticas'
 
 const LIMITE_MUNICIPIO_GRANDE = 100_000
 
@@ -30,8 +31,9 @@ const UF_NOMES: Record<string, string> = {
   TO: 'Tocantins',
 }
 
+// 26 capitais estaduais (Brasília tratada separadamente via DF)
 const CODIGOS_CAPITAIS = new Set([
-  '1200401','2704302','1600303','1302603','2927408','2304400','5300108',
+  '1200401','2704302','1600303','1302603','2927408','2304400',
   '3205309','5208707','2111300','5103403','5002704','3106200','1501402',
   '2507507','4106902','2611606','2211001','3304557','2408102','4314902',
   '1100205','1400100','4205407','3550308','2800308','1721000',
@@ -100,12 +102,20 @@ export function calcularMunicipiosGrandesNaoAderidos(
 
 /** Capitais que ainda não aderiram (status diferente de "aderiu"). */
 export function calcularCapitaisNaoAderidas(adesoes: Adesao[]): Adesao[] {
-  return adesoes.filter(
+  const capitaisEstaduais = adesoes.filter(
     (a) =>
       a.tipo === 'municipio' &&
       CODIGOS_CAPITAIS.has(a.codigoIbge) &&
       a.statusGrupo !== 'aderiu',
   )
+
+  // Brasília (via DF): só entra no ranking de pendentes se o DF não aderiu
+  const brasilia = brasiliaVirtualFromAdesoes(adesoes)
+  if (brasilia && brasilia.statusGrupo !== 'aderiu') {
+    capitaisEstaduais.push(brasilia)
+  }
+
+  return capitaisEstaduais
 }
 
 /** Estados (UF) com status "não iniciado" + nº de alunos da rede estadual. */

@@ -2,6 +2,7 @@ import Papa from 'papaparse'
 import { readFile } from 'fs/promises'
 import path from 'path'
 import type { Adesao, MunicipioCoord, StatusGrupo, StatusAdesao, Regiao } from './tipos'
+import { CODIGO_BRASILIA_MUNICIPIO } from './tipos'
 
 // Regra de negócio: "Em análise do MEC" é etapa burocrática — a decisão
 // institucional de aderir já foi tomada. Portanto ela conta como adesão efetiva.
@@ -57,6 +58,8 @@ export async function carregarAdesoes(): Promise<Adesao[]> {
         statusGrupo: deriveStatusGrupo(status),
       }
     })
+    // Remove Brasília como "município" — é capital/UF, não município autônomo
+    .filter((a) => !(a.tipo === 'municipio' && a.codigoIbge === CODIGO_BRASILIA_MUNICIPIO))
 }
 
 type MunicipioRow = {

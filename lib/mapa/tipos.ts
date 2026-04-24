@@ -57,3 +57,15 @@ export type EstatisticasNacionais = {
   percentualAderidos: number
   percentualComMovimento: number
 }
+
+/**
+ * Código IBGE de Brasília como "município" (convenção IBGE).
+ * Brasília NÃO é um município — é a capital federal e sede do DF,
+ * que é uma UF sem municípios. Este código é usado apenas para
+ * identificar e remover Brasília de cálculos onde ela apareceria
+ * incorretamente como município.
+ */
+export const CODIGO_BRASILIA_MUNICIPIO = '5300108'
+
+/** Código IBGE do Distrito Federal como unidade federativa. */
+export const CODIGO_DF_ESTADO = '53'

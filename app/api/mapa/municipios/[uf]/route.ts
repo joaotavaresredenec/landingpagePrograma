@@ -34,6 +34,17 @@ export async function GET(
     return NextResponse.json({ erro: 'UF inválida' }, { status: 400 })
   }
 
+  // DF é caso especial: não tem municípios subordinados
+  if (sigla === 'DF') {
+    return NextResponse.json(
+      {
+        erro: 'DF não possui municípios',
+        info: 'O Distrito Federal é uma UF especial sem divisão municipal',
+      },
+      { status: 204 },
+    )
+  }
+
   try {
     const filePath = path.join(
       process.cwd(),

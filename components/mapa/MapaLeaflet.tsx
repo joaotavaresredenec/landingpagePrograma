@@ -146,15 +146,18 @@ export default function MapaLeaflet({
       const uf = (feature.properties as any)?.sigla ?? ''
       const stats = calcularEstatisticasEstado(todasAdesoes, uf)
 
-      layer.bindTooltip(
-        `<strong>${stats.nome}</strong><br/>${stats.aderidos} de ${stats.totalMunicipios} aderiram (${stats.percentualAderido.toFixed(1)}%)`,
-        { sticky: true, direction: 'top' },
-      )
+      const tooltipHtml =
+        uf === 'DF'
+          ? `<strong>${stats.nome}</strong><br/>Unidade federativa sem divisão municipal`
+          : `<strong>${stats.nome}</strong><br/>${stats.aderidos} de ${stats.totalMunicipios} aderiram (${stats.percentualAderido.toFixed(1)}%)`
+
+      layer.bindTooltip(tooltipHtml, { sticky: true, direction: 'top' })
 
       layer.on({
         click: () => {
           onSelecionar({ tipo: 'estado', dados: stats })
-          onMudarUf(uf)
+          // DF não tem municípios — não ativa drill-down
+          if (uf !== 'DF') onMudarUf(uf)
         },
       })
     },
@@ -283,7 +286,7 @@ export default function MapaLeaflet({
                   eventHandlers={{
                     click: () => {
                       onSelecionar({ tipo: 'estado', dados: stats })
-                      onMudarUf(estadoAdesao.uf)
+                      if (estadoAdesao.uf !== 'DF') onMudarUf(estadoAdesao.uf)
                     },
                   }}
                 >

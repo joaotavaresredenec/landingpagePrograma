@@ -149,7 +149,20 @@ export function DrawerDetalhes({ entidade, adesoes, municipiosCoord, onFechar }:
   )
 }
 
-function DetalhesEstado({
+function DetalhesEstado(props: {
+  estado: EstatisticasEstado
+  adesoes: Adesao[]
+  abaInicial?: StatusGrupo
+  onSelecionarMunicipio: (adesao: Adesao) => void
+}) {
+  // DF é UF especial — sem municípios subordinados. Render dedicado.
+  if (props.estado.uf === 'DF') {
+    return <DetalhesDistritoFederal estado={props.estado} />
+  }
+  return <DetalhesEstadoComum {...props} />
+}
+
+function DetalhesEstadoComum({
   estado,
   adesoes,
   abaInicial = 'aderiu',
@@ -495,6 +508,69 @@ function Stat({ label, valor }: { label: string; valor: string | number }) {
     <div className="bg-gray-50 rounded-lg p-3">
       <p className="text-[11px] text-gray-500 mb-1">{label}</p>
       <p className="text-xl font-bold text-black">{valor}</p>
+    </div>
+  )
+}
+
+function DetalhesDistritoFederal({ estado }: { estado: EstatisticasEstado }) {
+  const statusLabel = STATUS_LABELS[estado.statusProprio]
+  const linksArticulacao = gerarLinksEstado('DF')
+
+  return (
+    <div>
+      {/* Cabeçalho */}
+      <div className="mb-6">
+        <div className="flex items-center gap-3 mb-2">
+          <BandeiraEstado uf="DF" size="lg" />
+          <div>
+            <p className="text-[11px] uppercase tracking-widest text-gray-500">
+              Unidade Federativa
+            </p>
+            <h2 className="text-2xl font-bold text-black leading-tight">Distrito Federal</h2>
+          </div>
+        </div>
+        <div className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${statusLabel.cor}`}>
+          {statusLabel.texto}
+        </div>
+      </div>
+
+      {/* Info institucional */}
+      <div className="mb-6 p-4 bg-blue-50 border-l-4 border-redenec-azul rounded-r-md">
+        <p className="text-sm text-[#0C447C] leading-relaxed">
+          <strong>Sobre o Distrito Federal:</strong> o DF é uma unidade federativa
+          especial que não se divide em municípios. Brasília, capital do Brasil, é
+          a sede administrativa do DF. A adesão ao Programa PECS se dá no âmbito
+          da rede pública do DF como um todo.
+        </p>
+      </div>
+
+      {/* Informações da rede */}
+      <div className="mb-6">
+        <h3 className="font-bold text-sm text-black mb-3">Informações da rede</h3>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span className="text-sm text-gray-600">Status da adesão</span>
+            <span className="font-bold text-sm text-black">{statusLabel.texto}</span>
+          </div>
+          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span className="text-sm text-gray-600">Capital</span>
+            <span className="font-bold text-sm text-black">Brasília</span>
+          </div>
+          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span className="text-sm text-gray-600">Região</span>
+            <span className="font-bold text-sm text-black">Centro-Oeste</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Articulação */}
+      <div className="mt-6 pt-6 border-t border-gray-200">
+        <SecaoArticulacao
+          titulo="Articulação institucional"
+          subtitulo="Links de busca para facilitar contato com a Secretaria de Educação do DF"
+          links={linksArticulacao}
+        />
+      </div>
     </div>
   )
 }
