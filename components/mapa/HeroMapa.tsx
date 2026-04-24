@@ -27,7 +27,7 @@ export function HeroMapa() {
             className="h-12 md:h-14 w-auto object-contain"
           />
           <Image
-            src="/logos/logoprograma.png"
+            src="/logos/programaeducacaoparaacidadanialogo.png"
             alt="Programa Educação para a Cidadania e Sustentabilidade"
             width={180}
             height={56}

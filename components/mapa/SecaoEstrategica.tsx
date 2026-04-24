@@ -28,7 +28,6 @@ const STATUS_LABEL: Record<StatusGrupo, string> = {
 
 export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado }: Props) {
   const rankingNaoIniciados = calcularRankingNaoIniciados(adesoes)
-  const maiorValor = rankingNaoIniciados[0]?.naoIniciados || 1
   const top5Soma = somarMunicipiosNaoIniciados(rankingNaoIniciados, 5)
 
   const municipiosGrandes = calcularMunicipiosGrandesNaoAderidos(adesoes, municipiosCoord)
@@ -70,8 +69,8 @@ export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado 
           </h3>
         </div>
         <p className="text-[11px] text-gray-500 mb-1">
-          Estados com maior número absoluto de municípios no status &ldquo;não iniciado&rdquo;.
-          Ação coordenada aqui pode gerar o maior volume de conversões.
+          Estados ordenados pelo volume absoluto de municípios sem adesão. A barra
+          mostra a proporção de não adesão dentro de cada estado.
         </p>
         <p className="text-[11px] text-gray-500 italic mb-4">
           Clique em um estado para ver quais municípios ainda não iniciaram.
@@ -79,34 +78,58 @@ export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado 
 
         <div className="space-y-1.5">
           {rankingNaoIniciados.map((estado, i) => {
-            const larguraBarra = (estado.naoIniciados / maiorValor) * 100
+            const percentualNaoIniciado =
+              estado.totalMunicipios > 0 ? (estado.naoIniciados / estado.totalMunicipios) * 100 : 0
+            const percentualFormatado = percentualNaoIniciado.toFixed(0)
+            const dentroBarra = percentualNaoIniciado >= 15
+
             return (
               <button
                 key={estado.uf}
                 type="button"
                 onClick={() => onSelecionarEstado(estado.uf)}
-                aria-label={`Abrir detalhes de ${estado.nome}: ${estado.naoIniciados} municípios não iniciados`}
+                aria-label={`Abrir detalhes de ${estado.nome}: ${estado.naoIniciados} municípios sem adesão (${percentualFormatado}% do estado)`}
                 className="w-full flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md transition-colors text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde"
               >
                 <span className="font-bold text-gray-400 text-xs w-5 shrink-0">{i + 1}</span>
                 <BandeiraEstado uf={estado.uf} size="sm" />
-                <span className="font-medium text-gray-900 text-sm w-28 shrink-0 truncate">
+                <span className="font-medium text-gray-900 text-sm w-32 shrink-0 truncate">
                   {estado.nome}
                 </span>
-                <div className="flex-1 flex items-center gap-3 min-w-0">
-                  <div className="flex-1 h-5 bg-gray-100 rounded relative overflow-hidden">
+
+                {/* Barra proporcional ao total de municípios do estado */}
+                <div className="flex-1 min-w-0">
+                  <div className="relative h-7 bg-gray-100 rounded overflow-hidden">
                     <div
-                      className="h-full bg-redenec-coral/90 rounded transition-all duration-500"
-                      style={{ width: `${larguraBarra}%` }}
-                    />
-                  </div>
-                  <div className="flex items-baseline gap-1.5 w-32 justify-end shrink-0">
-                    <span className="font-bold text-redenec-petroleo text-sm">
-                      {estado.naoIniciados.toLocaleString('pt-BR')}
-                    </span>
-                    <span className="text-[11px] text-gray-500">municípios</span>
+                      className="absolute inset-y-0 left-0 bg-redenec-coral rounded transition-all duration-500 flex items-center justify-end pr-2"
+                      style={{ width: `${percentualNaoIniciado}%` }}
+                    >
+                      {dentroBarra && (
+                        <span className="text-[11px] font-bold text-[#4A1B0C]">
+                          {percentualFormatado}%
+                        </span>
+                      )}
+                    </div>
+
+                    {!dentroBarra && (
+                      <span
+                        className="absolute inset-y-0 flex items-center text-[11px] font-bold text-[#993C1D] pl-2"
+                        style={{ left: `${percentualNaoIniciado}%` }}
+                      >
+                        {percentualFormatado}%
+                      </span>
+                    )}
                   </div>
                 </div>
+
+                {/* Contador absoluto à direita */}
+                <div className="flex flex-col items-end w-36 shrink-0">
+                  <span className="font-bold text-redenec-petroleo text-sm leading-tight">
+                    {estado.naoIniciados.toLocaleString('pt-BR')} municípios
+                  </span>
+                  <span className="text-[11px] text-gray-500">sem adesão</span>
+                </div>
+
                 <ChevronRight
                   size={16}
                   className="text-gray-300 group-hover:text-gray-500 shrink-0 transition-colors"
@@ -120,9 +143,11 @@ export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado 
         <div className="mt-4 pt-3 border-t border-gray-100">
           <p className="text-sm text-redenec-petroleo bg-redenec-cinza/60 rounded-md px-3 py-2.5">
             <span className="font-bold">Leitura estratégica:</span> os 5 primeiros estados
-            concentram <span className="font-bold text-[#993C1D]">{top5Soma.toLocaleString('pt-BR')} municípios</span>{' '}
-            ainda sem movimento. Uma ação coordenada nestes estados, mesmo com pequena taxa
-            de conversão, teria impacto nacional significativo.
+            do ranking concentram{' '}
+            <span className="font-bold text-[#993C1D]">{top5Soma.toLocaleString('pt-BR')} municípios</span>{' '}
+            sem adesão. Apesar de muitos destes estados terem boa taxa proporcional de
+            adesão, seu volume absoluto os torna alvos prioritários de articulação para
+            ampliar a cobertura nacional do programa.
           </p>
         </div>
       </div>
