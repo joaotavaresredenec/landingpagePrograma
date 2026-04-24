@@ -42,7 +42,7 @@ export type FiltrosAtivos = {
 }
 
 export type EntidadeSelecionada =
-  | { tipo: 'estado'; dados: EstatisticasEstado }
+  | { tipo: 'estado'; dados: EstatisticasEstado; abaInicial?: StatusGrupo }
   | { tipo: 'municipio'; adesao: Adesao; coord: MunicipioCoord }
   | null
 
@@ -95,6 +95,14 @@ export function MapaInterativo({
     const estado = rankingEstados.find((e) => e.uf === uf)
     if (!estado) return
     setEntidadeSelecionada({ tipo: 'estado', dados: estado })
+    setUfAtiva(uf)
+    const bounds = obterBoundsEstado(uf)
+    if (bounds) setBoundsAlvo(bounds)
+  }
+
+  function handleSelecionarEstadoNaoIniciado(uf: string) {
+    const stats = calcularEstatisticasEstado(adesoes, uf)
+    setEntidadeSelecionada({ tipo: 'estado', dados: stats, abaInicial: 'nao_iniciado' })
     setUfAtiva(uf)
     const bounds = obterBoundsEstado(uf)
     if (bounds) setBoundsAlvo(bounds)
@@ -174,7 +182,11 @@ export function MapaInterativo({
           </div>
 
           {/* Seção estratégica de prioridades de articulação */}
-          <SecaoEstrategica adesoes={adesoes} municipiosCoord={municipiosCoord} />
+          <SecaoEstrategica
+            adesoes={adesoes}
+            municipiosCoord={municipiosCoord}
+            onSelecionarEstado={handleSelecionarEstadoNaoIniciado}
+          />
 
           {/* Rodapé com timestamp e fonte */}
           <div className="mt-6 text-center">
@@ -193,6 +205,7 @@ export function MapaInterativo({
         <DrawerDetalhes
           entidade={entidadeSelecionada}
           adesoes={adesoes}
+          municipiosCoord={municipiosCoord}
           onFechar={() => setEntidadeSelecionada(null)}
         />
       </main>

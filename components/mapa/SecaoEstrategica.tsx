@@ -1,6 +1,7 @@
 'use client'
 
-import { Target, AlertTriangle, MapPinned, TrendingDown } from 'lucide-react'
+import { Target, AlertTriangle, MapPinned, TrendingDown, ChevronRight } from 'lucide-react'
+import { BandeiraEstado } from './BandeiraEstado'
 import type { Adesao, MunicipioCoord, StatusGrupo } from '@/lib/mapa/tipos'
 import {
   calcularRankingNaoIniciados,
@@ -16,6 +17,7 @@ import {
 type Props = {
   adesoes: Adesao[]
   municipiosCoord: Record<string, MunicipioCoord>
+  onSelecionarEstado: (uf: string) => void
 }
 
 const STATUS_LABEL: Record<StatusGrupo, string> = {
@@ -24,7 +26,7 @@ const STATUS_LABEL: Record<StatusGrupo, string> = {
   nao_iniciado: 'Não iniciado',
 }
 
-export function SecaoEstrategica({ adesoes, municipiosCoord }: Props) {
+export function SecaoEstrategica({ adesoes, municipiosCoord, onSelecionarEstado }: Props) {
   const rankingNaoIniciados = calcularRankingNaoIniciados(adesoes)
   const maiorValor = rankingNaoIniciados[0]?.naoIniciados || 1
   const top5Soma = somarMunicipiosNaoIniciados(rankingNaoIniciados, 5)
@@ -67,21 +69,28 @@ export function SecaoEstrategica({ adesoes, municipiosCoord }: Props) {
             Top 10 estados por municípios que ainda não iniciaram
           </h3>
         </div>
-        <p className="text-[11px] text-gray-500 mb-4">
+        <p className="text-[11px] text-gray-500 mb-1">
           Estados com maior número absoluto de municípios no status &ldquo;não iniciado&rdquo;.
           Ação coordenada aqui pode gerar o maior volume de conversões.
+        </p>
+        <p className="text-[11px] text-gray-500 italic mb-4">
+          Clique em um estado para ver quais municípios ainda não iniciaram.
         </p>
 
         <div className="space-y-1.5">
           {rankingNaoIniciados.map((estado, i) => {
             const larguraBarra = (estado.naoIniciados / maiorValor) * 100
             return (
-              <div
+              <button
                 key={estado.uf}
-                className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md transition-colors"
+                type="button"
+                onClick={() => onSelecionarEstado(estado.uf)}
+                aria-label={`Abrir detalhes de ${estado.nome}: ${estado.naoIniciados} municípios não iniciados`}
+                className="w-full flex items-center gap-3 p-2 hover:bg-gray-50 rounded-md transition-colors text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde"
               >
                 <span className="font-bold text-gray-400 text-xs w-5 shrink-0">{i + 1}</span>
-                <span className="font-medium text-gray-900 text-sm w-32 shrink-0 truncate">
+                <BandeiraEstado uf={estado.uf} size="sm" />
+                <span className="font-medium text-gray-900 text-sm w-28 shrink-0 truncate">
                   {estado.nome}
                 </span>
                 <div className="flex-1 flex items-center gap-3 min-w-0">
@@ -98,7 +107,12 @@ export function SecaoEstrategica({ adesoes, municipiosCoord }: Props) {
                     <span className="text-[11px] text-gray-500">municípios</span>
                   </div>
                 </div>
-              </div>
+                <ChevronRight
+                  size={16}
+                  className="text-gray-300 group-hover:text-gray-500 shrink-0 transition-colors"
+                  aria-hidden="true"
+                />
+              </button>
             )
           })}
         </div>
@@ -137,8 +151,9 @@ export function SecaoEstrategica({ adesoes, municipiosCoord }: Props) {
                   {estadosNaoIniciadosComAlunos.map((e) => (
                     <div
                       key={e.uf}
-                      className="flex items-center justify-between p-2.5 bg-red-50/60 border border-red-100 rounded-md"
+                      className="flex items-center gap-3 p-2.5 bg-red-50/60 border border-red-100 rounded-md"
                     >
+                      <BandeiraEstado uf={e.uf} size="sm" />
                       <div>
                         <p className="text-sm font-medium text-red-900">
                           {e.nome} <span className="text-red-700">({e.uf})</span>
@@ -174,8 +189,9 @@ export function SecaoEstrategica({ adesoes, municipiosCoord }: Props) {
                   {capitaisNaoAderidas.map((c) => (
                     <span
                       key={c.codigoIbge}
-                      className="px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-md text-sm font-medium text-amber-900"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-md text-sm font-medium text-amber-900"
                     >
+                      <BandeiraEstado uf={c.uf} size="xs" />
                       {c.nomeEnte}{' '}
                       <span className="text-[11px] text-amber-600">({c.uf})</span>
                     </span>
@@ -224,10 +240,11 @@ export function SecaoEstrategica({ adesoes, municipiosCoord }: Props) {
                       key={m.codigoIbge}
                       className="flex items-center justify-between p-2 hover:bg-amber-50 rounded transition-colors"
                     >
-                      <div className="flex items-center gap-3 min-w-0">
+                      <div className="flex items-center gap-2.5 min-w-0">
                         <span className="text-[11px] font-bold text-gray-400 w-5 shrink-0">
                           {i + 1}
                         </span>
+                        <BandeiraEstado uf={m.uf} size="xs" />
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-gray-900 truncate">{m.nome}</p>
                           <p className="text-[11px] text-gray-500">

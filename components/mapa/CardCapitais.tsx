@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Building2, ChevronDown, ChevronUp } from 'lucide-react'
 import type { EstatisticasCapitais } from '@/lib/mapa/estatisticas'
+import { BandeiraEstado } from './BandeiraEstado'
 
 type Props = {
   capitais: EstatisticasCapitais
@@ -100,10 +101,13 @@ function ListaCapitais({
         <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: corPonto }} aria-hidden="true" />
         {titulo}
       </h4>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-1 text-sm">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-1.5 text-sm">
         {capitais.map((c) => (
-          <div key={c.codigoIbge} className="text-gray-700">
-            {c.nomeEnte} <span className="text-gray-400 text-xs">({c.uf})</span>
+          <div key={c.codigoIbge} className="flex items-center gap-2 text-gray-700">
+            <BandeiraEstado uf={c.uf} size="xs" />
+            <span className="truncate">
+              {c.nomeEnte} <span className="text-gray-400 text-xs">({c.uf})</span>
+            </span>
           </div>
         ))}
       </div>

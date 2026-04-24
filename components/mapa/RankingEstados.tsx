@@ -1,6 +1,7 @@
 'use client'
 
 import type { EstatisticasEstado } from '@/lib/mapa/tipos'
+import { BandeiraEstado } from './BandeiraEstado'
 
 type Props = {
   ranking: EstatisticasEstado[]
@@ -35,7 +36,8 @@ export function RankingEstados({ ranking, onSelecionar }: Props) {
             aria-label={`${estado.nome}: ${estado.percentualAderido.toFixed(1)}% de municípios aderidos`}
           >
             <div className="flex items-center gap-2 min-w-0">
-              <span className="font-bold text-sm w-8 text-left text-redenec-petroleo">{estado.uf}</span>
+              <BandeiraEstado uf={estado.uf} size="sm" />
+              <span className="font-bold text-sm text-redenec-petroleo">{estado.uf}</span>
               <span className="text-[11px] text-gray-500 hidden lg:inline">
                 {estado.aderidos}/{estado.totalMunicipios}
               </span>

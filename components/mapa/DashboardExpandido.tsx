@@ -2,6 +2,7 @@ import type { Adesao, EstatisticasEstado, Regiao } from '@/lib/mapa/tipos'
 import type { EstatisticasCapitais } from '@/lib/mapa/estatisticas'
 import { TrendingUp, MapPin, Medal, AlertCircle } from 'lucide-react'
 import { CardCapitais } from './CardCapitais'
+import { BandeiraEstado } from './BandeiraEstado'
 
 type Props = {
   adesoes: Adesao[]
@@ -86,8 +87,9 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
                 key={e.uf}
                 className="flex items-center justify-between py-1.5 border-b border-gray-100 last:border-0"
               >
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-2.5 min-w-0">
                   <span className="text-xs font-bold text-gray-400 w-4 shrink-0">{i + 1}</span>
+                  <BandeiraEstado uf={e.uf} size="sm" />
                   <span className="font-medium text-sm text-black truncate">{e.nome}</span>
                 </div>
                 <span className="font-bold text-sm text-redenec-petroleo shrink-0">
@@ -109,8 +111,9 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
                 key={e.uf}
                 className="flex items-center justify-between py-1.5 border-b border-gray-100 last:border-0"
               >
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center gap-2.5 min-w-0">
                   <span className="text-xs font-bold text-gray-400 w-4 shrink-0">{i + 1}</span>
+                  <BandeiraEstado uf={e.uf} size="sm" />
                   <span className="font-medium text-sm text-black truncate">{e.nome}</span>
                 </div>
                 <span className="font-bold text-sm text-redenec-petroleo shrink-0">
@@ -165,8 +168,9 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
                 return (
                   <div
                     key={e.uf}
-                    className="flex items-center justify-between px-3 py-2 bg-white border border-amber-200 rounded-md"
+                    className="flex items-center gap-3 px-3 py-2 bg-white border border-amber-200 rounded-md"
                   >
+                    <BandeiraEstado uf={e.uf} size="sm" />
                     <div>
                       <p className="text-sm font-medium text-amber-900">
                         {e.nomeEnte}{' '}
