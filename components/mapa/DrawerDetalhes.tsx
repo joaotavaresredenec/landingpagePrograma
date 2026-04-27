@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { X, ChevronLeft, ExternalLink, Phone, Users, MapPin, Hash, Star } from 'lucide-react'
+import { X, ChevronLeft, ExternalLink, Phone, Users, MapPin, Hash, Star, Download } from 'lucide-react'
+import { baixarCsvMunicipiosEstado } from '@/lib/mapa/exportar-municipios'
 import type { Adesao, EstatisticasEstado, MunicipioCoord, StatusGrupo, StatusAdesao } from '@/lib/mapa/tipos'
 import type { EntidadeSelecionada } from './MapaInterativo'
 import {
@@ -247,7 +248,20 @@ function DetalhesEstadoComum({
 
       {/* Abas + grid de municípios */}
       <div>
-        <h3 className="font-bold text-sm text-black mb-3">Municípios deste estado</h3>
+        <div className="flex items-center justify-between mb-3 gap-2">
+          <h3 className="font-bold text-sm text-black">Municípios deste estado</h3>
+          <button
+            type="button"
+            onClick={() => baixarCsvMunicipiosEstado(municipiosDoEstado, estado.uf, estado.nome)}
+            disabled={municipiosDoEstado.length === 0}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-redenec-petroleo border border-gray-200 rounded-md hover:border-redenec-verde hover:bg-redenec-verde/10 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde"
+            aria-label={`Exportar lista de municípios de ${estado.nome} em CSV`}
+            title="Baixa um CSV com todos os municípios agrupados por estágio (aderiu, em adesão, não iniciado)"
+          >
+            <Download size={12} aria-hidden="true" />
+            <span>Exportar CSV</span>
+          </button>
+        </div>
 
         <div className="flex border-b border-gray-200 mb-3" role="tablist">
           {ABAS.map((aba) => {
