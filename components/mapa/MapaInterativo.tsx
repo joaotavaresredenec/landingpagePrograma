@@ -24,6 +24,7 @@ import { DrawerDetalhes } from './DrawerDetalhes'
 import { Legenda } from './Legenda'
 import { PopupBoasVindas } from './PopupBoasVindas'
 import { SecaoEstrategica } from './SecaoEstrategica'
+import { CardExportarRelacao } from './CardExportarRelacao'
 
 const MapaLeaflet = dynamic(() => import('./MapaLeaflet'), {
   ssr: false,
@@ -149,6 +150,9 @@ export function MapaInterativo({
             }}
             onSelecionarDaBusca={handleSelecionarDaBusca}
           />
+
+          {/* CTA visivel para baixar relacao em PDF de qualquer estado */}
+          <CardExportarRelacao adesoes={adesoes} rankingEstados={rankingEstados} />
 
           {/* Mapa + ranking — primeiro elemento visual após a busca */}
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 mt-6">
