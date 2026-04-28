@@ -1,8 +1,11 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { X, ChevronLeft, ExternalLink, Phone, Users, MapPin, Hash, Star, Download } from 'lucide-react'
-import { baixarPdfMunicipiosEstado } from '@/lib/mapa/exportar-municipios'
+import { X, ChevronLeft, ExternalLink, Phone, Users, MapPin, Hash, Star, FileText, FileSpreadsheet } from 'lucide-react'
+import {
+  baixarPdfMunicipiosEstado,
+  baixarExcelMunicipiosEstado,
+} from '@/lib/mapa/exportar-municipios'
 import type { Adesao, EstatisticasEstado, MunicipioCoord, StatusGrupo, StatusAdesao } from '@/lib/mapa/tipos'
 import type { EntidadeSelecionada } from './MapaInterativo'
 import {
@@ -250,7 +253,7 @@ function DetalhesEstadoComum({
       <div>
         <div className="flex items-center justify-between mb-3 gap-2">
           <h3 className="font-bold text-sm text-black">Municípios deste estado</h3>
-          <ExportarRelacaoBotao
+          <ExportarRelacaoBotoes
             municipios={municipiosDoEstado}
             uf={estado.uf}
             nomeEstado={estado.nome}
@@ -506,7 +509,9 @@ function SecaoArticulacao({
   )
 }
 
-function ExportarRelacaoBotao({
+type FormatoExportacao = 'pdf' | 'excel'
+
+function ExportarRelacaoBotoes({
   municipios,
   uf,
   nomeEstado,
@@ -515,32 +520,53 @@ function ExportarRelacaoBotao({
   uf: string
   nomeEstado: string
 }) {
-  const [gerando, setGerando] = useState(false)
+  const [gerando, setGerando] = useState<FormatoExportacao | null>(null)
+  const desabilitado = municipios.length === 0 || gerando !== null
 
-  async function exportar() {
-    if (gerando || municipios.length === 0) return
-    setGerando(true)
+  async function exportar(formato: FormatoExportacao) {
+    if (desabilitado) return
+    setGerando(formato)
     try {
-      await baixarPdfMunicipiosEstado(municipios, uf, nomeEstado)
+      if (formato === 'pdf') {
+        await baixarPdfMunicipiosEstado(municipios, uf, nomeEstado)
+      } else {
+        await baixarExcelMunicipiosEstado(municipios, uf, nomeEstado)
+      }
     } catch (err) {
-      console.error('Erro ao gerar PDF da relação de municípios:', err)
+      console.error(`Erro ao gerar ${formato} da relação de municípios:`, err)
     } finally {
-      setGerando(false)
+      setGerando(null)
     }
   }
 
+  const baseClasse =
+    'inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-redenec-petroleo border border-gray-200 rounded-md hover:border-redenec-verde hover:bg-redenec-verde/10 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde whitespace-nowrap'
+
   return (
-    <button
-      type="button"
-      onClick={exportar}
-      disabled={municipios.length === 0 || gerando}
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-redenec-petroleo border border-gray-200 rounded-md hover:border-redenec-verde hover:bg-redenec-verde/10 transition disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde whitespace-normal text-left leading-tight"
-      aria-label={`Exportar relação completa de ${nomeEstado} em PDF`}
-      title="Baixa um PDF com todos os municípios agrupados por estágio (aderiu, em adesão, não iniciado)"
-    >
-      <Download size={12} aria-hidden="true" className="shrink-0" />
-      <span>{gerando ? 'Gerando PDF…' : 'Exportar relação completa do estado'}</span>
-    </button>
+    <div className="flex items-center gap-1.5 shrink-0">
+      <button
+        type="button"
+        onClick={() => exportar('pdf')}
+        disabled={desabilitado}
+        className={baseClasse}
+        aria-label={`Exportar relação completa de ${nomeEstado} em PDF`}
+        title="Baixar PDF com todos os municípios agrupados por estágio"
+      >
+        <FileText size={12} aria-hidden="true" className="shrink-0" />
+        <span>{gerando === 'pdf' ? 'Gerando…' : 'PDF'}</span>
+      </button>
+      <button
+        type="button"
+        onClick={() => exportar('excel')}
+        disabled={desabilitado}
+        className={baseClasse}
+        aria-label={`Exportar relação completa de ${nomeEstado} em Excel`}
+        title="Baixar planilha Excel com aba de resumo e lista completa"
+      >
+        <FileSpreadsheet size={12} aria-hidden="true" className="shrink-0" />
+        <span>{gerando === 'excel' ? 'Gerando…' : 'Excel'}</span>
+      </button>
+    </div>
   )
 }
 

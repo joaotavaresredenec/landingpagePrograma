@@ -1,18 +1,23 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { FileDown, Download } from 'lucide-react'
+import { FileDown, FileText, FileSpreadsheet } from 'lucide-react'
 import type { Adesao, EstatisticasEstado } from '@/lib/mapa/tipos'
-import { baixarPdfMunicipiosEstado } from '@/lib/mapa/exportar-municipios'
+import {
+  baixarPdfMunicipiosEstado,
+  baixarExcelMunicipiosEstado,
+} from '@/lib/mapa/exportar-municipios'
 
 type Props = {
   adesoes: Adesao[]
   rankingEstados: EstatisticasEstado[]
 }
 
+type FormatoExport = 'pdf' | 'excel'
+
 export function CardExportarRelacao({ adesoes, rankingEstados }: Props) {
   const [ufSelecionada, setUfSelecionada] = useState<string>('')
-  const [gerando, setGerando] = useState(false)
+  const [gerando, setGerando] = useState<FormatoExport | null>(null)
 
   // DF nao possui municipios — fica fora do select.
   const estadosOrdenados = useMemo(
@@ -29,18 +34,22 @@ export function CardExportarRelacao({ adesoes, rankingEstados }: Props) {
     [estadosOrdenados, ufSelecionada],
   )
 
-  async function exportar() {
+  async function exportar(formato: FormatoExport) {
     if (!estadoEscolhido || gerando) return
     const municipios = adesoes.filter(
       (a) => a.tipo === 'municipio' && a.uf === estadoEscolhido.uf,
     )
-    setGerando(true)
+    setGerando(formato)
     try {
-      await baixarPdfMunicipiosEstado(municipios, estadoEscolhido.uf, estadoEscolhido.nome)
+      if (formato === 'pdf') {
+        await baixarPdfMunicipiosEstado(municipios, estadoEscolhido.uf, estadoEscolhido.nome)
+      } else {
+        await baixarExcelMunicipiosEstado(municipios, estadoEscolhido.uf, estadoEscolhido.nome)
+      }
     } catch (err) {
-      console.error('Erro ao gerar PDF da relação de municípios:', err)
+      console.error(`Erro ao gerar ${formato} da relação de municípios:`, err)
     } finally {
-      setGerando(false)
+      setGerando(null)
     }
   }
 
@@ -67,7 +76,7 @@ export function CardExportarRelacao({ adesoes, rankingEstados }: Props) {
         </div>
 
         {/* Controles */}
-        <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-2 md:items-stretch">
+        <div className="flex flex-col gap-2 md:items-stretch">
           <label className="sr-only" htmlFor="card-exportar-uf">
             Selecionar estado
           </label>
@@ -75,7 +84,7 @@ export function CardExportarRelacao({ adesoes, rankingEstados }: Props) {
             id="card-exportar-uf"
             value={ufSelecionada}
             onChange={(e) => setUfSelecionada(e.target.value)}
-            className="px-3 py-2.5 rounded-lg bg-white text-redenec-petroleo text-sm font-medium border border-white/30 focus:outline-none focus:ring-2 focus:ring-redenec-verde min-w-[180px]"
+            className="px-3 py-2.5 rounded-lg bg-white text-redenec-petroleo text-sm font-medium border border-white/30 focus:outline-none focus:ring-2 focus:ring-redenec-verde min-w-[200px]"
           >
             <option value="">Selecione um estado…</option>
             {estadosOrdenados.map((e) => (
@@ -85,20 +94,37 @@ export function CardExportarRelacao({ adesoes, rankingEstados }: Props) {
             ))}
           </select>
 
-          <button
-            type="button"
-            onClick={exportar}
-            disabled={!estadoEscolhido || gerando}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-redenec-verde text-redenec-petroleo font-bold text-sm hover:brightness-95 active:brightness-90 transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-redenec-petroleo whitespace-nowrap"
-            aria-label={
-              estadoEscolhido
-                ? `Exportar relação completa de ${estadoEscolhido.nome} em PDF`
-                : 'Selecione um estado para exportar'
-            }
-          >
-            <Download size={16} aria-hidden="true" />
-            {gerando ? 'Gerando PDF…' : 'Exportar PDF'}
-          </button>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => exportar('pdf')}
+              disabled={!estadoEscolhido || gerando !== null}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-redenec-verde text-redenec-petroleo font-bold text-sm hover:brightness-95 active:brightness-90 transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-redenec-petroleo whitespace-nowrap"
+              aria-label={
+                estadoEscolhido
+                  ? `Exportar relação completa de ${estadoEscolhido.nome} em PDF`
+                  : 'Selecione um estado para exportar em PDF'
+              }
+            >
+              <FileText size={16} aria-hidden="true" />
+              {gerando === 'pdf' ? 'Gerando…' : 'PDF'}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => exportar('excel')}
+              disabled={!estadoEscolhido || gerando !== null}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white text-redenec-petroleo font-bold text-sm hover:bg-white/90 active:bg-white/80 transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-redenec-petroleo whitespace-nowrap"
+              aria-label={
+                estadoEscolhido
+                  ? `Exportar relação completa de ${estadoEscolhido.nome} em Excel`
+                  : 'Selecione um estado para exportar em Excel'
+              }
+            >
+              <FileSpreadsheet size={16} aria-hidden="true" />
+              {gerando === 'excel' ? 'Gerando…' : 'Excel'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

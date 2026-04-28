@@ -191,3 +191,90 @@ export async function baixarPdfMunicipiosEstado(
   const ymd = `${dataIso.getFullYear()}${String(dataIso.getMonth() + 1).padStart(2, '0')}${String(dataIso.getDate()).padStart(2, '0')}`
   doc.save(`adesao-pecs-${nomeArquivoSeguro(nomeEstado)}-${ymd}.pdf`)
 }
+
+export async function baixarExcelMunicipiosEstado(
+  municipios: Adesao[],
+  uf: string,
+  nomeEstado: string,
+): Promise<void> {
+  // Dynamic import: xlsx (~250KB) so carrega quando o usuario clica em exportar.
+  const XLSX = await import('xlsx')
+
+  const ordenados = [...municipios].sort((a, b) => {
+    const ordemA = ORDEM_GRUPO.indexOf(a.statusGrupo)
+    const ordemB = ORDEM_GRUPO.indexOf(b.statusGrupo)
+    if (ordemA !== ordemB) return ordemA - ordemB
+    return a.nomeEnte.localeCompare(b.nomeEnte, 'pt-BR')
+  })
+
+  const aderiuCount = municipios.filter((m) => m.statusGrupo === 'aderiu').length
+  const emAdesaoCount = municipios.filter(
+    (m) => m.statusGrupo === 'iniciou_nao_concluiu',
+  ).length
+  const naoIniciadoCount = municipios.filter(
+    (m) => m.statusGrupo === 'nao_iniciado',
+  ).length
+
+  // Aba 1 — Resumo
+  const resumoLinhas: (string | number)[][] = [
+    [`Adesão ao PECS — ${nomeEstado} (${uf})`],
+    ['Programa Educação para a Cidadania e Sustentabilidade · Portaria MEC nº 642/2025'],
+    [`Gerado em ${formatarDataHoraBR(new Date())}`],
+    [],
+    ['Estágio', 'Total'],
+    ['Aderiu', aderiuCount],
+    ['Em adesão', emAdesaoCount],
+    ['Não iniciado', naoIniciadoCount],
+    ['Total geral', municipios.length],
+    [],
+    ['Dados compartilhados via Acordo de Cooperação nº 14/2025 entre MEC e Redenec.'],
+  ]
+  const wsResumo = XLSX.utils.aoa_to_sheet(resumoLinhas)
+  wsResumo['!cols'] = [{ wch: 36 }, { wch: 14 }]
+  // Mescla titulo e linhas informativas em uma so coluna
+  wsResumo['!merges'] = [
+    { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } },
+    { s: { r: 1, c: 0 }, e: { r: 1, c: 1 } },
+    { s: { r: 2, c: 0 }, e: { r: 2, c: 1 } },
+    { s: { r: 10, c: 0 }, e: { r: 10, c: 1 } },
+  ]
+
+  // Aba 2 — Municipios completos
+  const cabecalho = [
+    'Município',
+    'UF',
+    'Código IBGE',
+    'Estágio',
+    'Status detalhado',
+    'Região',
+  ]
+  const linhasMunicipios = ordenados.map((m) => [
+    m.nomeEnte,
+    m.uf,
+    m.codigoIbge,
+    STATUS_GRUPO_LABEL[m.statusGrupo],
+    STATUS_DETALHADO_LABEL[m.status],
+    m.regiao,
+  ])
+  const wsMunicipios = XLSX.utils.aoa_to_sheet([cabecalho, ...linhasMunicipios])
+  wsMunicipios['!cols'] = [
+    { wch: 32 },
+    { wch: 5 },
+    { wch: 14 },
+    { wch: 14 },
+    { wch: 32 },
+    { wch: 14 },
+  ]
+  // Auto-filtro nas colunas (permite filtrar diretamente no Excel)
+  wsMunicipios['!autofilter'] = {
+    ref: `A1:F${linhasMunicipios.length + 1}`,
+  }
+
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, wsResumo, 'Resumo')
+  XLSX.utils.book_append_sheet(wb, wsMunicipios, 'Municípios')
+
+  const dataIso = new Date()
+  const ymd = `${dataIso.getFullYear()}${String(dataIso.getMonth() + 1).padStart(2, '0')}${String(dataIso.getDate()).padStart(2, '0')}`
+  XLSX.writeFile(wb, `adesao-pecs-${nomeArquivoSeguro(nomeEstado)}-${ymd}.xlsx`)
+}
