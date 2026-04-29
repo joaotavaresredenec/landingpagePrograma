@@ -29,9 +29,14 @@ export function Rodape() {
               {copyRodape.descricaoRedenec}
             </p>
             {/* OBC teaser */}
-            <p className="text-micro font-bold text-redenec-verde mt-2">
+            <a
+              href="https://olimpiadacidadania.com.br/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-micro font-bold text-redenec-verde mt-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde rounded-sm"
+            >
               {copyRodape.textoObc}
-            </p>
+            </a>
           </div>
 
           {/* Col 2 — Contato MEC */}

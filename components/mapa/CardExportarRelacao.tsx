@@ -42,9 +42,19 @@ export function CardExportarRelacao({ adesoes, rankingEstados }: Props) {
     setGerando(formato)
     try {
       if (formato === 'pdf') {
-        await baixarPdfMunicipiosEstado(municipios, estadoEscolhido.uf, estadoEscolhido.nome)
+        await baixarPdfMunicipiosEstado(
+          municipios,
+          estadoEscolhido.uf,
+          estadoEscolhido.nome,
+          estadoEscolhido.statusProprio,
+        )
       } else {
-        await baixarExcelMunicipiosEstado(municipios, estadoEscolhido.uf, estadoEscolhido.nome)
+        await baixarExcelMunicipiosEstado(
+          municipios,
+          estadoEscolhido.uf,
+          estadoEscolhido.nome,
+          estadoEscolhido.statusProprio,
+        )
       }
     } catch (err) {
       console.error(`Erro ao gerar ${formato} da relação de municípios:`, err)
@@ -126,6 +136,25 @@ export function CardExportarRelacao({ adesoes, rankingEstados }: Props) {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Faixa de rodapé: material de orientação institucional */}
+      <div className="px-5 md:px-6 py-3 bg-black/20 border-t border-white/10 flex items-center justify-between gap-3 flex-wrap">
+        <p className="text-xs text-white/85 leading-snug">
+          <span className="font-bold text-white">Material de orientação às redes:</span>{' '}
+          guia oficial sobre como aderir ao PECS.
+        </p>
+        <a
+          href="/Guia PECS — Como aderir · Redenec.pdf"
+          download
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white text-redenec-petroleo text-xs font-bold hover:brightness-95 active:brightness-90 transition focus:outline-none focus:ring-2 focus:ring-redenec-verde focus:ring-offset-2 focus:ring-offset-redenec-petroleo whitespace-nowrap shrink-0"
+          aria-label="Baixar Material de orientação às redes em PDF"
+        >
+          <FileDown size={14} aria-hidden="true" />
+          Baixar PDF
+        </a>
       </div>
     </div>
   )

@@ -28,6 +28,19 @@ const COR_POR_GRUPO: Record<StatusGrupo, [number, number, number]> = {
   nao_iniciado: COR_CORAL,
 }
 
+const ROTULO_ADESAO_ESTADO: Record<StatusGrupo, string> = {
+  aderiu: 'Estado aderido ao Programa',
+  iniciou_nao_concluiu: 'Estado em processo de adesão',
+  nao_iniciado: 'Estado ainda não aderiu ao Programa',
+}
+
+// Texto da pílula: branco sobre azul (contraste), petróleo sobre verde/coral
+const COR_TEXTO_PILULA: Record<StatusGrupo, [number, number, number]> = {
+  aderiu: COR_PETROLEO,
+  iniciou_nao_concluiu: [255, 255, 255],
+  nao_iniciado: COR_PETROLEO,
+}
+
 function nomeArquivoSeguro(nomeEstado: string): string {
   return nomeEstado
     .normalize('NFD')
@@ -49,6 +62,7 @@ export async function baixarPdfMunicipiosEstado(
   municipios: Adesao[],
   uf: string,
   nomeEstado: string,
+  statusEstado: StatusGrupo,
 ): Promise<void> {
   // Dynamic import: evita inflar o bundle inicial — jspdf só carrega quando
   // o usuário clica para exportar.
@@ -81,6 +95,29 @@ export async function baixarPdfMunicipiosEstado(
   )
   doc.text(`Gerado em ${formatarDataHoraBR(new Date())}`, margemX, 36)
 
+  // Pílula com status de adesão do estado
+  const rotuloAdesao = ROTULO_ADESAO_ESTADO[statusEstado]
+  const corPilula = COR_POR_GRUPO[statusEstado]
+  const corTextoPilula = COR_TEXTO_PILULA[statusEstado]
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(10)
+  const larguraTexto = doc.getTextWidth(rotuloAdesao)
+  const paddingX = 4
+  const paddingY = 1.8
+  const alturaPilula = 6.5
+  doc.setFillColor(...corPilula)
+  doc.roundedRect(
+    margemX,
+    40,
+    larguraTexto + paddingX * 2,
+    alturaPilula,
+    1.5,
+    1.5,
+    'F',
+  )
+  doc.setTextColor(...corTextoPilula)
+  doc.text(rotuloAdesao, margemX + paddingX, 40 + alturaPilula - paddingY)
+
   // Resumo de contagens
   const grupos: Record<StatusGrupo, Adesao[]> = {
     aderiu: [],
@@ -102,16 +139,16 @@ export async function baixarPdfMunicipiosEstado(
   doc.setTextColor(...COR_PETROLEO)
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(10)
-  doc.text(resumoLinhas[0], margemX, 46)
+  doc.text(resumoLinhas[0], margemX, 54)
   doc.setFont('helvetica', 'normal')
-  doc.text(resumoLinhas[1], margemX, 51)
+  doc.text(resumoLinhas[1], margemX, 59)
 
   // Linha separadora
   doc.setDrawColor(220, 220, 220)
-  doc.line(margemX, 55, larguraPagina - margemX, 55)
+  doc.line(margemX, 63, larguraPagina - margemX, 63)
 
   // Renderiza uma tabela por grupo (somente se houver municípios)
-  let posY = 60
+  let posY = 68
   for (const grupo of ORDEM_GRUPO) {
     const lista = grupos[grupo]
     if (lista.length === 0) continue
@@ -196,6 +233,7 @@ export async function baixarExcelMunicipiosEstado(
   municipios: Adesao[],
   uf: string,
   nomeEstado: string,
+  statusEstado: StatusGrupo,
 ): Promise<void> {
   // Dynamic import: xlsx (~250KB) so carrega quando o usuario clica em exportar.
   const XLSX = await import('xlsx')
@@ -220,6 +258,7 @@ export async function baixarExcelMunicipiosEstado(
     [`Adesão ao PECS — ${nomeEstado} (${uf})`],
     ['Programa Educação para a Cidadania e Sustentabilidade · Portaria MEC nº 642/2025'],
     [`Gerado em ${formatarDataHoraBR(new Date())}`],
+    [`Situação do estado: ${ROTULO_ADESAO_ESTADO[statusEstado]}`],
     [],
     ['Estágio', 'Total'],
     ['Aderiu', aderiuCount],
@@ -236,7 +275,8 @@ export async function baixarExcelMunicipiosEstado(
     { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } },
     { s: { r: 1, c: 0 }, e: { r: 1, c: 1 } },
     { s: { r: 2, c: 0 }, e: { r: 2, c: 1 } },
-    { s: { r: 10, c: 0 }, e: { r: 10, c: 1 } },
+    { s: { r: 3, c: 0 }, e: { r: 3, c: 1 } },
+    { s: { r: 11, c: 0 }, e: { r: 11, c: 1 } },
   ]
 
   // Aba 2 — Municipios completos

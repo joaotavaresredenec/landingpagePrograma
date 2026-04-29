@@ -257,6 +257,7 @@ function DetalhesEstadoComum({
             municipios={municipiosDoEstado}
             uf={estado.uf}
             nomeEstado={estado.nome}
+            statusEstado={estado.statusProprio}
           />
         </div>
 
@@ -515,10 +516,12 @@ function ExportarRelacaoBotoes({
   municipios,
   uf,
   nomeEstado,
+  statusEstado,
 }: {
   municipios: Adesao[]
   uf: string
   nomeEstado: string
+  statusEstado: StatusGrupo
 }) {
   const [gerando, setGerando] = useState<FormatoExportacao | null>(null)
   const desabilitado = municipios.length === 0 || gerando !== null
@@ -528,9 +531,9 @@ function ExportarRelacaoBotoes({
     setGerando(formato)
     try {
       if (formato === 'pdf') {
-        await baixarPdfMunicipiosEstado(municipios, uf, nomeEstado)
+        await baixarPdfMunicipiosEstado(municipios, uf, nomeEstado, statusEstado)
       } else {
-        await baixarExcelMunicipiosEstado(municipios, uf, nomeEstado)
+        await baixarExcelMunicipiosEstado(municipios, uf, nomeEstado, statusEstado)
       }
     } catch (err) {
       console.error(`Erro ao gerar ${formato} da relação de municípios:`, err)
