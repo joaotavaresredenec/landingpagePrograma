@@ -11,12 +11,30 @@ const BASE_URL = 'https://cidadaniaesustentabilidade.com.br'
 const jsonLd = [
   {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': 'EducationalOrganization',
     name: 'Rede Nacional de Educação Cidadã (Redenec)',
     alternateName: 'Redenec',
     url: BASE_URL,
-    description: 'Organização da sociedade civil parceira institucional do MEC no âmbito do Programa Educação para a Cidadania e Sustentabilidade (PECS).',
+    logo: `${BASE_URL}/logos/rede_nec_vetor-01.png`,
+    description: 'Organização da sociedade civil parceira institucional do MEC no âmbito do Programa Educação para a Cidadania e Sustentabilidade (PECS), instituído pela Portaria MEC nº 642/2025.',
+    address: { '@type': 'PostalAddress', addressCountry: 'BR' },
     sameAs: ['https://www.gov.br/mec/pt-br/programa-educacao-cidadania-sustentabilidade'],
+    subjectOf: {
+      '@type': 'GovernmentService',
+      name: 'Programa Educação para a Cidadania e Sustentabilidade (PECS)',
+      description: 'Programa do Ministério da Educação para fortalecer a educação cidadã e a sustentabilidade nas redes públicas brasileiras.',
+      serviceType: 'Programa Educacional',
+      provider: {
+        '@type': 'GovernmentOrganization',
+        name: 'Ministério da Educação',
+        url: 'https://www.gov.br/mec',
+      },
+      legislation: {
+        '@type': 'Legislation',
+        name: 'Portaria MEC nº 642 de 2025',
+        datePublished: '2025',
+      },
+    },
   },
   {
     '@context': 'https://schema.org',
