@@ -167,7 +167,12 @@
     "links": [
       {
         "rotulo": "Caderno do Aluno",
-        "url": "https://drive.google.com/file/d/1b2f2NModtmn6q5CQdXizcAmArjaTQRRX/view?usp=drive_link",
+        "url": "https://drive.google.com/file/d/1NeMF9Gw784U32dqKGLtqRNsjH_5ve7ts/view",
+        "tipo": "url"
+      },
+      {
+        "rotulo": "Caderno do Professor",
+        "url": "https://drive.google.com/file/d/1JWCjDny7h5A_xFvBWNJHYV9cJnuNgFj1/view",
         "tipo": "url"
       }
     ],
@@ -201,7 +206,12 @@
     "links": [
       {
         "rotulo": "Caderno do Aluno",
-        "url": "https://drive.google.com/file/d/1wgy6OI-OpBTIfVWVjblR1CGjfvsNo4Iq/view?usp=drive_link",
+        "url": "https://drive.google.com/file/d/1B7xLGt8P2Nx6ehDwhdyDFnW7FvS8hBeR/view",
+        "tipo": "url"
+      },
+      {
+        "rotulo": "Caderno do Professor",
+        "url": "https://drive.google.com/file/d/1a7T_vDMFfPX1Ep8HbTQKH7HyMhvqjOts/view",
         "tipo": "url"
       }
     ],
@@ -235,7 +245,12 @@
     "links": [
       {
         "rotulo": "Caderno do Aluno",
-        "url": "https://drive.google.com/file/d/1LXnOTPxt4RzTX0-qJocnb2m86TFbGeze/view?usp=drive_link",
+        "url": "https://drive.google.com/file/d/1Sfp0Ir1VDW5EXhN6dITH0c_GyjK-59wM/view",
+        "tipo": "url"
+      },
+      {
+        "rotulo": "Caderno do Professor",
+        "url": "https://drive.google.com/file/d/1OkCUFU9uVMjH_hFhaWM4AADOtKMp2fNl/view",
         "tipo": "url"
       }
     ],
@@ -269,7 +284,12 @@
     "links": [
       {
         "rotulo": "Caderno do Aluno",
-        "url": "https://drive.google.com/file/d/1G6Q458SjEz5UqAO8jT71pIJQs09VN6XP/view?usp=drive_link",
+        "url": "https://drive.google.com/file/d/14ijcCkJWf2RY2dUkEn_qD6abYuJ0M92m/view",
+        "tipo": "url"
+      },
+      {
+        "rotulo": "Caderno do Professor",
+        "url": "https://drive.google.com/file/d/1yaC0isTTUVuVYGsgOs1XlNDbS6cQr29d/view",
         "tipo": "url"
       }
     ],
@@ -303,7 +323,12 @@
     "links": [
       {
         "rotulo": "Caderno do Aluno",
-        "url": "https://drive.google.com/file/d/16Hc6Ss97melbqWUhM9Z1kqDDUGQ5Z3jb/view?usp=drive_link",
+        "url": "https://drive.google.com/file/d/1bVDVrsYzDbC7QwvIAF_NtyAAdLqhAhfd/view",
+        "tipo": "url"
+      },
+      {
+        "rotulo": "Caderno do Professor",
+        "url": "https://drive.google.com/file/d/1qJEvPQ1CDf4irYLTf7ttL3InXfIMjsT5/view",
         "tipo": "url"
       }
     ],
@@ -337,7 +362,12 @@
     "links": [
       {
         "rotulo": "Caderno do Aluno",
-        "url": "https://drive.google.com/file/d/1JFsWv0K1AyMQoWLgyN5wclZtj05bXrRu/view?usp=drive_link",
+        "url": "https://drive.google.com/file/d/1KMS8HIpwl-F16MyDxRymz94PVt0Tl37m/view",
+        "tipo": "url"
+      },
+      {
+        "rotulo": "Caderno do Professor",
+        "url": "https://drive.google.com/file/d/1bLgOB2JEG-tvn4BpMzU9Biy2V9gyt1Bg/view",
         "tipo": "url"
       }
     ],
@@ -437,8 +467,8 @@
     "licenca": "CC BY-NC-SA",
     "links": [
       {
-        "rotulo": "Acessar",
-        "url": "https://drive.google.com/file/d/1qyMJ3R7y6fS2GFUHZX7RlsT2JomClXbh/view?usp=drive_link",
+        "rotulo": "Caderno do Professor",
+        "url": "https://drive.google.com/file/d/1gis-_yY41rLdr4eeVaOQIZFB9KL3HEpn/view",
         "tipo": "url"
       }
     ],
