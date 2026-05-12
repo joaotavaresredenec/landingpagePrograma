@@ -24,3 +24,6 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Backup de capas originais (PNGs ~2MB cada — preservados localmente, fora do repo)
+public/logos/capas/_originais/

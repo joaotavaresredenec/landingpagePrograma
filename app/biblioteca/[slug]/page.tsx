@@ -72,7 +72,12 @@ export default async function MaterialPage({
 
           {/* Header card with thumbnail */}
           <div className="mb-8 rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden">
-            <MaterialThumbnail organizacao={material.organizacao} tipo={material.tipo} id={material.id} />
+            <MaterialThumbnail
+              organizacao={material.organizacao}
+              tipo={material.tipo}
+              id={material.id}
+              titulo={material.tituloEditorial}
+            />
             <div className="p-6">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-micro font-bold text-redenec-petroleo bg-redenec-cinza rounded-pill px-3 py-1">

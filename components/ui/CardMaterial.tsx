@@ -13,7 +13,12 @@ export function CardMaterial({ material }: { material: Material }) {
   return (
     <article className="flex flex-col rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden h-full hover:shadow-md transition-shadow">
 
-      <MaterialThumbnail organizacao={material.organizacao} tipo={material.tipo} id={material.id} />
+      <MaterialThumbnail
+        organizacao={material.organizacao}
+        tipo={material.tipo}
+        id={material.id}
+        titulo={material.tituloEditorial}
+      />
 
       <div className="flex flex-col gap-3 flex-1 p-5">
         <div className="flex items-center justify-between gap-2">

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { FileText, BookOpen, Play, Gamepad2, type LucideIcon } from 'lucide-react'
 import type { TipoRecurso } from '@/types/material'
 import { THUMBNAIL_PHOTOS } from '@/config/thumbnails'
+import { CAPAS_LOCAIS } from '@/config/capas'
 
 type Palette = { bg: string; accent: string; mid: string }
 
@@ -60,15 +61,40 @@ export function MaterialThumbnail({
   organizacao,
   tipo,
   id,
+  titulo,
 }: {
   organizacao: string
   tipo: TipoRecurso
   id: string
+  titulo?: string
 }) {
   const p = ORG_PALETTES[organizacao] ?? DEFAULT_PALETTE
-  const Icon = TIPO_ICON[tipo] ?? FileText
-  const orgShort = organizacao.replace('Instituto ', 'Inst. ').replace(' para a Prevenção do Genocídio e Atrocidades Massivas', '')
+  const capaLocal = CAPAS_LOCAIS[id]
   const photoId = THUMBNAIL_PHOTOS[id]
+  const altText = titulo ? `Capa do material: ${titulo}` : `Capa: ${organizacao}`
+
+  if (capaLocal) {
+    return (
+      <div
+        className="relative w-full overflow-hidden rounded-t-2xl select-none"
+        style={{ height: 156, background: p.bg }}
+      >
+        <Image
+          src={`/logos/capas/optimized/thumb/${capaLocal}.webp`}
+          alt={altText}
+          fill
+          className="object-cover"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+
+  const Icon = TIPO_ICON[tipo] ?? FileText
+  const orgShort = organizacao
+    .replace('Instituto ', 'Inst. ')
+    .replace(' para a Prevenção do Genocídio e Atrocidades Massivas', '')
 
   return (
     <div
@@ -76,7 +102,6 @@ export function MaterialThumbnail({
       style={{ height: 156, background: p.bg }}
       aria-hidden="true"
     >
-      {/* Background photo */}
       {photoId && (
         <Image
           src={`https://images.unsplash.com/photo-${photoId}?w=600&q=70&auto=format&fit=crop`}
@@ -84,16 +109,15 @@ export function MaterialThumbnail({
           fill
           className="object-cover"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading="lazy"
         />
       )}
 
-      {/* Org color overlay — tints the photo with brand identity */}
       <div
         className="absolute inset-0"
         style={{ background: p.bg, opacity: photoId ? 0.72 : 1 }}
       />
 
-      {/* Circle 1 — large, top-right */}
       <div
         className="absolute rounded-full"
         style={{
@@ -102,10 +126,9 @@ export function MaterialThumbnail({
           right: -70,
           top: -80,
           background: p.accent,
-          opacity: 0.10,
+          opacity: 0.1,
         }}
       />
-      {/* Circle 2 — medium, bottom-left */}
       <div
         className="absolute rounded-full"
         style={{
@@ -117,7 +140,6 @@ export function MaterialThumbnail({
           opacity: 0.25,
         }}
       />
-      {/* Circle 3 — small accent dot, bottom-right */}
       <div
         className="absolute rounded-full"
         style={{
@@ -129,7 +151,6 @@ export function MaterialThumbnail({
           opacity: 0.35,
         }}
       />
-      {/* Circle 4 — tiny, top-left */}
       <div
         className="absolute rounded-full"
         style={{
@@ -142,7 +163,6 @@ export function MaterialThumbnail({
         }}
       />
 
-      {/* Center icon container */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div
           className="flex items-center justify-center rounded-2xl"
@@ -157,7 +177,6 @@ export function MaterialThumbnail({
         </div>
       </div>
 
-      {/* Bottom strip — org name */}
       <div
         className="absolute bottom-0 left-0 right-0 px-4 py-2"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65), transparent)' }}
