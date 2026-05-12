@@ -77,13 +77,13 @@ export function MaterialThumbnail({
     return (
       <div
         className="relative w-full overflow-hidden rounded-t-2xl select-none"
-        style={{ height: 156, background: p.bg }}
+        style={{ aspectRatio: '3/2', background: p.bg }}
       >
         <Image
           src={`/logos/capas/optimized/thumb/${capaLocal}.webp`}
           alt={altText}
           fill
-          className="object-cover"
+          className="object-cover object-left-top"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           loading="lazy"
         />
@@ -99,7 +99,7 @@ export function MaterialThumbnail({
   return (
     <div
       className="relative w-full overflow-hidden rounded-t-2xl select-none"
-      style={{ height: 156, background: p.bg }}
+      style={{ aspectRatio: '3/2', background: p.bg }}
       aria-hidden="true"
     >
       {photoId && (
@@ -107,7 +107,7 @@ export function MaterialThumbnail({
           src={`https://images.unsplash.com/photo-${photoId}?w=600&q=70&auto=format&fit=crop`}
           alt=""
           fill
-          className="object-cover"
+          className="object-cover object-left-top"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           loading="lazy"
         />
