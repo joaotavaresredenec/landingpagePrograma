@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "gerar-og": "node scripts/gerar-og.mjs"
   },
   "dependencies": {
     "@getbrevo/brevo": "^5.0.4",
@@ -26,6 +27,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/leaflet": "^1.9.21",
     "@types/node": "^20",
     "@types/papaparse": "^5.5.2",
@@ -38,6 +40,7 @@
     "postcss": "^8",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
+    "satori": "^0.26.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

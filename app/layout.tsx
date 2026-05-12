@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/opengraph-image',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Programa Educação para a Cidadania e Sustentabilidade | Redenec',
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     title: 'Programa Educação para a Cidadania e Sustentabilidade | Redenec',
     description:
       'Materiais e orientações práticas para secretarias e escolas que aderiram ao PECS do MEC.',
-    images: ['/opengraph-image'],
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
