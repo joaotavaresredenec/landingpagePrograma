@@ -2,8 +2,9 @@
 
 import React, { useState, useMemo, useId } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Search, X, Printer, LogOut } from 'lucide-react'
+import { Search, X, Printer, LogOut, Upload, ArrowRight } from 'lucide-react'
 import { CardMaterial } from '@/components/ui/CardMaterial'
 import { CuradoriaDisclaimer } from '@/components/ui/CuradoriaDisclaimer'
 import { ModalAviso } from '@/components/ui/ModalAviso'
@@ -180,6 +181,29 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
 
         {/* Hero institucional */}
         <HeroBiblioteca primeiroNome={primeiroNome} />
+
+        {/* Convite para contribuir com novos materiais */}
+        <Link
+          href="/submeter"
+          className="mb-6 group flex flex-col items-start gap-4 rounded-2xl border-2 border-dashed border-redenec-petroleo/30 bg-white p-5 transition-colors hover:border-redenec-petroleo hover:bg-redenec-petroleo/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde sm:flex-row sm:items-center"
+        >
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-redenec-verde/15 text-redenec-petroleo transition-colors group-hover:bg-redenec-verde/30">
+            <Upload size={20} aria-hidden="true" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-bold text-redenec-petroleo">
+              Contribuir com um Material
+            </p>
+            <p className="mt-0.5 text-xs text-gray-500">
+              Compartilhe recursos educativos com educadores de todo o Brasil.
+            </p>
+          </div>
+          <ArrowRight
+            size={18}
+            aria-hidden="true"
+            className="hidden shrink-0 text-redenec-petroleo/60 transition-transform group-hover:translate-x-1 sm:block"
+          />
+        </Link>
 
         {/* Busca */}
         <div className="mb-6">
