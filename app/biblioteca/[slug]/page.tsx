@@ -2,17 +2,10 @@ import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ExternalLink, CheckCircle2 } from 'lucide-react'
 import type { Metadata } from 'next'
-import materialsData from '@/config/materials.json'
 import { TIPOS_RECURSO, ETAPAS_ENSINO, TEMAS_BNCC } from '@/config/taxonomia'
 import { MaterialThumbnail } from '@/components/ui/MaterialThumbnail'
 import { obterSessao } from '@/lib/sessao'
-import type { Material } from '@/types/material'
-
-const materials = materialsData as Material[]
-
-function getMaterial(slug: string): Material | undefined {
-  return materials.find((m) => m.id === slug)
-}
+import { getMaterial } from '@/lib/materiais'
 
 export async function generateMetadata({
   params,
@@ -20,7 +13,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }> | { slug: string }
 }): Promise<Metadata> {
   const { slug } = 'then' in params ? await params : params
-  const material = getMaterial(slug)
+  const material = await getMaterial(slug)
   if (!material) return {}
   return {
     title: `${material.tituloEditorial} — Biblioteca Redenec`,
@@ -35,7 +28,7 @@ export default async function MaterialPage({
   params: Promise<{ slug: string }> | { slug: string }
 }) {
   const { slug } = 'then' in params ? await params : params
-  const material = getMaterial(slug)
+  const material = await getMaterial(slug)
 
   if (!material) notFound()
 
@@ -87,7 +80,7 @@ export default async function MaterialPage({
               <h1 className="text-h2-mobile lg:text-[32px] font-bold text-black mb-1 leading-snug">
                 {material.tituloEditorial}
               </h1>
-              <p className="text-body text-gray-500">{material.organizacao}</p>
+              <p className="text-body text-redenec-petroleo/60">{material.organizacao}</p>
             </div>
           </div>
 

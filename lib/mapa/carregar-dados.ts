@@ -5,59 +5,86 @@ import type { Adesao, MunicipioCoord, StatusGrupo, StatusAdesao, Regiao } from '
 import { CODIGO_BRASILIA_MUNICIPIO } from './tipos'
 
 // Regra de negócio: "Em análise do MEC" é etapa burocrática — a decisão
-// institucional de aderir já foi tomada. Portanto ela conta como adesão efetiva.
-//   finalizado        -> aderiu
-//   em_analise        -> aderiu  (etapa formal pós-decisão)
-//   em_cadastramento  -> iniciou_nao_concluiu
-//   nao_iniciado      -> nao_iniciado
-//
-// A coluna `status_grupo` do CSV é ignorada — usamos `status` para derivar
-// o grupo, já que o CSV agrupava em_analise junto de em_cadastramento.
+// institucional de aderir já foi tomada. Portanto conta como adesão efetiva.
+// As 3 categorias visuais (cores no mapa, legenda, drawer) são preservadas:
+//   finalizado / em_analise   -> aderiu                 (verde)
+//   em_cadastramento          -> iniciou_nao_concluiu   (azul)
+//   nao_iniciado              -> nao_iniciado           (cinza)
 function deriveStatusGrupo(status: StatusAdesao): StatusGrupo {
   if (status === 'finalizado' || status === 'em_analise') return 'aderiu'
   if (status === 'em_cadastramento') return 'iniciou_nao_concluiu'
   return 'nao_iniciado'
 }
 
+// Vocabulário externo (JSON-fonte) -> vocabulário interno (StatusAdesao).
 function normalizarStatus(statusRaw: string): StatusAdesao {
   const s = (statusRaw || '').trim().toLowerCase()
-  if (s === 'finalizado') return 'finalizado'
-  if (s === 'em_analise') return 'em_analise'
+  if (s === 'processo_finalizado' || s === 'finalizado') return 'finalizado'
+  if (s === 'em_analise_mec' || s === 'em_analise') return 'em_analise'
   if (s === 'em_cadastramento') return 'em_cadastramento'
   return 'nao_iniciado'
 }
 
-type AdesaoRow = {
-  codigo_ibge: string
-  tipo: string
-  nome_ente: string
+const UF_NOMES: Record<string, string> = {
+  AC: 'Acre', AL: 'Alagoas', AP: 'Amapá', AM: 'Amazonas',
+  BA: 'Bahia', CE: 'Ceará', DF: 'Distrito Federal',
+  ES: 'Espírito Santo', GO: 'Goiás', MA: 'Maranhão',
+  MT: 'Mato Grosso', MS: 'Mato Grosso do Sul', MG: 'Minas Gerais',
+  PA: 'Pará', PB: 'Paraíba', PR: 'Paraná', PE: 'Pernambuco',
+  PI: 'Piauí', RJ: 'Rio de Janeiro', RN: 'Rio Grande do Norte',
+  RS: 'Rio Grande do Sul', RO: 'Rondônia', RR: 'Roraima',
+  SC: 'Santa Catarina', SP: 'São Paulo', SE: 'Sergipe',
+  TO: 'Tocantins',
+}
+
+const REGIAO_POR_UF: Record<string, Regiao> = {
+  AC: 'Norte', AM: 'Norte', AP: 'Norte', PA: 'Norte', RO: 'Norte', RR: 'Norte', TO: 'Norte',
+  AL: 'Nordeste', BA: 'Nordeste', CE: 'Nordeste', MA: 'Nordeste',
+  PB: 'Nordeste', PE: 'Nordeste', PI: 'Nordeste', RN: 'Nordeste', SE: 'Nordeste',
+  DF: 'Centro-Oeste', GO: 'Centro-Oeste', MT: 'Centro-Oeste', MS: 'Centro-Oeste',
+  ES: 'Sudeste', MG: 'Sudeste', RJ: 'Sudeste', SP: 'Sudeste',
+  PR: 'Sul', RS: 'Sul', SC: 'Sul',
+}
+
+type AdesaoJson = {
+  cod_ibge: string
   uf: string
-  regiao: string
+  municipio: string | null
+  esfera: 'municipal' | 'estadual'
+  resposta: 'sim' | 'nao' | 'nao_respondido'
+  data_aceite: string | null
   status: string
-  status_grupo: string
+}
+
+async function lerJson<T>(arquivo: string): Promise<T> {
+  const filePath = path.join(process.cwd(), 'public', 'geodata', arquivo)
+  return JSON.parse(await readFile(filePath, 'utf-8')) as T
+}
+
+function rowToAdesao(row: AdesaoJson): Adesao {
+  const tipo: 'estado' | 'municipio' =
+    row.esfera === 'estadual' ? 'estado' : 'municipio'
+  const status = normalizarStatus(row.status)
+  const nomeEnte =
+    tipo === 'estado' ? (UF_NOMES[row.uf] ?? row.uf) : (row.municipio ?? '')
+  return {
+    codigoIbge: String(row.cod_ibge).trim(),
+    tipo,
+    nomeEnte,
+    uf: row.uf,
+    regiao: REGIAO_POR_UF[row.uf] ?? 'Centro-Oeste',
+    status,
+    statusGrupo: deriveStatusGrupo(status),
+  }
 }
 
 export async function carregarAdesoes(): Promise<Adesao[]> {
-  const filePath = path.join(process.cwd(), 'public', 'geodata', 'adesoes-pecs.csv')
-  const csv = await readFile(filePath, 'utf-8')
-  const { data } = Papa.parse<AdesaoRow>(csv, {
-    header: true,
-    skipEmptyLines: true,
-  })
-  return data
-    .filter((r) => r.codigo_ibge && r.tipo)
-    .map((row) => {
-      const status = normalizarStatus(row.status)
-      return {
-        codigoIbge: String(row.codigo_ibge).trim(),
-        tipo: row.tipo === 'estado' ? ('estado' as const) : ('municipio' as const),
-        nomeEnte: row.nome_ente,
-        uf: row.uf,
-        regiao: row.regiao as Regiao,
-        status,
-        statusGrupo: deriveStatusGrupo(status),
-      }
-    })
+  const [estaduais, municipios] = await Promise.all([
+    lerJson<AdesaoJson[]>('adesoes-estaduais.json'),
+    lerJson<AdesaoJson[]>('adesoes-municipios.json'),
+  ])
+  return [...estaduais, ...municipios]
+    .map(rowToAdesao)
     // Remove Brasília como "município" — é capital/UF, não município autônomo
     .filter((a) => !(a.tipo === 'municipio' && a.codigoIbge === CODIGO_BRASILIA_MUNICIPIO))
 }

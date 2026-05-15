@@ -11,7 +11,10 @@
     "gerar-og": "node scripts/gerar-og.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.95.2",
     "@getbrevo/brevo": "^5.0.4",
+    "@supabase/supabase-js": "^2.105.1",
+    "@vercel/blob": "^2.3.3",
     "clsx": "^2.1.1",
     "ioredis": "^5.3.2",
     "jose": "^6.2.2",

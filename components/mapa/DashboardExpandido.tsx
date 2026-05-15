@@ -22,7 +22,9 @@ const ALUNOS_REDES_NAO_INICIADAS: Record<string, { alunos: string; numerico: num
 function calcularPorRegiao(adesoes: Adesao[]) {
   return REGIOES.map((regiao) => {
     const municipios = adesoes.filter((a) => a.tipo === 'municipio' && a.regiao === regiao)
-    const aderidos = municipios.filter((m) => m.statusGrupo === 'aderiu').length
+    // Conta broad: aderiu (em_analise + finalizado) + em_cadastramento.
+    // Bate com a KPI nacional de "Municípios em movimento" (3.484 / 62,5%).
+    const aderidos = municipios.filter((m) => m.statusGrupo !== 'nao_iniciado').length
     const total = municipios.length
     const pct = total > 0 ? (aderidos / total) * 100 : 0
     return { regiao, aderidos, total, percentual: pct }
@@ -36,9 +38,18 @@ function formatarTotalAlunos(total: number): string {
 
 export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapitais }: Props) {
   const porRegiao = calcularPorRegiao(adesoes)
-  const top10Absoluto = [...rankingEstados].sort((a, b) => b.aderidos - a.aderidos).slice(0, 10)
-  const top10Percentual = [...rankingEstados]
+  // "Em movimento" = aderiu + iniciou_nao_concluiu (em_cadastramento) — consistente com a KPI principal
+  const rankingBroad = rankingEstados.map((e) => ({
+    ...e,
+    aderidosAmplo: e.aderidos + e.iniciouNaoConcluiu,
+    percentualAmplo: e.percentualComMovimento,
+  }))
+  const top10Absoluto = [...rankingBroad]
+    .sort((a, b) => b.aderidosAmplo - a.aderidosAmplo)
+    .slice(0, 10)
+  const top10Percentual = [...rankingBroad]
     .filter((e) => e.totalMunicipios > 50)
+    .sort((a, b) => b.percentualAmplo - a.percentualAmplo)
     .slice(0, 10)
 
   const estadosComoUF = adesoes.filter((a) => a.tipo === 'estado')
@@ -79,7 +90,7 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
         <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
           <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
             <Medal size={16} className="text-redenec-verde" aria-hidden="true" />
-            Top 10 — municípios aderidos (absoluto)
+            Top 10 — municípios em movimento (absoluto)
           </h3>
           <div className="space-y-1 max-h-[320px] overflow-y-auto">
             {top10Absoluto.map((e, i) => (
@@ -93,7 +104,7 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
                   <span className="font-medium text-sm text-black truncate">{e.nome}</span>
                 </div>
                 <span className="font-bold text-sm text-redenec-petroleo shrink-0">
-                  {e.aderidos.toLocaleString('pt-BR')}
+                  {e.aderidosAmplo.toLocaleString('pt-BR')}
                 </span>
               </div>
             ))}
@@ -117,7 +128,7 @@ export function DashboardExpandido({ adesoes, rankingEstados, estatisticasCapita
                   <span className="font-medium text-sm text-black truncate">{e.nome}</span>
                 </div>
                 <span className="font-bold text-sm text-redenec-petroleo shrink-0">
-                  {e.percentualAderido.toFixed(1)}%
+                  {e.percentualAmplo.toFixed(1)}%
                 </span>
               </div>
             ))}

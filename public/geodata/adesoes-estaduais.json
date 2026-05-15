@@ -1,0 +1,245 @@
+[
+  {
+    "cod_ibge": "12",
+    "uf": "AC",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-24 15:57:41",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "27",
+    "uf": "AL",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-20 17:05:18",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "13",
+    "uf": "AM",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-23 15:07:20",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "16",
+    "uf": "AP",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-16 09:19:13",
+    "status": "em_cadastramento"
+  },
+  {
+    "cod_ibge": "29",
+    "uf": "BA",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-22 16:54:53",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "23",
+    "uf": "CE",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-16 14:09:05",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "53",
+    "uf": "DF",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-16 16:30:30",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "32",
+    "uf": "ES",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "nao_respondido",
+    "data_aceite": null,
+    "status": "nao_iniciado"
+  },
+  {
+    "cod_ibge": "52",
+    "uf": "GO",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-31 14:30:11",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "21",
+    "uf": "MA",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-08 15:35:27",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "31",
+    "uf": "MG",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "nao_respondido",
+    "data_aceite": null,
+    "status": "nao_iniciado"
+  },
+  {
+    "cod_ibge": "50",
+    "uf": "MS",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-15 18:09:32",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "51",
+    "uf": "MT",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-05-06 17:51:06",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "15",
+    "uf": "PA",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-27 17:55:43",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "25",
+    "uf": "PB",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-24 09:46:06",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "26",
+    "uf": "PE",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-18 15:36:44",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "22",
+    "uf": "PI",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-30 11:09:59",
+    "status": "em_cadastramento"
+  },
+  {
+    "cod_ibge": "41",
+    "uf": "PR",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-14 17:26:28",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "33",
+    "uf": "RJ",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-19 18:26:56",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "24",
+    "uf": "RN",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-17 13:46:11",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "11",
+    "uf": "RO",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-09 09:17:58",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "14",
+    "uf": "RR",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "nao_respondido",
+    "data_aceite": null,
+    "status": "nao_iniciado"
+  },
+  {
+    "cod_ibge": "43",
+    "uf": "RS",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-10 15:53:59",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "42",
+    "uf": "SC",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-09 14:18:08",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "28",
+    "uf": "SE",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-03-19 16:09:07",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "35",
+    "uf": "SP",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-15 15:31:48",
+    "status": "em_analise_mec"
+  },
+  {
+    "cod_ibge": "17",
+    "uf": "TO",
+    "municipio": null,
+    "esfera": "estadual",
+    "resposta": "sim",
+    "data_aceite": "2026-04-10 11:25:13",
+    "status": "em_analise_mec"
+  }
+]

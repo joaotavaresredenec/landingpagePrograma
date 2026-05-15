@@ -1,0 +1,514 @@
+{
+  "por_uf": {
+    "AC": {
+      "uf": "AC",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-24 15:57:41"
+      },
+      "total_municipios": 22,
+      "municipios_aderiram": 18,
+      "municipios_nao_iniciados": 4,
+      "percentual_adesao": 81.8,
+      "por_status": {
+        "em_analise_mec": 16,
+        "em_cadastramento": 2,
+        "processo_finalizado": 0,
+        "nao_iniciado": 4
+      }
+    },
+    "AL": {
+      "uf": "AL",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-20 17:05:18"
+      },
+      "total_municipios": 102,
+      "municipios_aderiram": 73,
+      "municipios_nao_iniciados": 29,
+      "percentual_adesao": 71.6,
+      "por_status": {
+        "em_analise_mec": 47,
+        "em_cadastramento": 26,
+        "processo_finalizado": 0,
+        "nao_iniciado": 29
+      }
+    },
+    "AM": {
+      "uf": "AM",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-23 15:07:20"
+      },
+      "total_municipios": 62,
+      "municipios_aderiram": 54,
+      "municipios_nao_iniciados": 8,
+      "percentual_adesao": 87.1,
+      "por_status": {
+        "em_analise_mec": 44,
+        "em_cadastramento": 10,
+        "processo_finalizado": 0,
+        "nao_iniciado": 8
+      }
+    },
+    "AP": {
+      "uf": "AP",
+      "secretaria_estadual": {
+        "status": "em_cadastramento",
+        "resposta": "sim",
+        "data_aceite": "2026-03-16 09:19:13"
+      },
+      "total_municipios": 16,
+      "municipios_aderiram": 6,
+      "municipios_nao_iniciados": 10,
+      "percentual_adesao": 37.5,
+      "por_status": {
+        "em_analise_mec": 6,
+        "em_cadastramento": 0,
+        "processo_finalizado": 0,
+        "nao_iniciado": 10
+      }
+    },
+    "BA": {
+      "uf": "BA",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-22 16:54:53"
+      },
+      "total_municipios": 417,
+      "municipios_aderiram": 352,
+      "municipios_nao_iniciados": 65,
+      "percentual_adesao": 84.4,
+      "por_status": {
+        "em_analise_mec": 288,
+        "em_cadastramento": 64,
+        "processo_finalizado": 0,
+        "nao_iniciado": 65
+      }
+    },
+    "CE": {
+      "uf": "CE",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-16 14:09:05"
+      },
+      "total_municipios": 184,
+      "municipios_aderiram": 154,
+      "municipios_nao_iniciados": 30,
+      "percentual_adesao": 83.7,
+      "por_status": {
+        "em_analise_mec": 126,
+        "em_cadastramento": 28,
+        "processo_finalizado": 0,
+        "nao_iniciado": 30
+      }
+    },
+    "DF": {
+      "uf": "DF",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-16 16:30:30"
+      },
+      "total_municipios": 1,
+      "municipios_aderiram": 0,
+      "municipios_nao_iniciados": 1,
+      "percentual_adesao": 0.0,
+      "por_status": {
+        "em_analise_mec": 0,
+        "em_cadastramento": 0,
+        "processo_finalizado": 0,
+        "nao_iniciado": 1
+      }
+    },
+    "ES": {
+      "uf": "ES",
+      "secretaria_estadual": {
+        "status": "nao_iniciado",
+        "resposta": "nao_respondido",
+        "data_aceite": null
+      },
+      "total_municipios": 78,
+      "municipios_aderiram": 47,
+      "municipios_nao_iniciados": 31,
+      "percentual_adesao": 60.3,
+      "por_status": {
+        "em_analise_mec": 42,
+        "em_cadastramento": 4,
+        "processo_finalizado": 1,
+        "nao_iniciado": 31
+      }
+    },
+    "GO": {
+      "uf": "GO",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-31 14:30:11"
+      },
+      "total_municipios": 246,
+      "municipios_aderiram": 123,
+      "municipios_nao_iniciados": 123,
+      "percentual_adesao": 50.0,
+      "por_status": {
+        "em_analise_mec": 99,
+        "em_cadastramento": 24,
+        "processo_finalizado": 0,
+        "nao_iniciado": 123
+      }
+    },
+    "MA": {
+      "uf": "MA",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-08 15:35:27"
+      },
+      "total_municipios": 217,
+      "municipios_aderiram": 200,
+      "municipios_nao_iniciados": 17,
+      "percentual_adesao": 92.2,
+      "por_status": {
+        "em_analise_mec": 166,
+        "em_cadastramento": 34,
+        "processo_finalizado": 0,
+        "nao_iniciado": 17
+      }
+    },
+    "MG": {
+      "uf": "MG",
+      "secretaria_estadual": {
+        "status": "nao_iniciado",
+        "resposta": "nao_respondido",
+        "data_aceite": null
+      },
+      "total_municipios": 853,
+      "municipios_aderiram": 467,
+      "municipios_nao_iniciados": 386,
+      "percentual_adesao": 54.7,
+      "por_status": {
+        "em_analise_mec": 355,
+        "em_cadastramento": 111,
+        "processo_finalizado": 1,
+        "nao_iniciado": 386
+      }
+    },
+    "MS": {
+      "uf": "MS",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-15 18:09:32"
+      },
+      "total_municipios": 79,
+      "municipios_aderiram": 44,
+      "municipios_nao_iniciados": 35,
+      "percentual_adesao": 55.7,
+      "por_status": {
+        "em_analise_mec": 36,
+        "em_cadastramento": 8,
+        "processo_finalizado": 0,
+        "nao_iniciado": 35
+      }
+    },
+    "MT": {
+      "uf": "MT",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-05-06 17:51:06"
+      },
+      "total_municipios": 142,
+      "municipios_aderiram": 55,
+      "municipios_nao_iniciados": 87,
+      "percentual_adesao": 38.7,
+      "por_status": {
+        "em_analise_mec": 42,
+        "em_cadastramento": 12,
+        "processo_finalizado": 1,
+        "nao_iniciado": 87
+      }
+    },
+    "PA": {
+      "uf": "PA",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-27 17:55:43"
+      },
+      "total_municipios": 144,
+      "municipios_aderiram": 115,
+      "municipios_nao_iniciados": 29,
+      "percentual_adesao": 79.9,
+      "por_status": {
+        "em_analise_mec": 95,
+        "em_cadastramento": 20,
+        "processo_finalizado": 0,
+        "nao_iniciado": 29
+      }
+    },
+    "PB": {
+      "uf": "PB",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-24 09:46:06"
+      },
+      "total_municipios": 223,
+      "municipios_aderiram": 193,
+      "municipios_nao_iniciados": 30,
+      "percentual_adesao": 86.5,
+      "por_status": {
+        "em_analise_mec": 167,
+        "em_cadastramento": 25,
+        "processo_finalizado": 1,
+        "nao_iniciado": 30
+      }
+    },
+    "PE": {
+      "uf": "PE",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-18 15:36:44"
+      },
+      "total_municipios": 185,
+      "municipios_aderiram": 159,
+      "municipios_nao_iniciados": 26,
+      "percentual_adesao": 85.9,
+      "por_status": {
+        "em_analise_mec": 131,
+        "em_cadastramento": 28,
+        "processo_finalizado": 0,
+        "nao_iniciado": 26
+      }
+    },
+    "PI": {
+      "uf": "PI",
+      "secretaria_estadual": {
+        "status": "em_cadastramento",
+        "resposta": "sim",
+        "data_aceite": "2026-03-30 11:09:59"
+      },
+      "total_municipios": 224,
+      "municipios_aderiram": 192,
+      "municipios_nao_iniciados": 32,
+      "percentual_adesao": 85.7,
+      "por_status": {
+        "em_analise_mec": 159,
+        "em_cadastramento": 33,
+        "processo_finalizado": 0,
+        "nao_iniciado": 32
+      }
+    },
+    "PR": {
+      "uf": "PR",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-14 17:26:28"
+      },
+      "total_municipios": 399,
+      "municipios_aderiram": 145,
+      "municipios_nao_iniciados": 254,
+      "percentual_adesao": 36.3,
+      "por_status": {
+        "em_analise_mec": 107,
+        "em_cadastramento": 35,
+        "processo_finalizado": 3,
+        "nao_iniciado": 254
+      }
+    },
+    "RJ": {
+      "uf": "RJ",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-19 18:26:56"
+      },
+      "total_municipios": 92,
+      "municipios_aderiram": 79,
+      "municipios_nao_iniciados": 13,
+      "percentual_adesao": 85.9,
+      "por_status": {
+        "em_analise_mec": 67,
+        "em_cadastramento": 11,
+        "processo_finalizado": 1,
+        "nao_iniciado": 13
+      }
+    },
+    "RN": {
+      "uf": "RN",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-17 13:46:11"
+      },
+      "total_municipios": 167,
+      "municipios_aderiram": 142,
+      "municipios_nao_iniciados": 25,
+      "percentual_adesao": 85.0,
+      "por_status": {
+        "em_analise_mec": 110,
+        "em_cadastramento": 31,
+        "processo_finalizado": 1,
+        "nao_iniciado": 25
+      }
+    },
+    "RO": {
+      "uf": "RO",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-09 09:17:58"
+      },
+      "total_municipios": 52,
+      "municipios_aderiram": 31,
+      "municipios_nao_iniciados": 21,
+      "percentual_adesao": 59.6,
+      "por_status": {
+        "em_analise_mec": 23,
+        "em_cadastramento": 7,
+        "processo_finalizado": 1,
+        "nao_iniciado": 21
+      }
+    },
+    "RR": {
+      "uf": "RR",
+      "secretaria_estadual": {
+        "status": "nao_iniciado",
+        "resposta": "nao_respondido",
+        "data_aceite": null
+      },
+      "total_municipios": 15,
+      "municipios_aderiram": 13,
+      "municipios_nao_iniciados": 2,
+      "percentual_adesao": 86.7,
+      "por_status": {
+        "em_analise_mec": 12,
+        "em_cadastramento": 1,
+        "processo_finalizado": 0,
+        "nao_iniciado": 2
+      }
+    },
+    "RS": {
+      "uf": "RS",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-10 15:53:59"
+      },
+      "total_municipios": 497,
+      "municipios_aderiram": 276,
+      "municipios_nao_iniciados": 221,
+      "percentual_adesao": 55.5,
+      "por_status": {
+        "em_analise_mec": 228,
+        "em_cadastramento": 46,
+        "processo_finalizado": 2,
+        "nao_iniciado": 221
+      }
+    },
+    "SC": {
+      "uf": "SC",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-09 14:18:08"
+      },
+      "total_municipios": 295,
+      "municipios_aderiram": 105,
+      "municipios_nao_iniciados": 190,
+      "percentual_adesao": 35.6,
+      "por_status": {
+        "em_analise_mec": 80,
+        "em_cadastramento": 24,
+        "processo_finalizado": 1,
+        "nao_iniciado": 190
+      }
+    },
+    "SE": {
+      "uf": "SE",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-03-19 16:09:07"
+      },
+      "total_municipios": 75,
+      "municipios_aderiram": 66,
+      "municipios_nao_iniciados": 9,
+      "percentual_adesao": 88.0,
+      "por_status": {
+        "em_analise_mec": 52,
+        "em_cadastramento": 14,
+        "processo_finalizado": 0,
+        "nao_iniciado": 9
+      }
+    },
+    "SP": {
+      "uf": "SP",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-15 15:31:48"
+      },
+      "total_municipios": 645,
+      "municipios_aderiram": 310,
+      "municipios_nao_iniciados": 335,
+      "percentual_adesao": 48.1,
+      "por_status": {
+        "em_analise_mec": 228,
+        "em_cadastramento": 82,
+        "processo_finalizado": 0,
+        "nao_iniciado": 335
+      }
+    },
+    "TO": {
+      "uf": "TO",
+      "secretaria_estadual": {
+        "status": "em_analise_mec",
+        "resposta": "sim",
+        "data_aceite": "2026-04-10 11:25:13"
+      },
+      "total_municipios": 139,
+      "municipios_aderiram": 65,
+      "municipios_nao_iniciados": 74,
+      "percentual_adesao": 46.8,
+      "por_status": {
+        "em_analise_mec": 51,
+        "em_cadastramento": 13,
+        "processo_finalizado": 1,
+        "nao_iniciado": 74
+      }
+    }
+  },
+  "totais_brasil": {
+    "total_municipios_brasil": 5571,
+    "municipios_aderiram": 3484,
+    "municipios_nao_iniciados": 2087,
+    "percentual_adesao_municipal": 62.5,
+    "municipios_por_status": {
+      "em_analise_mec": 2777,
+      "em_cadastramento": 693,
+      "processo_finalizado": 14,
+      "nao_iniciado": 2087
+    },
+    "secretarias_estaduais": {
+      "total": 27,
+      "aderiram": 24,
+      "nao_iniciaram": 3,
+      "por_status": {
+        "em_analise_mec": 22,
+        "em_cadastramento": 2,
+        "processo_finalizado": 0,
+        "nao_iniciado": 3
+      }
+    },
+    "data_atualizacao": "2026-05-14"
+  }
+}

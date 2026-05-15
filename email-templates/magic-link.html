@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Acesse a Biblioteca Redenec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    @media only screen and (max-width: 600px) {
+      .email-container { width: 100% !important; }
+      .content-pad { padding: 32px 24px !important; }
+      .btn-link { display: block !important; width: 100% !important; box-sizing: border-box !important; text-align: center !important; }
+      .fallback-url { font-size: 11px !important; word-break: break-all !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#e5e4e9;font-family:'Figtree',Arial,sans-serif;">
+
+  <!-- Preheader (hidden) -->
+  <div style="display:none;font-size:1px;color:#e5e4e9;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+    Seu link de acesso à Biblioteca Redenec está aqui — clique para entrar.
+  </div>
+
+  <!-- Wrapper -->
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#e5e4e9;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+
+        <!-- Email container -->
+        <table role="presentation" class="email-container" width="560" cellspacing="0" cellpadding="0" border="0" style="max-width:560px;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+          <!-- ── HEADER ── -->
+          <tr>
+            <td style="background-color:#1b415e;padding:0;position:relative;overflow:hidden;">
+
+              <!-- Decorative circles (brand graphisms) -->
+              <div style="position:relative;padding:36px 40px 32px;overflow:hidden;">
+
+                <!-- Circle decoration top-right -->
+                <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background-color:#1cff9e;opacity:0.12;"></div>
+                <!-- Circle decoration bottom-left -->
+                <div style="position:absolute;bottom:-30px;left:20px;width:90px;height:90px;border-radius:50%;background-color:#1cff9e;opacity:0.08;"></div>
+                <!-- Small accent dot -->
+                <div style="position:absolute;top:24px;right:80px;width:28px;height:28px;border-radius:50%;background-color:#1cff9e;opacity:0.30;"></div>
+
+                <!-- Logo mark + wordmark -->
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                  <tr>
+                    <!-- Symbol: n●● / ●e● / ●●c grid -->
+                    <td style="vertical-align:middle;padding-right:14px;">
+                      <table role="presentation" cellspacing="5" cellpadding="0" border="0">
+                        <tr>
+                          <td style="font-family:'Figtree',Arial,sans-serif;font-size:13px;font-weight:800;color:#ffffff;line-height:1;vertical-align:middle;">n</td>
+                          <td><div style="width:14px;height:14px;border-radius:50%;background-color:#1cff9e;"></div></td>
+                          <td><div style="width:14px;height:14px;border-radius:50%;background-color:#1cff9e;"></div></td>
+                        </tr>
+                        <tr>
+                          <td><div style="width:14px;height:14px;border-radius:50%;background-color:#1cff9e;"></div></td>
+                          <td style="font-family:'Figtree',Arial,sans-serif;font-size:13px;font-weight:800;color:#ffffff;line-height:1;text-align:center;vertical-align:middle;">e</td>
+                          <td><div style="width:14px;height:14px;border-radius:50%;background-color:#1cff9e;"></div></td>
+                        </tr>
+                        <tr>
+                          <td><div style="width:14px;height:14px;border-radius:50%;background-color:#1cff9e;"></div></td>
+                          <td><div style="width:14px;height:14px;border-radius:50%;background-color:#1cff9e;"></div></td>
+                          <td style="font-family:'Figtree',Arial,sans-serif;font-size:13px;font-weight:800;color:#ffffff;line-height:1;text-align:center;vertical-align:middle;">c</td>
+                        </tr>
+                      </table>
+                    </td>
+                    <!-- Wordmark -->
+                    <td style="vertical-align:middle;border-left:1.5px solid rgba(255,255,255,0.2);padding-left:14px;">
+                      <p style="margin:0;font-family:'Figtree',Arial,sans-serif;font-size:14px;font-weight:400;color:#ffffff;line-height:1.35;">Rede<br/>Nacional de<br/><strong style="font-weight:800;">Educação<br/>Cidadã</strong></p>
+                    </td>
+                  </tr>
+                </table>
+
+              </div>
+            </td>
+          </tr>
+
+          <!-- ── BODY ── -->
+          <tr>
+            <td class="content-pad" style="background-color:#ffffff;padding:48px 48px 40px;">
+
+              <!-- Greeting -->
+              <p style="margin:0 0 8px;font-family:'Figtree',Arial,sans-serif;font-size:13px;font-weight:600;color:#1cff9e;letter-spacing:0.08em;text-transform:uppercase;">Biblioteca Redenec</p>
+              <h1 style="margin:0 0 20px;font-family:'Figtree',Arial,sans-serif;font-size:26px;font-weight:800;color:#1b415e;line-height:1.2;">
+                Olá, {{ params.NOME }}!
+              </h1>
+
+              <p style="margin:0 0 16px;font-family:'Figtree',Arial,sans-serif;font-size:16px;font-weight:400;color:#3d3d3d;line-height:1.6;">
+                Recebemos a sua solicitação de acesso à <strong style="font-weight:700;color:#1b415e;">Biblioteca de Materiais da Redenec</strong> — 36 recursos pedagógicos curados para apoiar a implementação da Educação Cidadã nas redes de ensino.
+              </p>
+
+              <p style="margin:0 0 32px;font-family:'Figtree',Arial,sans-serif;font-size:16px;font-weight:400;color:#3d3d3d;line-height:1.6;">
+                Clique no botão abaixo para acessar a biblioteca. O link é válido por <strong style="font-weight:700;">30 dias</strong>.
+              </p>
+
+              <!-- CTA Button -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:0 auto 36px;">
+                <tr>
+                  <td style="border-radius:100px;background-color:#1cff9e;">
+                    <a href="{{ params.MAGIC_LINK_URL }}" class="btn-link"
+                       style="display:inline-block;padding:16px 40px;font-family:'Figtree',Arial,sans-serif;font-size:15px;font-weight:800;color:#000000;text-decoration:none;border-radius:100px;letter-spacing:0.01em;">
+                      Acessar a Biblioteca →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Divider -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:28px;">
+                <tr>
+                  <td style="height:1px;background-color:#e5e4e9;"></td>
+                </tr>
+              </table>
+
+              <!-- Security note -->
+              <p style="margin:0 0 8px;font-family:'Figtree',Arial,sans-serif;font-size:13px;font-weight:600;color:#888888;">
+                O botão não funcionou?
+              </p>
+              <p style="margin:0 0 4px;font-family:'Figtree',Arial,sans-serif;font-size:13px;font-weight:400;color:#888888;line-height:1.5;">
+                Copie e cole o link abaixo no seu navegador:
+              </p>
+              <p class="fallback-url" style="margin:0;font-family:'Courier New',Courier,monospace;font-size:12px;color:#0086ff;word-break:break-all;line-height:1.5;">
+                {{ params.MAGIC_LINK_URL }}
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- ── HIGHLIGHT STRIP ── -->
+          <tr>
+            <td style="background-color:#f6f6f8;padding:24px 48px;border-top:1px solid #e5e4e9;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <!-- Icon dot -->
+                  <td width="40" style="vertical-align:top;padding-top:2px;">
+                    <div style="width:28px;height:28px;border-radius:50%;background-color:#1cff9e;opacity:0.7;"></div>
+                  </td>
+                  <td style="vertical-align:top;">
+                    <p style="margin:0 0 4px;font-family:'Figtree',Arial,sans-serif;font-size:13px;font-weight:700;color:#1b415e;">
+                      Este link é pessoal e intransferível
+                    </p>
+                    <p style="margin:0;font-family:'Figtree',Arial,sans-serif;font-size:13px;font-weight:400;color:#666666;line-height:1.5;">
+                      Se você não solicitou este acesso, ignore este e-mail. Nenhuma ação é necessária.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── FOOTER ── -->
+          <tr>
+            <td style="background-color:#243837;padding:28px 48px;">
+              <p style="margin:0 0 8px;font-family:'Figtree',Arial,sans-serif;font-size:12px;font-weight:700;color:#1cff9e;letter-spacing:0.06em;text-transform:uppercase;">
+                Rede Nacional de Educação Cidadã
+              </p>
+              <p style="margin:0 0 16px;font-family:'Figtree',Arial,sans-serif;font-size:12px;font-weight:400;color:rgba(255,255,255,0.55);line-height:1.5;">
+                Fortalecendo a cultura democrática nas escolas do Brasil.
+              </p>
+              <p style="margin:0;font-family:'Figtree',Arial,sans-serif;font-size:11px;font-weight:400;color:rgba(255,255,255,0.35);line-height:1.5;">
+                Você está recebendo este e-mail porque se cadastrou na plataforma da Redenec.
+                Se preferir, <a href="{{ unsubscribe }}" style="color:rgba(255,255,255,0.5);text-decoration:underline;">cancele sua inscrição</a>.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Email container -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

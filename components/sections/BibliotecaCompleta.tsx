@@ -9,7 +9,6 @@ import { CardMaterial } from '@/components/ui/CardMaterial'
 import { CuradoriaDisclaimer } from '@/components/ui/CuradoriaDisclaimer'
 import { ModalAviso } from '@/components/ui/ModalAviso'
 import { HeroBiblioteca } from '@/components/visual/HeroBiblioteca'
-import materialsData from '@/config/materials.json'
 import {
   TIPOS_RECURSO,
   ETAPAS_ENSINO,
@@ -18,8 +17,6 @@ import {
 } from '@/config/taxonomia'
 import { copyPaginaBiblioteca } from '@/config/copy'
 import type { Material, TipoRecurso, EtapaEnsino, TemaBNCC } from '@/types/material'
-
-const materials = materialsData as Material[]
 
 const TIPO_ORDEM = Object.keys(TIPOS_RECURSO).sort(
   (a, b) => TIPOS_RECURSO[a as TipoRecurso].ordem - TIPOS_RECURSO[b as TipoRecurso].ordem
@@ -63,7 +60,17 @@ function contarResultados(count: number): string {
   return `${count} ${COPY_BIBLIOTECA.resultadosPlural}`
 }
 
-export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
+export function BibliotecaCompleta({
+  nomeUsuario,
+  materiais,
+  totalMateriais,
+  totalOrganizacoes,
+}: {
+  nomeUsuario?: string
+  materiais: Material[]
+  totalMateriais: number
+  totalOrganizacoes: number
+}) {
   const searchId = useId()
   const [tipoAtivo, setTipoAtivo] = useState<TipoRecurso | null>(null)
   const [etapasSelecionadas, setEtapasSelecionadas] = useState<EtapaEnsino[]>([])
@@ -101,7 +108,7 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
   }
 
   const materiaisFiltrados = useMemo(() => {
-    let lista = materials
+    let lista = materiais
 
     if (tipoAtivo) {
       lista = lista.filter((m) => m.tipo === tipoAtivo)
@@ -130,12 +137,12 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
     }
 
     return lista
-  }, [tipoAtivo, etapasSelecionadas, temasSelecionados, busca])
+  }, [tipoAtivo, etapasSelecionadas, temasSelecionados, busca, materiais])
 
   // Contagem por tipo (respeitando filtros de etapa/tema/busca, sem filtro de tipo)
   const contagemPorTipo = useMemo(() => {
     return TIPO_ORDEM.reduce((acc, tipo) => {
-      let lista = materials.filter((m) => m.tipo === tipo)
+      let lista = materiais.filter((m) => m.tipo === tipo)
       if (etapasSelecionadas.length > 0)
         lista = lista.filter((m) => etapasSelecionadas.some((e) => m.etapas.includes(e)))
       if (temasSelecionados.length > 0)
@@ -152,10 +159,10 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
       acc[tipo] = lista.length
       return acc
     }, {} as Record<TipoRecurso, number>)
-  }, [etapasSelecionadas, temasSelecionados, busca])
+  }, [etapasSelecionadas, temasSelecionados, busca, materiais])
 
   const totalSemTipo = useMemo(() => {
-    let lista = materials
+    let lista = materiais
     if (etapasSelecionadas.length > 0)
       lista = lista.filter((m) => etapasSelecionadas.some((e) => m.etapas.includes(e)))
     if (temasSelecionados.length > 0)
@@ -170,7 +177,7 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
       )
     }
     return lista.length
-  }, [etapasSelecionadas, temasSelecionados, busca])
+  }, [etapasSelecionadas, temasSelecionados, busca, materiais])
 
   const primeiroNome = nomeUsuario?.split(' ')[0]
 
@@ -180,28 +187,32 @@ export function BibliotecaCompleta({ nomeUsuario }: { nomeUsuario?: string }) {
       <div className="container-site section-spacing">
 
         {/* Hero institucional */}
-        <HeroBiblioteca primeiroNome={primeiroNome} />
+        <HeroBiblioteca
+          primeiroNome={primeiroNome}
+          totalMateriais={totalMateriais}
+          totalOrganizacoes={totalOrganizacoes}
+        />
 
         {/* Convite para contribuir com novos materiais */}
         <Link
           href="/submeter"
-          className="mb-6 group flex flex-col items-start gap-4 rounded-2xl border-2 border-dashed border-redenec-petroleo/30 bg-white p-5 transition-colors hover:border-redenec-petroleo hover:bg-redenec-petroleo/[0.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde sm:flex-row sm:items-center"
+          className="mb-6 group flex flex-col items-start gap-5 rounded-2xl bg-redenec-petroleo p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-redenec-verde focus-visible:ring-offset-2 sm:flex-row sm:items-center sm:p-7"
         >
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-redenec-verde/15 text-redenec-petroleo transition-colors group-hover:bg-redenec-verde/30">
-            <Upload size={20} aria-hidden="true" />
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-redenec-verde/20 text-redenec-verde transition-colors group-hover:bg-redenec-verde/30 sm:h-14 sm:w-14">
+            <Upload size={22} aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-bold text-redenec-petroleo">
-              Contribuir com um Material
+            <p className="text-lg font-bold leading-snug text-white sm:text-xl">
+              Compartilhe seu material com educadores de todo o Brasil
             </p>
-            <p className="mt-0.5 text-xs text-gray-500">
-              Compartilhe recursos educativos com educadores de todo o Brasil.
+            <p className="mt-1 text-sm text-white/75">
+              Contribua com a Biblioteca da Rede Nacional de Educação Cidadã
             </p>
           </div>
           <ArrowRight
-            size={18}
+            size={20}
             aria-hidden="true"
-            className="hidden shrink-0 text-redenec-petroleo/60 transition-transform group-hover:translate-x-1 sm:block"
+            className="hidden shrink-0 text-white/80 transition-transform group-hover:translate-x-1 sm:block"
           />
         </Link>
 

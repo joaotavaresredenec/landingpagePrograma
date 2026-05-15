@@ -15,9 +15,12 @@ export function CardsEstatisticas({ estatisticas }: Props) {
       corDestaque: 'text-redenec-verde',
     },
     {
-      label: 'Municípios aderidos',
-      valor: estatisticas.municipiosAderidos.toLocaleString('pt-BR'),
-      subtitulo: `${estatisticas.percentualAderidos.toFixed(1)}% do total nacional`,
+      label: 'Municípios em movimento',
+      valor: (
+        estatisticas.municipiosAderidos +
+        estatisticas.municipiosIniciaramNaoConcluiram
+      ).toLocaleString('pt-BR'),
+      subtitulo: `${estatisticas.percentualComMovimento.toFixed(1)}% do total nacional`,
       icone: Building2,
       corDestaque: 'text-redenec-verde',
     },

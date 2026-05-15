@@ -1,26 +1,25 @@
 import Image from 'next/image'
-import materialsData from '@/config/materials.json'
 import { TEMAS_BNCC } from '@/config/taxonomia'
-import type { Material } from '@/types/material'
 import { GrafismoHero } from './GrafismoHero'
-
-const materials = materialsData as Material[]
-
-const STATS = [
-  { num: String(materials.length), label: 'Recursos curados' },
-  {
-    num: String(new Set(materials.map((m) => m.organizacao)).size),
-    label: 'Organizações autoras',
-  },
-  { num: String(Object.keys(TEMAS_BNCC).length), label: 'Temas BNCC' },
-  { num: '100%', label: 'Acesso gratuito' },
-]
 
 type Props = {
   primeiroNome?: string
+  totalMateriais: number
+  totalOrganizacoes: number
 }
 
-export function HeroBiblioteca({ primeiroNome }: Props) {
+export function HeroBiblioteca({
+  primeiroNome,
+  totalMateriais,
+  totalOrganizacoes,
+}: Props) {
+  const stats = [
+    { num: String(totalMateriais), label: 'Recursos curados' },
+    { num: String(totalOrganizacoes), label: 'Organizações autoras' },
+    { num: String(Object.keys(TEMAS_BNCC).length), label: 'Temas BNCC' },
+    { num: '100%', label: 'Acesso gratuito' },
+  ]
+
   return (
     <div className="relative overflow-hidden rounded-2xl bg-redenec-petroleo mb-6 px-8 py-12 sm:px-12 sm:py-14">
 
@@ -48,13 +47,13 @@ export function HeroBiblioteca({ primeiroNome }: Props) {
 
           {/* Subtítulo */}
           <p className="text-[15px] text-white/85 leading-relaxed mb-8">
-            {materials.length} recursos pedagógicos curados para apoiar secretarias, escolas e educadores
+            {totalMateriais} recursos pedagógicos curados para apoiar secretarias, escolas e educadores
             na implementação do Programa Educação para a Cidadania e Sustentabilidade.
           </p>
 
           {/* Stats */}
           <div className="flex flex-wrap gap-x-8 gap-y-5">
-            {STATS.map(({ num, label }) => (
+            {stats.map(({ num, label }) => (
               <div key={label}>
                 <p className="text-[28px] font-bold text-redenec-verde leading-none">{num}</p>
                 <p className="text-[11px] text-white/75 mt-1">{label}</p>

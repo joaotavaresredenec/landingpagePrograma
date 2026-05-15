@@ -5,6 +5,7 @@ import { validateToken } from '@/lib/magic-link'
 import { criarSessao, obterSessao } from '@/lib/sessao'
 import { AreaRestrita } from '@/components/auth/AreaRestrita'
 import { BibliotecaCompleta } from '@/components/sections/BibliotecaCompleta'
+import { getMateriais } from '@/lib/materiais'
 
 export const metadata: Metadata = {
   title: 'Biblioteca Nacional de Educação Cidadã | Redenec',
@@ -60,5 +61,17 @@ export default async function BibliotecaPage({
   }
 
   // 4. Autenticado: biblioteca completa
-  return <BibliotecaCompleta nomeUsuario={sessao.nome} />
+  const materiais = await getMateriais()
+  const totalMateriais = materiais.length
+  const totalOrganizacoes = new Set(
+    materiais.map((m) => m.organizacao),
+  ).size
+  return (
+    <BibliotecaCompleta
+      nomeUsuario={sessao.nome}
+      materiais={materiais}
+      totalMateriais={totalMateriais}
+      totalOrganizacoes={totalOrganizacoes}
+    />
+  )
 }

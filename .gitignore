@@ -27,3 +27,22 @@ Thumbs.db
 
 # Backup de capas originais (PNGs ~2MB cada — preservados localmente, fora do repo)
 public/logos/capas/_originais/
+
+.vercel
+.env*.local
+
+# Environment - todas as variantes
+.env
+.env.*
+!.env.example
+
+# Arquivos de checagem de env (podem conter tokens)
+.env.prod-check
+.env.vercel-check
+
+# Cache e lock files
+.claude/scheduled_tasks.lock
+tsconfig.tsbuildinfo
+
+# Arquivos temporários e auxiliares
+arvore.txt
